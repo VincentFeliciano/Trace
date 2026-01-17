@@ -191,18 +191,11 @@
     }
     
     .timeline-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: none;
     }
     
     .timeline-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: #e4e4e7;
+      display: none;
     }
     
     .thread-banner {
@@ -378,16 +371,13 @@
     
     .moment-charts {
       display: flex;
+      flex-direction: column;
       gap: 12px;
       margin-top: 8px;
-      flex-wrap: wrap;
     }
     
-    .chart-container {
-      background: rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: 6px;
-      padding: 12px;
+    .moment-type-icon {
+      font-size: 32px;
     }
     
     .chart-header {
@@ -632,8 +622,8 @@
     
     .chart-preview {
       display: flex;
+      flex-direction: column;
       gap: 12px;
-      flex-wrap: wrap;
       margin-top: 12px;
     }
     
@@ -1180,11 +1170,13 @@
     
     /* Enhanced Chart */
     .chart-container {
+      width: 100%;
       background: rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 6px;
       padding: 12px;
       position: relative;
+      box-sizing: border-box;
     }
     
     .chart-controls {
@@ -1329,7 +1321,7 @@
             <span class="thread-banner-text" id="threadBannerText"></span>
           </div>
           <div class="thread-banner-actions">
-            <button class="thread-banner-btn" onclick="confirmDeleteThread()" title="Delete Thread">🗑️</button>
+            <button class="thread-banner-btn" id="threadBannerDeleteBtn" onclick="confirmDeleteThread()" title="Delete Thread">🗑️</button>
             <button class="thread-banner-close" onclick="clearThreadFilter()">✕</button>
           </div>
         </div>
@@ -1801,125 +1793,148 @@
     // Chart Generation
     function createChart(type, data, color, labels = null, chartId = null) {
       const id = chartId || `chart-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-      svg.setAttribute('width', '200');
-      svg.setAttribute('height', '80');
-      svg.setAttribute('data-chart-id', id);
       
-      const max = Math.max(...data);
-      const min = Math.min(...data);
-      const range = max - min || 1;
-      const padding = 10;
-      const width = 200;
-      const height = 80;
-      const chartHeight = height - padding * 2;
-      const chartWidth = width - padding * 2;
-      
-      // Draw grid lines
-      for (let i = 0; i <= 4; i++) {
-        const y = padding + (chartHeight / 4) * i;
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', padding);
-        line.setAttribute('y1', y);
-        line.setAttribute('x2', width - padding);
-        line.setAttribute('y2', y);
-        line.setAttribute('stroke', 'rgba(255, 255, 255, 0.05)');
-        line.setAttribute('stroke-width', '1');
-        svg.appendChild(line);
-        
-        // Y-axis labels
-        const value = max - (range / 4) * i;
-        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        text.setAttribute('x', '5');
-        text.setAttribute('y', y + 3);
-        text.setAttribute('fill', '#64748b');
-        text.setAttribute('font-size', '8');
-        text.textContent = value.toFixed(0);
-        svg.appendChild(text);
-      }
-      
-      // Draw area fill
-      const areaPoints = data.map((value, i) => {
-        const x = padding + (i / (data.length - 1)) * chartWidth;
-        const y = padding + chartHeight - ((value - min) / range) * chartHeight;
-        return `${x},${y}`;
-      }).join(' ');
-      
-      const area = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-      area.setAttribute('points', `${padding},${height - padding} ${areaPoints} ${width - padding},${height - padding}`);
-      area.setAttribute('fill', color);
-      area.setAttribute('opacity', '0.1');
-      svg.appendChild(area);
-      
-      // Draw line
-      const points = data.map((value, i) => {
-        const x = padding + (i / (data.length - 1)) * chartWidth;
-        const y = padding + chartHeight - ((value - min) / range) * chartHeight;
-        return `${x},${y}`;
-      }).join(' ');
-      
-      const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
-      polyline.setAttribute('points', points);
-      polyline.setAttribute('fill', 'none');
-      polyline.setAttribute('stroke', color);
-      polyline.setAttribute('stroke-width', '2');
-      polyline.setAttribute('opacity', '0.8');
-      svg.appendChild(polyline);
-      
-      // Draw points with hover functionality
-      data.forEach((value, i) => {
-        const x = padding + (i / (data.length - 1)) * chartWidth;
-        const y = padding + chartHeight - ((value - min) / range) * chartHeight;
-        
-        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-        circle.setAttribute('cx', x);
-        circle.setAttribute('cy', y);
-        circle.setAttribute('r', '3');
-        circle.setAttribute('fill', color);
-        circle.setAttribute('opacity', '0.8');
-        circle.setAttribute('data-value', value);
-        circle.setAttribute('data-label', labels && labels[i] ? labels[i] : `Point ${i + 1}`);
-        circle.style.cursor = 'pointer';
-        
-        svg.appendChild(circle);
-      });
-      
+      // Create container first to get actual width
       const container = document.createElement('div');
       container.className = 'chart-container';
       container.style.position = 'relative';
-      container.innerHTML = `<div class="chart-header">📊 ${type}</div>`;
+      container.dataset.chartId = id;
+      container.dataset.chartData = JSON.stringify({ type, data, labels });
+      
+      const header = document.createElement('div');
+      header.className = 'chart-header';
+      header.textContent = `📊 ${type}`;
+      container.appendChild(header);
       
       const valueDisplay = document.createElement('div');
       valueDisplay.className = 'chart-value-display';
       container.appendChild(valueDisplay);
+      
+      // Create SVG without viewBox - let it render naturally at full width
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.style.width = '100%';
+      svg.style.height = '140px';
+      svg.style.display = 'block';
+      svg.setAttribute('data-chart-id', id);
+      
+      // We'll calculate dimensions after it's in the DOM
       container.appendChild(svg);
       
-      // Add hover interactions
-      svg.addEventListener('mouseover', (e) => {
-        if (e.target.tagName === 'circle') {
-          const value = e.target.getAttribute('data-value');
-          const label = e.target.getAttribute('data-label');
-          valueDisplay.textContent = `${label}: ${parseFloat(value).toFixed(2)}`;
-          valueDisplay.style.display = 'block';
-          valueDisplay.style.left = e.offsetX + 10 + 'px';
-          valueDisplay.style.top = e.offsetY - 10 + 'px';
-          e.target.setAttribute('r', '5');
+      // Render chart after a brief delay to ensure container has width
+      setTimeout(() => {
+        const containerWidth = container.offsetWidth - 24; // minus padding
+        const width = containerWidth;
+        const height = 140;
+        const padding = 20;
+        const chartHeight = height - padding * 2;
+        const chartWidth = width - padding * 2;
+        
+        svg.setAttribute('width', width);
+        svg.setAttribute('height', height);
+        
+        const max = Math.max(...data);
+        const min = Math.min(...data);
+        const range = max - min || 1;
+        
+        // Clear any existing content
+        svg.innerHTML = '';
+        
+        // Draw grid lines
+        for (let i = 0; i <= 4; i++) {
+          const y = padding + (chartHeight / 4) * i;
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', padding);
+          line.setAttribute('y1', y);
+          line.setAttribute('x2', width - padding);
+          line.setAttribute('y2', y);
+          line.setAttribute('stroke', 'rgba(255, 255, 255, 0.05)');
+          line.setAttribute('stroke-width', '1');
+          svg.appendChild(line);
+          
+          // Y-axis labels
+          const value = max - (range / 4) * i;
+          const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          text.setAttribute('x', '5');
+          text.setAttribute('y', y + 3);
+          text.setAttribute('fill', '#64748b');
+          text.setAttribute('font-size', '10');
+          text.textContent = value.toFixed(0);
+          svg.appendChild(text);
         }
-      });
-      
-      svg.addEventListener('mouseout', (e) => {
-        if (e.target.tagName === 'circle') {
-          valueDisplay.style.display = 'none';
-          e.target.setAttribute('r', '3');
-        }
-      });
-      
-      svg.addEventListener('mousemove', (e) => {
-        if (e.target.tagName === 'circle') {
-          valueDisplay.style.left = e.offsetX + 10 + 'px';
-          valueDisplay.style.top = e.offsetY - 10 + 'px';
-        }
-      });
+        
+        // Draw area fill
+        const areaPoints = data.map((value, i) => {
+          const x = padding + (i / (data.length - 1)) * chartWidth;
+          const y = padding + chartHeight - ((value - min) / range) * chartHeight;
+          return `${x},${y}`;
+        }).join(' ');
+        
+        const area = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        area.setAttribute('points', `${padding},${height - padding} ${areaPoints} ${width - padding},${height - padding}`);
+        area.setAttribute('fill', color);
+        area.setAttribute('opacity', '0.2');
+        svg.appendChild(area);
+        
+        // Draw line
+        const linePoints = data.map((value, i) => {
+          const x = padding + (i / (data.length - 1)) * chartWidth;
+          const y = padding + chartHeight - ((value - min) / range) * chartHeight;
+          return `${x},${y}`;
+        }).join(' ');
+        
+        const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+        polyline.setAttribute('points', linePoints);
+        polyline.setAttribute('fill', 'none');
+        polyline.setAttribute('stroke', color);
+        polyline.setAttribute('stroke-width', '2');
+        polyline.setAttribute('opacity', '0.8');
+        svg.appendChild(polyline);
+        
+        // Draw points with hover functionality
+        data.forEach((value, i) => {
+          const x = padding + (i / (data.length - 1)) * chartWidth;
+          const y = padding + chartHeight - ((value - min) / range) * chartHeight;
+          
+          const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          circle.setAttribute('cx', x);
+          circle.setAttribute('cy', y);
+          circle.setAttribute('r', '4');
+          circle.setAttribute('fill', color);
+          circle.setAttribute('opacity', '0.8');
+          circle.setAttribute('data-value', value);
+          circle.setAttribute('data-label', labels && labels[i] ? labels[i] : `Point ${i + 1}`);
+          circle.style.cursor = 'pointer';
+          
+          svg.appendChild(circle);
+        });
+        
+        // Add hover interactions
+        svg.addEventListener('mouseover', (e) => {
+          if (e.target.tagName === 'circle') {
+            const value = e.target.getAttribute('data-value');
+            const label = e.target.getAttribute('data-label');
+            valueDisplay.textContent = `${label}: ${parseFloat(value).toFixed(2)}`;
+            valueDisplay.style.display = 'block';
+            valueDisplay.style.left = e.offsetX + 10 + 'px';
+            valueDisplay.style.top = e.offsetY - 10 + 'px';
+            e.target.setAttribute('r', '6');
+          }
+        });
+        
+        svg.addEventListener('mouseout', (e) => {
+          if (e.target.tagName === 'circle') {
+            valueDisplay.style.display = 'none';
+            e.target.setAttribute('r', '4');
+          }
+        });
+        
+        svg.addEventListener('mousemove', (e) => {
+          if (e.target.tagName === 'circle') {
+            valueDisplay.style.left = e.offsetX + 10 + 'px';
+            valueDisplay.style.top = e.offsetY - 10 + 'px';
+          }
+        });
+      }, 10);
       
       // Add controls for custom charts
       if (chartId) {
@@ -1931,9 +1946,6 @@
         `;
         container.appendChild(controls);
       }
-      
-      container.dataset.chartId = id;
-      container.dataset.chartData = JSON.stringify({ type, data, labels });
       
       return container;
     }
@@ -2315,6 +2327,12 @@
       const titleEl = document.getElementById('timelineTitle');
       const threadBanner = document.getElementById('threadBanner');
       const threadBannerText = document.getElementById('threadBannerText');
+      const threadBannerDeleteBtn = document.getElementById('threadBannerDeleteBtn');
+      
+      // Ensure filterType is valid
+      if (!state.filterType || (state.filterType !== 'all' && !MOMENT_TYPES[state.filterType])) {
+        state.filterType = 'all';
+      }
       
       if (state.selectedThread === 'unthreaded') {
         const unthreadedMoments = state.moments.filter(m => !m.threadId);
@@ -2328,6 +2346,7 @@
         
         threadBanner.classList.remove('hidden');
         threadBannerText.textContent = 'Viewing unthreaded moments';
+        threadBannerDeleteBtn.style.display = 'none'; // Hide delete button for unthreaded view
       } else if (state.selectedThread) {
         const thread = state.threads.find(t => t.id === state.selectedThread);
         const threadMoments = state.moments.filter(m => m.threadId === state.selectedThread);
@@ -2342,6 +2361,7 @@
         if (thread) {
           threadBanner.classList.remove('hidden');
           threadBannerText.textContent = `Viewing thread: ${thread.name}`;
+          threadBannerDeleteBtn.style.display = ''; // Show delete button for real threads
         }
       } else {
         threadBanner.classList.add('hidden');
