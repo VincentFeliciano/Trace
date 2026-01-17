@@ -840,10 +840,6 @@
       text-align: center;
     }
     
-    .modal-wide {
-      max-width: 700px;
-    }
-    
     .confirm-icon {
       font-size: 48px;
       margin-bottom: 16px;
@@ -899,108 +895,6 @@
     .btn-danger:hover {
       background: rgba(255, 107, 107, 0.2);
       border-color: rgba(255, 107, 107, 0.5);
-    }
-    
-    /* Code Blocks */
-    .code-textarea {
-      font-family: 'Courier New', Monaco, monospace;
-      font-size: 13px;
-      line-height: 1.5;
-      tab-size: 2;
-    }
-    
-    .code-block-container {
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
-      overflow: hidden;
-      margin-top: 12px;
-    }
-    
-    .code-block-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 12px;
-      background: rgba(0, 0, 0, 0.3);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    
-    .code-block-info {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .code-block-lang {
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #00d4ff;
-      font-weight: 600;
-      padding: 2px 6px;
-      background: rgba(0, 212, 255, 0.15);
-      border-radius: 3px;
-    }
-    
-    .code-block-title {
-      font-size: 12px;
-      color: #94a3b8;
-    }
-    
-    .code-block-actions {
-      display: flex;
-      gap: 6px;
-    }
-    
-    .code-block-btn {
-      padding: 4px 8px;
-      font-size: 10px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 4px;
-      color: #94a3b8;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .code-block-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #e4e4e7;
-    }
-    
-    .code-block-content {
-      padding: 12px;
-      overflow-x: auto;
-      max-height: 400px;
-      overflow-y: auto;
-    }
-    
-    .code-block-pre {
-      margin: 0;
-      font-family: 'Courier New', Monaco, monospace;
-      font-size: 13px;
-      line-height: 1.5;
-      color: #e4e4e7;
-      white-space: pre;
-    }
-    
-    /* Syntax Highlighting */
-    .syntax-keyword { color: #ff6b6b; font-weight: 600; }
-    .syntax-string { color: #51cf66; }
-    .syntax-number { color: #ffd43b; }
-    .syntax-comment { color: #64748b; font-style: italic; }
-    .syntax-function { color: #00d4ff; }
-    .syntax-operator { color: #a78bfa; }
-    .syntax-property { color: #94a3b8; }
-    .syntax-tag { color: #ff6b6b; }
-    .syntax-attr { color: #00d4ff; }
-    
-    .moment-code-blocks {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-top: 12px;
     }
     
     /* Enhanced Chart */
@@ -1210,14 +1104,6 @@
         <div class="chart-preview" id="chartPreview"></div>
       </div>
       
-      <div class="form-group">
-        <label class="form-label">Code Blocks</label>
-        <button class="btn-secondary" id="addCodeBtn">
-          💻 Add Code
-        </button>
-        <div class="code-preview" id="codePreview"></div>
-      </div>
-      
       <div class="form-actions">
         <button class="btn-large btn-cancel" id="cancelCaptureBtn">Cancel</button>
         <button class="btn-large btn-capture" id="submitCaptureBtn">⚡ Capture Moment</button>
@@ -1289,49 +1175,6 @@
     </div>
   </div>
 
-  <!-- Code Block Modal -->
-  <div class="modal-overlay" id="codeModal">
-    <div class="modal modal-wide">
-      <h2>Add Code Block</h2>
-      
-      <div class="form-group">
-        <label class="form-label">Language</label>
-        <select id="modalCodeLanguage" class="form-input">
-          <option value="javascript">JavaScript</option>
-          <option value="python">Python</option>
-          <option value="java">Java</option>
-          <option value="cpp">C++</option>
-          <option value="csharp">C#</option>
-          <option value="go">Go</option>
-          <option value="rust">Rust</option>
-          <option value="sql">SQL</option>
-          <option value="bash">Bash</option>
-          <option value="json">JSON</option>
-          <option value="yaml">YAML</option>
-          <option value="html">HTML</option>
-          <option value="css">CSS</option>
-          <option value="markdown">Markdown</option>
-          <option value="plain">Plain Text</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label">Title (optional)</label>
-        <input id="modalCodeTitle" class="form-input" placeholder="e.g., Database migration script">
-      </div>
-      
-      <div class="form-group">
-        <label class="form-label">Code</label>
-        <textarea id="modalCodeContent" class="form-textarea code-textarea" rows="12" placeholder="Paste your code here..."></textarea>
-      </div>
-      
-      <div class="modal-actions">
-        <button class="btn-large btn-cancel" id="codeModalCancelBtn">Cancel</button>
-        <button class="btn-large btn-capture" id="codeModalAddBtn">Add Code</button>
-      </div>
-    </div>
-  </div>
-
   <script>
     // Constants
     const MOMENT_TYPES = {
@@ -1356,7 +1199,6 @@
       captureText: '',
       captureContext: { service: '', environment: 'production', version: '' },
       captureCharts: [],
-      captureCodeBlocks: [],
       editingMoment: null // Track if we're editing the last moment
     };
     
@@ -1378,141 +1220,6 @@
       if (hours < 24) return `${hours}h ago`;
       if (days < 7) return `${days}d ago`;
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    }
-    
-    // Syntax Highlighting
-    function highlightCode(code, language) {
-      // Escape HTML
-      code = code
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-      
-      // Apply language-specific highlighting
-      switch(language) {
-        case 'javascript':
-        case 'java':
-        case 'cpp':
-        case 'csharp':
-        case 'go':
-        case 'rust':
-          // Keywords
-          code = code.replace(/\b(const|let|var|function|return|if|else|for|while|class|import|export|from|async|await|new|this|super|extends|try|catch|throw|break|continue|switch|case|default|do|public|private|protected|static|void|int|string|bool|float|double)\b/g, '<span class="syntax-keyword">$1</span>');
-          // Strings
-          code = code.replace(/(".*?"|'.*?'|`.*?`)/g, '<span class="syntax-string">$1</span>');
-          // Numbers
-          code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syntax-number">$1</span>');
-          // Comments
-          code = code.replace(/(\/\/.*$)/gm, '<span class="syntax-comment">$1</span>');
-          code = code.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="syntax-comment">$1</span>');
-          // Functions
-          code = code.replace(/\b([a-zA-Z_]\w*)\s*\(/g, '<span class="syntax-function">$1</span>(');
-          break;
-          
-        case 'python':
-          // Keywords
-          code = code.replace(/\b(def|class|return|if|elif|else|for|while|import|from|as|with|try|except|finally|raise|break|continue|pass|lambda|yield|async|await|None|True|False)\b/g, '<span class="syntax-keyword">$1</span>');
-          // Strings
-          code = code.replace(/(".*?"|'.*?'|"""[\s\S]*?"""|'''[\s\S]*?''')/g, '<span class="syntax-string">$1</span>');
-          // Numbers
-          code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syntax-number">$1</span>');
-          // Comments
-          code = code.replace(/(#.*$)/gm, '<span class="syntax-comment">$1</span>');
-          // Functions
-          code = code.replace(/\b([a-zA-Z_]\w*)\s*\(/g, '<span class="syntax-function">$1</span>(');
-          break;
-          
-        case 'sql':
-          // Keywords
-          code = code.replace(/\b(SELECT|FROM|WHERE|JOIN|LEFT|RIGHT|INNER|OUTER|ON|AND|OR|NOT|IN|LIKE|ORDER BY|GROUP BY|HAVING|INSERT|UPDATE|DELETE|CREATE|DROP|TABLE|DATABASE|INDEX|VIEW|AS|DISTINCT|COUNT|SUM|AVG|MAX|MIN)\b/gi, '<span class="syntax-keyword">$1</span>');
-          // Strings
-          code = code.replace(/('.*?')/g, '<span class="syntax-string">$1</span>');
-          // Numbers
-          code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syntax-number">$1</span>');
-          // Comments
-          code = code.replace(/(--.*$)/gm, '<span class="syntax-comment">$1</span>');
-          break;
-          
-        case 'bash':
-          // Keywords
-          code = code.replace(/\b(if|then|else|elif|fi|for|while|do|done|case|esac|function|return|exit|echo|cd|ls|grep|awk|sed)\b/g, '<span class="syntax-keyword">$1</span>');
-          // Strings
-          code = code.replace(/(".*?"|'.*?')/g, '<span class="syntax-string">$1</span>');
-          // Comments
-          code = code.replace(/(#.*$)/gm, '<span class="syntax-comment">$1</span>');
-          break;
-          
-        case 'html':
-          // Tags
-          code = code.replace(/(&lt;\/?[a-zA-Z][a-zA-Z0-9]*)/g, '<span class="syntax-tag">$1</span>');
-          code = code.replace(/(&gt;)/g, '<span class="syntax-tag">$1</span>');
-          // Attributes
-          code = code.replace(/\s([a-zA-Z-]+)=/g, ' <span class="syntax-attr">$1</span>=');
-          // Strings
-          code = code.replace(/(".*?"|'.*?')/g, '<span class="syntax-string">$1</span>');
-          break;
-          
-        case 'css':
-          // Properties
-          code = code.replace(/([a-zA-Z-]+):/g, '<span class="syntax-property">$1</span>:');
-          // Strings
-          code = code.replace(/(".*?"|'.*?')/g, '<span class="syntax-string">$1</span>');
-          // Numbers
-          code = code.replace(/\b(\d+\.?\d*(px|em|rem|%|vh|vw)?)\b/g, '<span class="syntax-number">$1</span>');
-          // Comments
-          code = code.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="syntax-comment">$1</span>');
-          break;
-          
-        case 'json':
-        case 'yaml':
-          // Strings
-          code = code.replace(/(".*?")/g, '<span class="syntax-string">$1</span>');
-          // Numbers
-          code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syntax-number">$1</span>');
-          // Keywords
-          code = code.replace(/\b(true|false|null)\b/g, '<span class="syntax-keyword">$1</span>');
-          // Properties
-          code = code.replace(/(".*?"):/g, '<span class="syntax-property">$1</span>:');
-          break;
-      }
-      
-      return code;
-    }
-    
-    // Code Block Component
-    function createCodeBlock(language, code, title = '', codeId = null) {
-      const id = codeId || `code-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      const container = document.createElement('div');
-      container.className = 'code-block-container';
-      container.dataset.codeId = id;
-      container.dataset.codeData = JSON.stringify({ language, code, title });
-      
-      const highlightedCode = highlightCode(code, language);
-      
-      let actionsHtml = '';
-      if (codeId) {
-        actionsHtml = `
-          <div class="code-block-actions">
-            <button class="code-block-btn" onclick="editCodeBlock('${id}')">✏️ Edit</button>
-            <button class="code-block-btn" onclick="removeCodeBlock('${id}')">🗑️ Remove</button>
-          </div>
-        `;
-      }
-      
-      container.innerHTML = `
-        <div class="code-block-header">
-          <div class="code-block-info">
-            <span class="code-block-lang">${language}</span>
-            ${title ? `<span class="code-block-title">${title}</span>` : ''}
-          </div>
-          ${actionsHtml}
-        </div>
-        <div class="code-block-content">
-          <pre class="code-block-pre">${highlightedCode}</pre>
-        </div>
-      `;
-      
-      return container;
     }
     
     // Storage Functions
@@ -1760,15 +1467,6 @@
           card.appendChild(chartsContainer);
         }
         
-        if (moment.codeBlocks && moment.codeBlocks.length > 0) {
-          const codeContainer = document.createElement('div');
-          codeContainer.className = 'moment-code-blocks';
-          moment.codeBlocks.forEach(codeBlock => {
-            codeContainer.appendChild(createCodeBlock(codeBlock.language, codeBlock.code, codeBlock.title || '', null));
-          });
-          card.appendChild(codeContainer);
-        }
-        
         card.addEventListener('click', () => {
           state.selectedMoment = moment;
           renderDetail();
@@ -1868,23 +1566,6 @@
         });
         
         section.appendChild(chartsContainer);
-        panel.appendChild(section);
-      }
-      
-      if (moment.codeBlocks && moment.codeBlocks.length > 0) {
-        const section = document.createElement('div');
-        section.className = 'detail-section';
-        section.innerHTML = '<h3>Code</h3>';
-        const codeContainer = document.createElement('div');
-        codeContainer.style.display = 'flex';
-        codeContainer.style.flexDirection = 'column';
-        codeContainer.style.gap = '12px';
-        
-        moment.codeBlocks.forEach(codeBlock => {
-          codeContainer.appendChild(createCodeBlock(codeBlock.language, codeBlock.code, codeBlock.title || '', null));
-        });
-        
-        section.appendChild(codeContainer);
         panel.appendChild(section);
       }
     }
@@ -2058,67 +1739,7 @@
       });
     });
     
-    document.getElementById('addCodeBtn').addEventListener('click', () => {
-      document.getElementById('codeModal').classList.add('visible');
-      document.getElementById('modalCodeLanguage').value = 'javascript';
-      document.getElementById('modalCodeTitle').value = '';
-      document.getElementById('modalCodeContent').value = '';
-    });
-    
-    document.getElementById('codeModalCancelBtn').addEventListener('click', () => {
-      document.getElementById('codeModal').classList.remove('visible');
-    });
-    
-    document.getElementById('codeModalAddBtn').addEventListener('click', () => {
-      const language = document.getElementById('modalCodeLanguage').value;
-      const title = document.getElementById('modalCodeTitle').value.trim();
-      const code = document.getElementById('modalCodeContent').value.trim();
-      
-      if (!code) {
-        alert('Please enter some code');
-        return;
-      }
-      
-      const codeId = `code-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
-      state.captureCodeBlocks.push({ language, code, title, id: codeId });
-      
-      const preview = document.getElementById('codePreview');
-      preview.appendChild(createCodeBlock(language, code, title, codeId));
-      
-      document.getElementById('codeModal').classList.remove('visible');
-    });
-    
-    // Global functions for code block controls
-    window.editCodeBlock = function(codeId) {
-      const codeIndex = state.captureCodeBlocks.findIndex(c => c.id === codeId);
-      if (codeIndex === -1) return;
-      
-      const codeBlock = state.captureCodeBlocks[codeIndex];
-      document.getElementById('modalCodeLanguage').value = codeBlock.language;
-      document.getElementById('modalCodeTitle').value = codeBlock.title || '';
-      document.getElementById('modalCodeContent').value = codeBlock.code;
-      
-      document.getElementById('codeModal').classList.add('visible');
-      
-      // Remove old code block
-      const codeElement = document.querySelector(`[data-code-id="${codeId}"]`);
-      if (codeElement) {
-        codeElement.remove();
-      }
-      state.captureCodeBlocks.splice(codeIndex, 1);
-    };
-    
-    window.removeCodeBlock = function(codeId) {
-      const codeIndex = state.captureCodeBlocks.findIndex(c => c.id === codeId);
-      if (codeIndex !== -1) {
-        state.captureCodeBlocks.splice(codeIndex, 1);
-      }
-      
-      const codeElement = document.querySelector(`[data-code-id="${codeId}"]`);
-      if (codeElement) {
-        codeElement.remove();
-      }
-    };
+    document.getElementById('addChartBtn').addEventListener('click', () => {
       document.getElementById('chartModal').classList.add('visible');
       document.getElementById('modalChartTitle').value = '';
       document.getElementById('modalChartData').value = '';
@@ -2170,12 +1791,6 @@
     document.getElementById('chartModal').addEventListener('click', (e) => {
       if (e.target.id === 'chartModal') {
         document.getElementById('chartModal').classList.remove('visible');
-      }
-    });
-    
-    document.getElementById('codeModal').addEventListener('click', (e) => {
-      if (e.target.id === 'codeModal') {
-        document.getElementById('codeModal').classList.remove('visible');
       }
     });
     
@@ -2237,19 +1852,11 @@
       
       // Populate charts
       state.captureCharts = moment.charts ? JSON.parse(JSON.stringify(moment.charts)) : [];
-      const chartPreview = document.getElementById('chartPreview');
-      chartPreview.innerHTML = '';
+      const preview = document.getElementById('chartPreview');
+      preview.innerHTML = '';
       state.captureCharts.forEach(chart => {
         const config = MOMENT_TYPES[state.captureType];
-        chartPreview.appendChild(createChart(chart.type, chart.data, config.color, chart.labels || null, chart.id));
-      });
-      
-      // Populate code blocks
-      state.captureCodeBlocks = moment.codeBlocks ? JSON.parse(JSON.stringify(moment.codeBlocks)) : [];
-      const codePreview = document.getElementById('codePreview');
-      codePreview.innerHTML = '';
-      state.captureCodeBlocks.forEach(codeBlock => {
-        codePreview.appendChild(createCodeBlock(codeBlock.language, codeBlock.code, codeBlock.title || '', codeBlock.id));
+        preview.appendChild(createChart(chart.type, chart.data, config.color, chart.labels || null, chart.id));
       });
       
       // Update button text
@@ -2355,11 +1962,9 @@
       state.view = 'timeline';
       state.captureText = '';
       state.captureCharts = [];
-      state.captureCodeBlocks = [];
       state.editingMoment = null;
       document.getElementById('captureText').value = '';
       document.getElementById('chartPreview').innerHTML = '';
-      document.getElementById('codePreview').innerHTML = '';
       document.getElementById('submitCaptureBtn').innerHTML = '⚡ Capture Moment';
       render();
     });
@@ -2384,8 +1989,7 @@
               environment: document.getElementById('contextEnvironment').value,
               version: document.getElementById('contextVersion').value
             },
-            charts: state.captureCharts,
-            codeBlocks: state.captureCodeBlocks
+            charts: state.captureCharts
           };
           state.selectedMoment = state.moments[momentIndex];
         }
@@ -2403,7 +2007,6 @@
             version: document.getElementById('contextVersion').value
           },
           charts: state.captureCharts,
-          codeBlocks: state.captureCodeBlocks,
           threadId: state.selectedThread
         };
         
@@ -2414,14 +2017,12 @@
       state.view = 'timeline';
       state.captureText = '';
       state.captureCharts = [];
-      state.captureCodeBlocks = [];
       
       document.getElementById('captureText').value = '';
       document.getElementById('contextService').value = '';
       document.getElementById('contextEnvironment').value = 'production';
       document.getElementById('contextVersion').value = '';
       document.getElementById('chartPreview').innerHTML = '';
-      document.getElementById('codePreview').innerHTML = '';
       document.getElementById('submitCaptureBtn').innerHTML = '⚡ Capture Moment';
       
       saveData();
