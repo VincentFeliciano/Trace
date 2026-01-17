@@ -1,1 +1,2146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trace - Thoughts with Context</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%);
+      color: #e4e4e7;
+      height: 100vh;
+    }
+    
+    .trace-app {
+      height: 100vh;
+      display: flex;
+      overflow: hidden;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    .sidebar-header {
+      padding: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .logo {
+      font-family: 'Courier New', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: #00d4ff;
+      letter-spacing: -0.5px;
+      margin-bottom: 2px;
+      text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    }
+    
+    .tagline {
+      font-size: 10px;
+      color: #64748b;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    
+    .nav-section {
+      padding: 12px;
+      flex: 1;
+      overflow-y: auto;
+    }
+    
+    .nav-section h3 {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748b;
+      margin-bottom: 8px;
+      margin-top: 16px;
+      font-weight: 600;
+    }
+    
+    .nav-section h3:first-child {
+      margin-top: 0;
+    }
+    
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+    
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .nav-item.active {
+      background: rgba(0, 212, 255, 0.1);
+      color: #00d4ff;
+    }
+    
+    .filter-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+    
+    .filter-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    
+    .filter-item.active {
+      background: rgba(100, 116, 139, 0.1);
+      color: #e4e4e7;
+    }
+    
+    .filter-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .filter-count {
+      font-size: 10px;
+      color: #64748b;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2px 6px;
+      border-radius: 10px;
+    }
+    
+    .btn-primary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px;
+      background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+      border: none;
+      border-radius: 8px;
+      color: #0a0e1a;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin: 12px;
+      box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 25px rgba(0, 212, 255, 0.4);
+    }
+    
+    .btn-secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #e4e4e7;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Timeline View */
+    .timeline-view {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+    
+    .timeline-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    
+    .timeline-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .timeline-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #e4e4e7;
+    }
+    
+    .thread-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(0, 153, 204, 0.1));
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 8px;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    .thread-banner-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .thread-banner-icon {
+      font-size: 16px;
+    }
+    
+    .thread-banner-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #00d4ff;
+    }
+    
+    .thread-banner-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .thread-banner-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 4px;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    
+    .thread-banner-btn:hover {
+      background: rgba(255, 107, 107, 0.2);
+      color: #ff6b6b;
+    }
+    
+    .thread-banner-close {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 4px;
+      color: #94a3b8;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    
+    .thread-banner-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #e4e4e7;
+    }
+    
+    .moment-card {
+      background: rgba(30, 41, 59, 0.4);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-left: 3px solid;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .moment-card:hover {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(255, 255, 255, 0.1);
+      transform: translateX(4px);
+    }
+    
+    .moment-card.selected {
+      border-left-width: 4px;
+      background: rgba(30, 41, 59, 0.8);
+    }
+    
+    .moment-thread-badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 4px 8px;
+      background: rgba(0, 212, 255, 0.15);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 4px;
+      color: #00d4ff;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    
+    .moment-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .moment-type {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .moment-time {
+      font-size: 10px;
+      color: #64748b;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .moment-text {
+      font-size: 13px;
+      line-height: 1.5;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+    }
+    
+    .moment-context {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    
+    .context-tag {
+      font-size: 10px;
+      padding: 3px 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      color: #94a3b8;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .moment-charts {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .chart-container {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      padding: 12px;
+    }
+    
+    .chart-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: #94a3b8;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    /* Detail Panel */
+    .detail-panel {
+      width: 350px;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(20px);
+      border-left: 1px solid rgba(255, 255, 255, 0.05);
+      overflow-y: auto;
+      padding: 16px;
+      display: none;
+    }
+    
+    .detail-panel.visible {
+      display: block;
+    }
+    
+    .detail-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .detail-type-icon {
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      font-size: 20px;
+    }
+    
+    .detail-meta h2 {
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: #e4e4e7;
+    }
+    
+    .detail-timestamp {
+      font-size: 11px;
+      color: #64748b;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .detail-content {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #cbd5e1;
+      margin-bottom: 16px;
+    }
+    
+    .detail-section {
+      margin-bottom: 16px;
+    }
+    
+    .detail-section h3 {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
+    
+    .context-grid {
+      display: grid;
+      gap: 12px;
+    }
+    
+    .context-item {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 12px;
+      border-radius: 6px;
+      border-left: 2px solid rgba(100, 116, 139, 0.3);
+    }
+    
+    .context-item-label {
+      font-size: 11px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    
+    .context-item-value {
+      font-size: 13px;
+      color: #e4e4e7;
+      font-family: 'Courier New', monospace;
+    }
+    
+    /* Capture View */
+    .capture-view {
+      flex: 1;
+      padding: 24px 32px;
+      overflow-y: auto;
+      max-width: 700px;
+      margin: 0 auto;
+      display: none;
+    }
+    
+    .capture-view.visible {
+      display: block;
+    }
+    
+    .capture-header {
+      margin-bottom: 24px;
+    }
+    
+    .capture-header h1 {
+      font-size: 24px;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, #00d4ff, #0099cc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .capture-subtitle {
+      font-size: 13px;
+      color: #64748b;
+    }
+    
+    .capture-thread-indicator {
+      margin-top: 12px;
+      padding: 8px 12px;
+      background: rgba(0, 212, 255, 0.15);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 6px;
+      font-size: 12px;
+      color: #00d4ff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .type-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .type-btn {
+      flex: 1;
+      min-width: 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 12px;
+      background: rgba(30, 41, 59, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .type-btn:hover {
+      background: rgba(30, 41, 59, 0.6);
+      border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .type-btn.active {
+      border-color: currentColor;
+      background: rgba(30, 41, 59, 0.8);
+    }
+    
+    .type-btn-icon {
+      font-size: 20px;
+    }
+    
+    .type-btn-label {
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .form-group {
+      margin-bottom: 18px;
+    }
+    
+    .form-label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+    
+    .form-textarea {
+      width: 100%;
+      min-height: 120px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      color: #e4e4e7;
+      font-size: 14px;
+      line-height: 1.5;
+      resize: vertical;
+      font-family: inherit;
+    }
+    
+    .form-textarea:focus {
+      outline: none;
+      border-color: #00d4ff;
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #e4e4e7;
+      font-size: 13px;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: #00d4ff;
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    }
+    
+    .context-fields {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    
+    .chart-preview {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    
+    .btn-large {
+      flex: 1;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-capture {
+      background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+      border: none;
+      color: #0a0e1a;
+      box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+    }
+    
+    .btn-capture:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0, 212, 255, 0.4);
+    }
+    
+    .btn-cancel {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e4e4e7;
+    }
+    
+    .btn-cancel:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Search View */
+    .search-view {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    
+    .search-view.visible {
+      display: flex;
+    }
+    
+    .search-header {
+      padding: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    
+    .search-input {
+      flex: 1;
+      padding: 12px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      color: #e4e4e7;
+      font-size: 14px;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: #00d4ff;
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    }
+    
+    .btn-search {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+      border: none;
+      border-radius: 10px;
+      color: #0a0e1a;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .btn-search:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+    }
+    
+    .btn-search:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .search-hint {
+      font-size: 12px;
+      color: #64748b;
+      font-style: italic;
+    }
+    
+    .search-results {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    
+    .results-header {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 60px 24px;
+      color: #64748b;
+    }
+    
+    .empty-state-icon {
+      margin-bottom: 12px;
+      opacity: 0.3;
+      font-size: 40px;
+    }
+    
+    .empty-state h3 {
+      font-size: 16px;
+      margin-bottom: 6px;
+      color: #94a3b8;
+    }
+    
+    .empty-state p {
+      font-size: 13px;
+    }
+    
+    /* Thread View */
+    .thread-list {
+      margin-top: 12px;
+    }
+    
+    .thread-item {
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 6px;
+      margin-bottom: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .thread-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+    
+    .thread-item.active {
+      background: rgba(0, 212, 255, 0.1);
+      border-left: 3px solid #00d4ff;
+    }
+    
+    .thread-name {
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    
+    .thread-meta {
+      font-size: 10px;
+      color: #64748b;
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+    
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    
+    .modal-overlay.visible {
+      display: flex;
+    }
+    
+    .modal {
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 24px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+    .modal-confirm {
+      max-width: 400px;
+      text-align: center;
+    }
+    
+    .confirm-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    
+    .confirm-message {
+      color: #94a3b8;
+      font-size: 14px;
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+    
+    .modal h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #e4e4e7;
+    }
+    
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    
+    .btn-delete {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+      border: none;
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
+    }
+    
+    .btn-delete:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(255, 107, 107, 0.4);
+    }
+    
+    .btn-danger {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      border-radius: 6px;
+      color: #ff6b6b;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .btn-danger:hover {
+      background: rgba(255, 107, 107, 0.2);
+      border-color: rgba(255, 107, 107, 0.5);
+    }
+    
+    /* Enhanced Chart */
+    .chart-container {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 6px;
+      padding: 12px;
+      position: relative;
+    }
+    
+    .chart-controls {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    
+    .chart-btn {
+      padding: 4px 8px;
+      font-size: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .chart-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #e4e4e7;
+    }
+    
+    .chart-value-display {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.9);
+      color: #00d4ff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: 'Courier New', monospace;
+      pointer-events: none;
+      display: none;
+      z-index: 10;
+    }
+    
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="trace-app">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">TRACE</div>
+        <div class="tagline">Thoughts with context</div>
+      </div>
+      
+      <div class="nav-section">
+        <h3>Views</h3>
+        <div class="nav-item active" data-view="timeline">
+          🕐 Timeline
+        </div>
+        <div class="nav-item" data-view="search">
+          🔍 Search
+        </div>
+        
+        <h3>Filter by Type</h3>
+        <div class="filter-item active" data-filter="all">
+          <div class="filter-label">
+            💻 All Moments
+          </div>
+          <div class="filter-count" id="count-all">0</div>
+        </div>
+        <div class="filter-item" data-filter="incident">
+          <div class="filter-label">
+            🚨 Incident
+          </div>
+          <div class="filter-count" id="count-incident">0</div>
+        </div>
+        <div class="filter-item" data-filter="deploy">
+          <div class="filter-label">
+            🚀 Deploy
+          </div>
+          <div class="filter-count" id="count-deploy">0</div>
+        </div>
+        <div class="filter-item" data-filter="idea">
+          <div class="filter-label">
+            💡 Idea
+          </div>
+          <div class="filter-count" id="count-idea">0</div>
+        </div>
+        <div class="filter-item" data-filter="observation">
+          <div class="filter-label">
+            📊 Observation
+          </div>
+          <div class="filter-count" id="count-observation">0</div>
+        </div>
+        <div class="filter-item" data-filter="thought">
+          <div class="filter-label">
+            💭 Thought
+          </div>
+          <div class="filter-count" id="count-thought">0</div>
+        </div>
+        
+        <h3>Threads</h3>
+        <div class="thread-list" id="threadList"></div>
+        <button class="btn-secondary" id="newThreadBtn" style="margin-top: 12px; width: 100%;">
+          ➕ New Thread
+        </button>
+      </div>
+      
+      <button class="btn-primary" id="captureMomentBtn">
+        ➕ Capture Moment
+      </button>
+    </div>
+    
+    <!-- Timeline View -->
+    <div class="timeline-view" id="timelineView">
+      <div class="timeline-list">
+        <div class="timeline-header">
+          <div class="timeline-title" id="timelineTitle">All Moments</div>
+        </div>
+        <div id="threadBanner" class="thread-banner hidden">
+          <div class="thread-banner-content">
+            <span class="thread-banner-icon">🧵</span>
+            <span class="thread-banner-text" id="threadBannerText"></span>
+          </div>
+          <div class="thread-banner-actions">
+            <button class="thread-banner-btn" onclick="confirmDeleteThread()" title="Delete Thread">🗑️</button>
+            <button class="thread-banner-close" onclick="clearThreadFilter()">✕</button>
+          </div>
+        </div>
+        <div id="momentsList"></div>
+      </div>
+      
+      <div class="detail-panel" id="detailPanel"></div>
+    </div>
+    
+    <!-- Capture View -->
+    <div class="capture-view" id="captureView">
+      <div class="capture-header">
+        <h1 id="captureTitle">Capture a Moment</h1>
+        <div class="capture-subtitle" id="captureSubtitle">What are you thinking right now?</div>
+        <div id="captureThreadIndicator" class="capture-thread-indicator hidden"></div>
+      </div>
+      
+      <div class="type-selector" id="typeSelector">
+        <div class="type-btn active" data-type="thought" style="color: #a78bfa;">
+          <div class="type-btn-icon">💭</div>
+          <div class="type-btn-label">Thought</div>
+        </div>
+        <div class="type-btn" data-type="incident" style="color: #ff6b6b;">
+          <div class="type-btn-icon">🚨</div>
+          <div class="type-btn-label">Incident</div>
+        </div>
+        <div class="type-btn" data-type="deploy" style="color: #51cf66;">
+          <div class="type-btn-icon">🚀</div>
+          <div class="type-btn-label">Deploy</div>
+        </div>
+        <div class="type-btn" data-type="idea" style="color: #ffd43b;">
+          <div class="type-btn-icon">💡</div>
+          <div class="type-btn-label">Idea</div>
+        </div>
+        <div class="type-btn" data-type="observation" style="color: #00d4ff;">
+          <div class="type-btn-icon">📊</div>
+          <div class="type-btn-label">Observation</div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Your Thought</label>
+        <textarea id="captureText" class="form-textarea" placeholder="What's on your mind?"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Context (Optional)</label>
+        <div class="context-fields">
+          <input id="contextService" class="form-input" placeholder="Service name">
+          <input id="contextEnvironment" class="form-input" placeholder="Environment" value="production">
+          <input id="contextVersion" class="form-input" placeholder="Version/commit">
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Signals (Charts/Metrics)</label>
+        <button class="btn-secondary" id="addChartBtn">
+          📈 Add Chart
+        </button>
+        <div class="chart-preview" id="chartPreview"></div>
+      </div>
+      
+      <div class="form-actions">
+        <button class="btn-large btn-cancel" id="cancelCaptureBtn">Cancel</button>
+        <button class="btn-large btn-capture" id="submitCaptureBtn">⚡ Capture Moment</button>
+      </div>
+    </div>
+    
+    <!-- Search View -->
+    <div class="search-view" id="searchView">
+      <div class="search-header">
+        <div class="search-box">
+          <input id="searchInput" class="search-input" placeholder="Search your moments semantically...">
+          <button class="btn-search" id="searchBtn">
+            🔍 Search
+          </button>
+        </div>
+        <div class="search-hint">
+          Try: "times deploys increased errors", "ideas during outages", "thoughts about scaling"
+        </div>
+      </div>
+      
+      <div class="search-results" id="searchResults">
+        <div class="empty-state">
+          <div class="empty-state-icon">🔍</div>
+          <h3>Semantic Search</h3>
+          <p>Search your moments by meaning, not just keywords</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <!-- Chart Data Modal -->
+  <div class="modal-overlay" id="chartModal">
+    <div class="modal">
+      <h2>Add Chart Data</h2>
+      
+      <div class="form-group">
+        <label class="form-label">Chart Title</label>
+        <input id="modalChartTitle" class="form-input" placeholder="e.g., Latency (p95), Error Rate">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Data Points (comma-separated)</label>
+        <textarea id="modalChartData" class="form-textarea" rows="4" placeholder="Enter values separated by commas&#10;e.g., 45, 52, 48, 63, 71, 68, 55, 49, 52, 58, 61, 54"></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Labels (optional, comma-separated)</label>
+        <input id="modalChartLabels" class="form-input" placeholder="e.g., 1am, 2am, 3am, 4am...">
+      </div>
+      
+      <div class="modal-actions">
+        <button class="btn-large btn-cancel" id="modalCancelBtn">Cancel</button>
+        <button class="btn-large btn-capture" id="modalAddBtn">Add Chart</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="modal-overlay" id="confirmModal">
+    <div class="modal modal-confirm">
+      <div class="confirm-icon" id="confirmIcon">⚠️</div>
+      <h2 id="confirmTitle">Are you sure?</h2>
+      <p id="confirmMessage" class="confirm-message"></p>
+      
+      <div class="modal-actions">
+        <button class="btn-large btn-cancel" id="confirmCancelBtn">Cancel</button>
+        <button class="btn-large btn-delete" id="confirmDeleteBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Constants
+    const MOMENT_TYPES = {
+      incident: { icon: '🚨', color: '#ff6b6b', label: 'Incident', prompts: ['What looks wrong?', 'What changed recently?', 'Initial hypothesis'] },
+      deploy: { icon: '🚀', color: '#51cf66', label: 'Deploy', prompts: ['What are the expectations?', 'What are the risks?', 'Success criteria'] },
+      idea: { icon: '💡', color: '#ffd43b', label: 'Idea', prompts: ['What problem does this solve?', 'Why now?'] },
+      observation: { icon: '📊', color: '#00d4ff', label: 'Observation', prompts: ['What did you notice?', 'Why does it matter?'] },
+      thought: { icon: '💭', color: '#a78bfa', label: 'Thought', prompts: [] }
+    };
+    
+    // State
+    let state = {
+      moments: [],
+      threads: [],
+      selectedMoment: null,
+      selectedThread: null,
+      view: 'timeline',
+      filterType: 'all',
+      searchQuery: '',
+      searchResults: [],
+      captureType: 'thought',
+      captureText: '',
+      captureContext: { service: '', environment: 'production', version: '' },
+      captureCharts: [],
+      editingMoment: null // Track if we're editing the last moment
+    };
+    
+    // Utility Functions
+    function generateId() {
+      return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    }
+    
+    function formatTime(timestamp) {
+      const date = new Date(timestamp);
+      const now = new Date();
+      const diff = now - date;
+      const minutes = Math.floor(diff / 60000);
+      const hours = Math.floor(diff / 3600000);
+      const days = Math.floor(diff / 86400000);
+      
+      if (minutes < 1) return 'just now';
+      if (minutes < 60) return `${minutes}m ago`;
+      if (hours < 24) return `${hours}h ago`;
+      if (days < 7) return `${days}d ago`;
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    }
+    
+    // Storage Functions
+    async function loadData() {
+      const moments = localStorage.getItem('trace-moments');
+      const threads = localStorage.getItem('trace-threads');
+      
+      if (moments) state.moments = JSON.parse(moments);
+      if (threads) state.threads = JSON.parse(threads);
+      
+      render();
+    }
+    
+    function saveData() {
+      localStorage.setItem('trace-moments', JSON.stringify(state.moments));
+      localStorage.setItem('trace-threads', JSON.stringify(state.threads));
+    }
+    
+    // Chart Generation
+    function createChart(type, data, color, labels = null, chartId = null) {
+      const id = chartId || `chart-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('width', '200');
+      svg.setAttribute('height', '80');
+      svg.setAttribute('data-chart-id', id);
+      
+      const max = Math.max(...data);
+      const min = Math.min(...data);
+      const range = max - min || 1;
+      const padding = 10;
+      const width = 200;
+      const height = 80;
+      const chartHeight = height - padding * 2;
+      const chartWidth = width - padding * 2;
+      
+      // Draw grid lines
+      for (let i = 0; i <= 4; i++) {
+        const y = padding + (chartHeight / 4) * i;
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', padding);
+        line.setAttribute('y1', y);
+        line.setAttribute('x2', width - padding);
+        line.setAttribute('y2', y);
+        line.setAttribute('stroke', 'rgba(255, 255, 255, 0.05)');
+        line.setAttribute('stroke-width', '1');
+        svg.appendChild(line);
+        
+        // Y-axis labels
+        const value = max - (range / 4) * i;
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', '5');
+        text.setAttribute('y', y + 3);
+        text.setAttribute('fill', '#64748b');
+        text.setAttribute('font-size', '8');
+        text.textContent = value.toFixed(0);
+        svg.appendChild(text);
+      }
+      
+      // Draw area fill
+      const areaPoints = data.map((value, i) => {
+        const x = padding + (i / (data.length - 1)) * chartWidth;
+        const y = padding + chartHeight - ((value - min) / range) * chartHeight;
+        return `${x},${y}`;
+      }).join(' ');
+      
+      const area = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+      area.setAttribute('points', `${padding},${height - padding} ${areaPoints} ${width - padding},${height - padding}`);
+      area.setAttribute('fill', color);
+      area.setAttribute('opacity', '0.1');
+      svg.appendChild(area);
+      
+      // Draw line
+      const points = data.map((value, i) => {
+        const x = padding + (i / (data.length - 1)) * chartWidth;
+        const y = padding + chartHeight - ((value - min) / range) * chartHeight;
+        return `${x},${y}`;
+      }).join(' ');
+      
+      const polyline = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+      polyline.setAttribute('points', points);
+      polyline.setAttribute('fill', 'none');
+      polyline.setAttribute('stroke', color);
+      polyline.setAttribute('stroke-width', '2');
+      polyline.setAttribute('opacity', '0.8');
+      svg.appendChild(polyline);
+      
+      // Draw points with hover functionality
+      data.forEach((value, i) => {
+        const x = padding + (i / (data.length - 1)) * chartWidth;
+        const y = padding + chartHeight - ((value - min) / range) * chartHeight;
+        
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', x);
+        circle.setAttribute('cy', y);
+        circle.setAttribute('r', '3');
+        circle.setAttribute('fill', color);
+        circle.setAttribute('opacity', '0.8');
+        circle.setAttribute('data-value', value);
+        circle.setAttribute('data-label', labels && labels[i] ? labels[i] : `Point ${i + 1}`);
+        circle.style.cursor = 'pointer';
+        
+        svg.appendChild(circle);
+      });
+      
+      const container = document.createElement('div');
+      container.className = 'chart-container';
+      container.style.position = 'relative';
+      container.innerHTML = `<div class="chart-header">📊 ${type}</div>`;
+      
+      const valueDisplay = document.createElement('div');
+      valueDisplay.className = 'chart-value-display';
+      container.appendChild(valueDisplay);
+      container.appendChild(svg);
+      
+      // Add hover interactions
+      svg.addEventListener('mouseover', (e) => {
+        if (e.target.tagName === 'circle') {
+          const value = e.target.getAttribute('data-value');
+          const label = e.target.getAttribute('data-label');
+          valueDisplay.textContent = `${label}: ${parseFloat(value).toFixed(2)}`;
+          valueDisplay.style.display = 'block';
+          valueDisplay.style.left = e.offsetX + 10 + 'px';
+          valueDisplay.style.top = e.offsetY - 10 + 'px';
+          e.target.setAttribute('r', '5');
+        }
+      });
+      
+      svg.addEventListener('mouseout', (e) => {
+        if (e.target.tagName === 'circle') {
+          valueDisplay.style.display = 'none';
+          e.target.setAttribute('r', '3');
+        }
+      });
+      
+      svg.addEventListener('mousemove', (e) => {
+        if (e.target.tagName === 'circle') {
+          valueDisplay.style.left = e.offsetX + 10 + 'px';
+          valueDisplay.style.top = e.offsetY - 10 + 'px';
+        }
+      });
+      
+      // Add controls for custom charts
+      if (chartId) {
+        const controls = document.createElement('div');
+        controls.className = 'chart-controls';
+        controls.innerHTML = `
+          <button class="chart-btn" onclick="editChart('${id}')">✏️ Edit</button>
+          <button class="chart-btn" onclick="removeChart('${id}')">🗑️ Remove</button>
+        `;
+        container.appendChild(controls);
+      }
+      
+      container.dataset.chartId = id;
+      container.dataset.chartData = JSON.stringify({ type, data, labels });
+      
+      return container;
+    }
+    
+    // Render Functions
+    function renderMoments() {
+      const container = document.getElementById('momentsList');
+      
+      // Filter by thread first if one is selected
+      let filteredMoments = state.selectedThread
+        ? state.moments.filter(m => m.threadId === state.selectedThread)
+        : state.moments;
+      
+      // Then filter by type
+      if (state.filterType !== 'all') {
+        filteredMoments = filteredMoments.filter(m => m.type === state.filterType);
+      }
+      
+      const displayMoments = state.view === 'search' && state.searchResults.length > 0
+        ? state.searchResults
+        : filteredMoments;
+      
+      if (displayMoments.length === 0) {
+        if (state.selectedThread) {
+          const thread = state.threads.find(t => t.id === state.selectedThread);
+          container.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">🧵</div>
+              <h3>No moments in this thread</h3>
+              <p>Capture a moment to add it to "${thread ? thread.name : 'this thread'}"</p>
+            </div>
+          `;
+        } else {
+          container.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">🕐</div>
+              <h3>No moments yet</h3>
+              <p>Capture your first moment to get started</p>
+            </div>
+          `;
+        }
+        return;
+      }
+      
+      container.innerHTML = '';
+      displayMoments.forEach(moment => {
+        const config = MOMENT_TYPES[moment.type];
+        const card = document.createElement('div');
+        card.className = 'moment-card';
+        if (state.selectedMoment?.id === moment.id) {
+          card.classList.add('selected');
+        }
+        card.style.borderLeftColor = config.color;
+        
+        let contextHtml = '';
+        if (moment.context.service || moment.context.environment || moment.context.version) {
+          contextHtml = '<div class="moment-context">';
+          if (moment.context.service) contextHtml += `<div class="context-tag">🔧 ${moment.context.service}</div>`;
+          if (moment.context.environment) contextHtml += `<div class="context-tag">📍 ${moment.context.environment}</div>`;
+          if (moment.context.version) contextHtml += `<div class="context-tag">🏷️ ${moment.context.version}</div>`;
+          contextHtml += '</div>';
+        }
+        
+        // Add thread badge if moment belongs to a thread
+        let threadBadge = '';
+        if (moment.threadId && !state.selectedThread) {
+          const thread = state.threads.find(t => t.id === moment.threadId);
+          if (thread) {
+            threadBadge = `<div class="moment-thread-badge">🧵 ${thread.name}</div>`;
+          }
+        }
+        
+        card.innerHTML = `
+          ${threadBadge}
+          <div class="moment-header">
+            <div class="moment-type" style="color: ${config.color}">
+              ${config.icon} ${config.label}
+            </div>
+            <div class="moment-time">${formatTime(moment.timestamp)}</div>
+          </div>
+          <div class="moment-text">${moment.text}</div>
+          ${contextHtml}
+        `;
+        
+        if (moment.charts && moment.charts.length > 0) {
+          const chartsContainer = document.createElement('div');
+          chartsContainer.className = 'moment-charts';
+          moment.charts.forEach(chart => {
+            chartsContainer.appendChild(createChart(chart.type, chart.data, config.color, chart.labels || null, chart.id || null));
+          });
+          card.appendChild(chartsContainer);
+        }
+        
+        card.addEventListener('click', () => {
+          state.selectedMoment = moment;
+          renderDetail();
+          renderMoments();
+        });
+        
+        container.appendChild(card);
+      });
+    }
+    
+    function renderDetail() {
+      const panel = document.getElementById('detailPanel');
+      
+      if (!state.selectedMoment) {
+        panel.classList.remove('visible');
+        return;
+      }
+      
+      panel.classList.add('visible');
+      const moment = state.selectedMoment;
+      const config = MOMENT_TYPES[moment.type];
+      
+      let editButtonHtml = `
+        <button class="btn-secondary" onclick="editMoment('${moment.id}')" style="width: 100%; margin-bottom: 12px;">
+          ✏️ Edit Moment
+        </button>
+      `;
+      
+      let deleteButtonHtml = `
+        <button class="btn-danger" onclick="confirmDeleteMoment('${moment.id}')" style="margin-bottom: 16px;">
+          🗑️ Delete Moment
+        </button>
+      `;
+      
+      let contextHtml = '';
+      if (moment.context.service || moment.context.environment || moment.context.version) {
+        contextHtml = '<div class="detail-section"><h3>Context</h3><div class="context-grid">';
+        if (moment.context.service) {
+          contextHtml += `
+            <div class="context-item">
+              <div class="context-item-label">Service</div>
+              <div class="context-item-value">${moment.context.service}</div>
+            </div>
+          `;
+        }
+        if (moment.context.environment) {
+          contextHtml += `
+            <div class="context-item">
+              <div class="context-item-label">Environment</div>
+              <div class="context-item-value">${moment.context.environment}</div>
+            </div>
+          `;
+        }
+        if (moment.context.version) {
+          contextHtml += `
+            <div class="context-item">
+              <div class="context-item-label">Version</div>
+              <div class="context-item-value">${moment.context.version}</div>
+            </div>
+          `;
+        }
+        contextHtml += '</div></div>';
+      }
+      
+      panel.innerHTML = `
+        ${editButtonHtml}
+        ${deleteButtonHtml}
+        <div class="detail-header">
+          <div class="detail-type-icon" style="color: ${config.color}">
+            ${config.icon}
+          </div>
+          <div class="detail-meta">
+            <h2>${config.label}</h2>
+            <div class="detail-timestamp">${new Date(moment.timestamp).toLocaleString()}</div>
+          </div>
+        </div>
+        
+        <div class="detail-section">
+          <h3>Thought</h3>
+          <div class="detail-content">${moment.text}</div>
+        </div>
+        
+        ${contextHtml}
+      `;
+      
+      if (moment.charts && moment.charts.length > 0) {
+        const section = document.createElement('div');
+        section.className = 'detail-section';
+        section.innerHTML = '<h3>Signals</h3>';
+        const chartsContainer = document.createElement('div');
+        chartsContainer.style.display = 'flex';
+        chartsContainer.style.flexDirection = 'column';
+        chartsContainer.style.gap = '12px';
+        
+        moment.charts.forEach(chart => {
+          chartsContainer.appendChild(createChart(chart.type, chart.data, config.color, chart.labels || null, chart.id || null));
+        });
+        
+        section.appendChild(chartsContainer);
+        panel.appendChild(section);
+      }
+    }
+    
+    function renderThreads() {
+      const container = document.getElementById('threadList');
+      container.innerHTML = '';
+      
+      state.threads.forEach(thread => {
+        const threadMoments = state.moments.filter(m => m.threadId === thread.id);
+        const item = document.createElement('div');
+        item.className = 'thread-item';
+        if (state.selectedThread === thread.id) {
+          item.classList.add('active');
+        }
+        
+        item.innerHTML = `
+          <div class="thread-name">${thread.name}</div>
+          <div class="thread-meta">${threadMoments.length} moment${threadMoments.length !== 1 ? 's' : ''}</div>
+        `;
+        
+        item.addEventListener('click', () => {
+          state.selectedThread = state.selectedThread === thread.id ? null : thread.id;
+          state.view = 'timeline';
+          render();
+        });
+        
+        container.appendChild(item);
+      });
+    }
+    
+    function updateCounts() {
+      // Get moments to count based on selected thread
+      const momentsToCount = state.selectedThread
+        ? state.moments.filter(m => m.threadId === state.selectedThread)
+        : state.moments;
+      
+      document.getElementById('count-all').textContent = momentsToCount.length;
+      Object.keys(MOMENT_TYPES).forEach(type => {
+        const count = momentsToCount.filter(m => m.type === type).length;
+        document.getElementById(`count-${type}`).textContent = count;
+      });
+    }
+    
+    function render() {
+      // Update view visibility
+      document.getElementById('timelineView').classList.toggle('hidden', state.view !== 'timeline');
+      document.getElementById('captureView').classList.toggle('visible', state.view === 'capture');
+      document.getElementById('searchView').classList.toggle('visible', state.view === 'search');
+      
+      // Update capture view header
+      if (state.view === 'capture') {
+        const threadIndicator = document.getElementById('captureThreadIndicator');
+        
+        if (state.editingMoment) {
+          document.getElementById('captureTitle').textContent = 'Edit Moment';
+          const timestamp = new Date(state.editingMoment.timestamp).toLocaleString();
+          document.getElementById('captureSubtitle').textContent = `Original timestamp: ${timestamp}`;
+        } else {
+          document.getElementById('captureTitle').textContent = 'Capture a Moment';
+          document.getElementById('captureSubtitle').textContent = 'What are you thinking right now?';
+        }
+        
+        // Show thread indicator if a thread is selected
+        if (state.selectedThread && !state.editingMoment) {
+          const thread = state.threads.find(t => t.id === state.selectedThread);
+          if (thread) {
+            threadIndicator.classList.remove('hidden');
+            threadIndicator.innerHTML = `🧵 Adding to thread: <strong>${thread.name}</strong>`;
+          }
+        } else {
+          threadIndicator.classList.add('hidden');
+        }
+      }
+      
+      // Update nav items
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.view === state.view);
+      });
+      
+      // Update filter items
+      document.querySelectorAll('.filter-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.filter === state.filterType);
+      });
+      
+      // Update timeline title
+      const titleEl = document.getElementById('timelineTitle');
+      const threadBanner = document.getElementById('threadBanner');
+      const threadBannerText = document.getElementById('threadBannerText');
+      
+      if (state.selectedThread) {
+        const thread = state.threads.find(t => t.id === state.selectedThread);
+        const threadMoments = state.moments.filter(m => m.threadId === state.selectedThread);
+        
+        if (state.filterType === 'all') {
+          titleEl.textContent = `All Moments (${threadMoments.length})`;
+        } else {
+          const count = threadMoments.filter(m => m.type === state.filterType).length;
+          titleEl.textContent = `${MOMENT_TYPES[state.filterType].label} (${count})`;
+        }
+        
+        if (thread) {
+          threadBanner.classList.remove('hidden');
+          threadBannerText.textContent = `Viewing thread: ${thread.name}`;
+        }
+      } else {
+        threadBanner.classList.add('hidden');
+        
+        if (state.filterType === 'all') {
+          titleEl.textContent = `All Moments (${state.moments.length})`;
+        } else {
+          const count = state.moments.filter(m => m.type === state.filterType).length;
+          titleEl.textContent = `${MOMENT_TYPES[state.filterType].label} (${count})`;
+        }
+      }
+      
+      renderMoments();
+      renderDetail();
+      renderThreads();
+      updateCounts();
+    }
+    
+    // Event Handlers
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        state.view = item.dataset.view;
+        render();
+      });
+    });
+    
+    document.querySelectorAll('.filter-item').forEach(item => {
+      item.addEventListener('click', () => {
+        state.filterType = item.dataset.filter;
+        render();
+      });
+    });
+    
+    document.getElementById('captureMomentBtn').addEventListener('click', () => {
+      state.view = 'capture';
+      state.editingMoment = null;
+      document.getElementById('submitCaptureBtn').innerHTML = '⚡ Capture Moment';
+      render();
+    });
+    
+    document.getElementById('newThreadBtn').addEventListener('click', () => {
+      const name = prompt('Thread name:');
+      if (!name) return;
+      
+      const newThread = {
+        id: generateId(),
+        name,
+        created: Date.now(),
+        momentIds: []
+      };
+      
+      state.threads.unshift(newThread);
+      state.selectedThread = newThread.id;
+      saveData();
+      render();
+    });
+    
+    document.querySelectorAll('.type-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.captureType = btn.dataset.type;
+        
+        const config = MOMENT_TYPES[state.captureType];
+        const placeholder = config.prompts[0] || "What's on your mind?";
+        document.getElementById('captureText').placeholder = placeholder;
+      });
+    });
+    
+    document.getElementById('addChartBtn').addEventListener('click', () => {
+      document.getElementById('chartModal').classList.add('visible');
+      document.getElementById('modalChartTitle').value = '';
+      document.getElementById('modalChartData').value = '';
+      document.getElementById('modalChartLabels').value = '';
+    });
+    
+    document.getElementById('modalCancelBtn').addEventListener('click', () => {
+      document.getElementById('chartModal').classList.remove('visible');
+    });
+    
+    document.getElementById('modalAddBtn').addEventListener('click', () => {
+      const title = document.getElementById('modalChartTitle').value.trim();
+      const dataStr = document.getElementById('modalChartData').value.trim();
+      const labelsStr = document.getElementById('modalChartLabels').value.trim();
+      
+      if (!title || !dataStr) {
+        alert('Please enter a chart title and data points');
+        return;
+      }
+      
+      const data = dataStr.split(',').map(v => parseFloat(v.trim())).filter(v => !isNaN(v));
+      if (data.length === 0) {
+        alert('Please enter valid numeric data points');
+        return;
+      }
+      
+      const labels = labelsStr ? labelsStr.split(',').map(l => l.trim()) : null;
+      
+      const chartId = `chart-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      state.captureCharts.push({ type: title, data, labels, id: chartId });
+      
+      const preview = document.getElementById('chartPreview');
+      const config = MOMENT_TYPES[state.captureType];
+      preview.appendChild(createChart(title, data, config.color, labels, chartId));
+      
+      document.getElementById('chartModal').classList.remove('visible');
+    });
+    
+    // Confirmation modal handlers
+    document.getElementById('confirmCancelBtn').addEventListener('click', hideConfirmModal);
+    
+    document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
+      if (confirmCallback) {
+        confirmCallback();
+      }
+    });
+    
+    // Close modals on overlay click
+    document.getElementById('chartModal').addEventListener('click', (e) => {
+      if (e.target.id === 'chartModal') {
+        document.getElementById('chartModal').classList.remove('visible');
+      }
+    });
+    
+    document.getElementById('confirmModal').addEventListener('click', (e) => {
+      if (e.target.id === 'confirmModal') {
+        hideConfirmModal();
+      }
+    });
+    
+    // Global functions for chart controls
+    window.editChart = function(chartId) {
+      const chartIndex = state.captureCharts.findIndex(c => c.id === chartId);
+      if (chartIndex === -1) return;
+      
+      const chart = state.captureCharts[chartIndex];
+      document.getElementById('modalChartTitle').value = chart.type;
+      document.getElementById('modalChartData').value = chart.data.join(', ');
+      document.getElementById('modalChartLabels').value = chart.labels ? chart.labels.join(', ') : '';
+      
+      document.getElementById('chartModal').classList.add('visible');
+      
+      // Remove old chart
+      const chartElement = document.querySelector(`[data-chart-id="${chartId}"]`);
+      if (chartElement) {
+        chartElement.remove();
+      }
+      state.captureCharts.splice(chartIndex, 1);
+    };
+    
+    window.removeChart = function(chartId) {
+      const chartIndex = state.captureCharts.findIndex(c => c.id === chartId);
+      if (chartIndex !== -1) {
+        state.captureCharts.splice(chartIndex, 1);
+      }
+      
+      const chartElement = document.querySelector(`[data-chart-id="${chartId}"]`);
+      if (chartElement) {
+        chartElement.remove();
+      }
+    };
+    
+    window.editMoment = function(momentId) {
+      const moment = state.moments.find(m => m.id === momentId);
+      if (!moment) return;
+      
+      state.editingMoment = moment;
+      
+      // Populate form fields
+      state.captureType = moment.type;
+      document.getElementById('captureText').value = moment.text;
+      document.getElementById('contextService').value = moment.context.service || '';
+      document.getElementById('contextEnvironment').value = moment.context.environment || 'production';
+      document.getElementById('contextVersion').value = moment.context.version || '';
+      
+      // Update type selector
+      document.querySelectorAll('.type-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.type === moment.type);
+      });
+      
+      // Populate charts
+      state.captureCharts = moment.charts ? JSON.parse(JSON.stringify(moment.charts)) : [];
+      const preview = document.getElementById('chartPreview');
+      preview.innerHTML = '';
+      state.captureCharts.forEach(chart => {
+        const config = MOMENT_TYPES[state.captureType];
+        preview.appendChild(createChart(chart.type, chart.data, config.color, chart.labels || null, chart.id));
+      });
+      
+      // Update button text
+      document.getElementById('submitCaptureBtn').innerHTML = '💾 Update Moment';
+      
+      // Switch to capture view
+      state.view = 'capture';
+      render();
+    };
+    
+    window.clearThreadFilter = function() {
+      state.selectedThread = null;
+      render();
+    };
+    
+    // Confirmation modal system
+    let confirmCallback = null;
+    
+    function showConfirmModal(title, message, icon, onConfirm) {
+      document.getElementById('confirmTitle').textContent = title;
+      document.getElementById('confirmMessage').textContent = message;
+      document.getElementById('confirmIcon').textContent = icon;
+      confirmCallback = onConfirm;
+      document.getElementById('confirmModal').classList.add('visible');
+    }
+    
+    function hideConfirmModal() {
+      document.getElementById('confirmModal').classList.remove('visible');
+      confirmCallback = null;
+    }
+    
+    // Delete moment
+    window.confirmDeleteMoment = function(momentId) {
+      const moment = state.moments.find(m => m.id === momentId);
+      if (!moment) return;
+      
+      const config = MOMENT_TYPES[moment.type];
+      showConfirmModal(
+        'Delete Moment?',
+        `Are you sure you want to delete this ${config.label.toLowerCase()}? This action cannot be undone.`,
+        '🗑️',
+        () => deleteMoment(momentId)
+      );
+    };
+    
+    function deleteMoment(momentId) {
+      const momentIndex = state.moments.findIndex(m => m.id === momentId);
+      if (momentIndex === -1) return;
+      
+      // Remove moment
+      state.moments.splice(momentIndex, 1);
+      
+      // Clear selection
+      state.selectedMoment = null;
+      
+      // Save and re-render
+      saveData();
+      hideConfirmModal();
+      render();
+    }
+    
+    // Delete thread
+    window.confirmDeleteThread = function() {
+      if (!state.selectedThread) return;
+      
+      const thread = state.threads.find(t => t.id === state.selectedThread);
+      if (!thread) return;
+      
+      const threadMoments = state.moments.filter(m => m.threadId === state.selectedThread);
+      
+      showConfirmModal(
+        'Delete Thread?',
+        `Are you sure you want to delete "${thread.name}"? This will remove the thread but keep all ${threadMoments.length} moment${threadMoments.length !== 1 ? 's' : ''} (they will become unthreaded).`,
+        '🧵',
+        () => deleteThread(state.selectedThread)
+      );
+    };
+    
+    function deleteThread(threadId) {
+      const threadIndex = state.threads.findIndex(t => t.id === threadId);
+      if (threadIndex === -1) return;
+      
+      // Remove thread reference from all moments
+      state.moments.forEach(moment => {
+        if (moment.threadId === threadId) {
+          delete moment.threadId;
+        }
+      });
+      
+      // Remove thread
+      state.threads.splice(threadIndex, 1);
+      
+      // Clear selection
+      state.selectedThread = null;
+      
+      // Save and re-render
+      saveData();
+      hideConfirmModal();
+      render();
+    }
+    
+    document.getElementById('cancelCaptureBtn').addEventListener('click', () => {
+      state.view = 'timeline';
+      state.captureText = '';
+      state.captureCharts = [];
+      state.editingMoment = null;
+      document.getElementById('captureText').value = '';
+      document.getElementById('chartPreview').innerHTML = '';
+      document.getElementById('submitCaptureBtn').innerHTML = '⚡ Capture Moment';
+      render();
+    });
+    
+    document.getElementById('submitCaptureBtn').addEventListener('click', () => {
+      const text = document.getElementById('captureText').value.trim();
+      if (!text) {
+        alert('Please enter your thought');
+        return;
+      }
+      
+      if (state.editingMoment) {
+        // Update existing moment
+        const momentIndex = state.moments.findIndex(m => m.id === state.editingMoment.id);
+        if (momentIndex !== -1) {
+          state.moments[momentIndex] = {
+            ...state.moments[momentIndex],
+            type: state.captureType,
+            text: text,
+            context: {
+              service: document.getElementById('contextService').value,
+              environment: document.getElementById('contextEnvironment').value,
+              version: document.getElementById('contextVersion').value
+            },
+            charts: state.captureCharts
+          };
+          state.selectedMoment = state.moments[momentIndex];
+        }
+        state.editingMoment = null;
+      } else {
+        // Create new moment
+        const newMoment = {
+          id: generateId(),
+          type: state.captureType,
+          text: text,
+          timestamp: Date.now(),
+          context: {
+            service: document.getElementById('contextService').value,
+            environment: document.getElementById('contextEnvironment').value,
+            version: document.getElementById('contextVersion').value
+          },
+          charts: state.captureCharts,
+          threadId: state.selectedThread
+        };
+        
+        state.moments.unshift(newMoment);
+        state.selectedMoment = newMoment;
+      }
+      
+      state.view = 'timeline';
+      state.captureText = '';
+      state.captureCharts = [];
+      
+      document.getElementById('captureText').value = '';
+      document.getElementById('contextService').value = '';
+      document.getElementById('contextEnvironment').value = 'production';
+      document.getElementById('contextVersion').value = '';
+      document.getElementById('chartPreview').innerHTML = '';
+      document.getElementById('submitCaptureBtn').innerHTML = '⚡ Capture Moment';
+      
+      saveData();
+      render();
+    });
+    
+    document.getElementById('searchInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+    
+    document.getElementById('searchBtn').addEventListener('click', performSearch);
+    
+    async function performSearch() {
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query) return;
+      
+      const btn = document.getElementById('searchBtn');
+      btn.disabled = true;
+      btn.textContent = '🔍 Searching...';
+      
+      const resultsContainer = document.getElementById('searchResults');
+      
+      try {
+        const response = await fetch("https://api.anthropic.com/v1/messages", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model: "claude-sonnet-4-20250514",
+            max_tokens: 1000,
+            messages: [{
+              role: "user",
+              content: `You are a semantic search engine for developer notes. Given this search query and list of moments, return the IDs of relevant moments ranked by relevance. Only return a JSON array of IDs, nothing else.
+
+Search query: "${query}"
+
+Moments:
+${state.moments.map(m => `ID: ${m.id}\nType: ${m.type}\nText: ${m.text}\nContext: ${JSON.stringify(m.context)}\n`).join('\n---\n')}
+
+Return only: ["id1", "id2", ...]`
+            }]
+          })
+        });
+        
+        const data = await response.json();
+        const text = data.content.find(c => c.type === 'text')?.text || '[]';
+        const cleanText = text.replace(/```json|```/g, '').trim();
+        const ids = JSON.parse(cleanText);
+        
+        state.searchResults = ids
+          .map(id => state.moments.find(m => m.id === id))
+          .filter(Boolean);
+        
+      } catch (error) {
+        console.error('Search failed:', error);
+        // Fallback to simple search
+        state.searchResults = state.moments.filter(m => 
+          m.text.toLowerCase().includes(query.toLowerCase()) ||
+          m.context.service?.toLowerCase().includes(query.toLowerCase())
+        );
+      }
+      
+      btn.disabled = false;
+      btn.textContent = '🔍 Search';
+      
+      if (state.searchResults.length > 0) {
+        resultsContainer.innerHTML = `<div class="results-header">Found ${state.searchResults.length} relevant moment${state.searchResults.length !== 1 ? 's' : ''}</div>`;
+        const momentsContainer = document.createElement('div');
+        
+        state.searchResults.forEach(moment => {
+          const config = MOMENT_TYPES[moment.type];
+          const card = document.createElement('div');
+          card.className = 'moment-card';
+          card.style.borderLeftColor = config.color;
+          
+          let contextHtml = '';
+          if (moment.context.service || moment.context.environment) {
+            contextHtml = '<div class="moment-context">';
+            if (moment.context.service) contextHtml += `<div class="context-tag">🔧 ${moment.context.service}</div>`;
+            if (moment.context.environment) contextHtml += `<div class="context-tag">📍 ${moment.context.environment}</div>`;
+            contextHtml += '</div>';
+          }
+          
+          card.innerHTML = `
+            <div class="moment-header">
+              <div class="moment-type" style="color: ${config.color}">
+                ${config.icon} ${config.label}
+              </div>
+              <div class="moment-time">${formatTime(moment.timestamp)}</div>
+            </div>
+            <div class="moment-text">${moment.text}</div>
+            ${contextHtml}
+          `;
+          
+          card.addEventListener('click', () => {
+            state.selectedMoment = moment;
+            state.view = 'timeline';
+            render();
+          });
+          
+          momentsContainer.appendChild(card);
+        });
+        
+        resultsContainer.appendChild(momentsContainer);
+      } else {
+        resultsContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">🔍</div>
+            <h3>No results found</h3>
+            <p>Try a different search query</p>
+          </div>
+        `;
+      }
+    }
+    
+    // Initialize
+    loadData();
+  </script>
+</body>
+</html>
