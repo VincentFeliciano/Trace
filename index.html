@@ -318,6 +318,18 @@
       font-weight: 600;
     }
     
+    .moment-unthreaded-badge {
+      display: inline-block;
+      font-size: 10px;
+      padding: 4px 8px;
+      background: rgba(100, 116, 139, 0.15);
+      border: 1px solid rgba(100, 116, 139, 0.3);
+      border-radius: 4px;
+      color: #94a3b8;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    
     .moment-header {
       display: flex;
       align-items: center;
@@ -632,6 +644,95 @@
       margin-top: 12px;
     }
     
+    .table-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    
+    /* Tables */
+    .table-block-container {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+    
+    .table-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .table-block-title {
+      font-size: 12px;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .table-block-actions {
+      display: flex;
+      gap: 6px;
+    }
+    
+    .table-wrapper {
+      overflow-x: auto;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    
+    .trace-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    
+    .trace-table thead {
+      background: rgba(0, 212, 255, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    
+    .trace-table th {
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 600;
+      color: #00d4ff;
+      border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .trace-table td {
+      padding: 10px 12px;
+      color: #cbd5e1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .trace-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+    
+    .trace-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .moment-tables {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    
     .form-actions {
       display: flex;
       gap: 10px;
@@ -908,6 +1009,73 @@
       border-color: rgba(255, 107, 107, 0.5);
     }
     
+    /* Thread Assignment */
+    .thread-assignment {
+      background: rgba(0, 212, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .thread-assignment-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .thread-assignment-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #00d4ff;
+      font-weight: 600;
+    }
+    
+    .thread-remove-btn {
+      background: rgba(255, 107, 107, 0.2);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      border-radius: 4px;
+      color: #ff6b6b;
+      padding: 2px 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .thread-remove-btn:hover {
+      background: rgba(255, 107, 107, 0.3);
+      border-color: rgba(255, 107, 107, 0.5);
+    }
+    
+    .thread-select {
+      width: 100%;
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 6px;
+      color: #e4e4e7;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .thread-select:hover {
+      border-color: rgba(0, 212, 255, 0.5);
+    }
+    
+    .thread-select:focus {
+      outline: none;
+      border-color: #00d4ff;
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    }
+    
+    .thread-select option {
+      background: #1a1f2e;
+      color: #e4e4e7;
+    }
+    
     /* Code Blocks */
     .code-textarea {
       font-family: 'Courier New', Monaco, monospace;
@@ -1135,6 +1303,13 @@
         <button class="btn-secondary" id="newThreadBtn" style="margin-top: 12px; width: 100%;">
           ➕ New Thread
         </button>
+        
+        <div id="unthreadedFilter" class="filter-item hidden" style="margin-top: 12px;">
+          <div class="filter-label">
+            📌 Unthreaded
+          </div>
+          <div class="filter-count" id="count-unthreaded">0</div>
+        </div>
       </div>
       
       <button class="btn-primary" id="captureMomentBtn">
@@ -1213,14 +1388,18 @@
         <label class="form-label">Attachments</label>
         <div style="display: flex; gap: 12px; margin-bottom: 12px;">
           <button class="btn-secondary" id="addChartBtn" style="flex: 1; margin: 0;">
-            📈 Add Chart
+            📈 Chart
           </button>
           <button class="btn-secondary" id="addCodeBtn" style="flex: 1; margin: 0;">
-            💻 Add Code
+            💻 Code
+          </button>
+          <button class="btn-secondary" id="addTableBtn" style="flex: 1; margin: 0;">
+            📊 Table
           </button>
         </div>
         <div class="chart-preview" id="chartPreview"></div>
         <div class="code-preview" id="codePreview"></div>
+        <div class="table-preview" id="tablePreview"></div>
       </div>
       
       <div class="form-actions">
@@ -1337,6 +1516,31 @@
     </div>
   </div>
 
+  <!-- Table Modal -->
+  <div class="modal-overlay" id="tableModal">
+    <div class="modal modal-wide">
+      <h2>Create Table</h2>
+      
+      <div class="form-group">
+        <label class="form-label">Title (optional)</label>
+        <input id="modalTableTitle" class="form-input" placeholder="e.g., Performance Metrics">
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Table Data (CSV format)</label>
+        <textarea id="modalTableContent" class="form-textarea" rows="8" placeholder="Enter data in CSV format:&#10;&#10;Header 1, Header 2, Header 3&#10;Row 1 Col 1, Row 1 Col 2, Row 1 Col 3&#10;Row 2 Col 1, Row 2 Col 2, Row 2 Col 3"></textarea>
+        <div style="font-size: 11px; color: #64748b; margin-top: 6px;">
+          💡 Tip: First row will be treated as headers. Separate columns with commas.
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="btn-large btn-cancel" id="tableModalCancelBtn">Cancel</button>
+        <button class="btn-large btn-capture" id="tableModalAddBtn">Add Table</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // Constants
     const MOMENT_TYPES = {
@@ -1362,6 +1566,7 @@
       captureContext: { service: '', environment: 'production', version: '' },
       captureCharts: [],
       captureCodeBlocks: [],
+      captureTables: [],
       editingMoment: null // Track if we're editing the last moment
     };
     
@@ -1514,6 +1719,63 @@
         </div>
         <div class="code-block-content">
           <pre class="code-block-pre">${highlightedCode}</pre>
+        </div>
+      `;
+      
+      return container;
+    }
+    
+    // Table Component
+    function createTable(title, data, tableId = null) {
+      const id = tableId || `table-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      const container = document.createElement('div');
+      container.className = 'table-block-container';
+      container.dataset.tableId = id;
+      container.dataset.tableData = JSON.stringify({ title, data });
+      
+      let actionsHtml = '';
+      if (tableId) {
+        actionsHtml = `
+          <div class="table-block-actions">
+            <button class="code-block-btn" onclick="editTable('${id}')">✏️ Edit</button>
+            <button class="code-block-btn" onclick="removeTable('${id}')">🗑️ Remove</button>
+          </div>
+        `;
+      }
+      
+      // Parse CSV data
+      const rows = data.trim().split('\n').map(row => 
+        row.split(',').map(cell => cell.trim())
+      );
+      
+      const headers = rows[0] || [];
+      const bodyRows = rows.slice(1);
+      
+      let tableHtml = '<table class="trace-table"><thead><tr>';
+      headers.forEach(header => {
+        tableHtml += `<th>${header}</th>`;
+      });
+      tableHtml += '</tr></thead><tbody>';
+      
+      bodyRows.forEach(row => {
+        tableHtml += '<tr>';
+        row.forEach(cell => {
+          tableHtml += `<td>${cell}</td>`;
+        });
+        tableHtml += '</tr>';
+      });
+      
+      tableHtml += '</tbody></table>';
+      
+      container.innerHTML = `
+        <div class="table-block-header">
+          <div class="table-block-title">
+            📊 ${title || 'Table'}
+          </div>
+          ${actionsHtml}
+        </div>
+        <div class="table-wrapper">
+          ${tableHtml}
         </div>
       `;
       
@@ -1680,10 +1942,15 @@
     function renderMoments() {
       const container = document.getElementById('momentsList');
       
-      // Filter by thread first if one is selected
-      let filteredMoments = state.selectedThread
-        ? state.moments.filter(m => m.threadId === state.selectedThread)
-        : state.moments;
+      // Filter by thread first if one is selected, or show unthreaded if that filter is active
+      let filteredMoments;
+      if (state.selectedThread === 'unthreaded') {
+        filteredMoments = state.moments.filter(m => !m.threadId);
+      } else if (state.selectedThread) {
+        filteredMoments = state.moments.filter(m => m.threadId === state.selectedThread);
+      } else {
+        filteredMoments = state.moments;
+      }
       
       // Then filter by type
       if (state.filterType !== 'all') {
@@ -1695,7 +1962,15 @@
         : filteredMoments;
       
       if (displayMoments.length === 0) {
-        if (state.selectedThread) {
+        if (state.selectedThread === 'unthreaded') {
+          container.innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">📌</div>
+              <h3>No unthreaded moments</h3>
+              <p>All moments are assigned to threads</p>
+            </div>
+          `;
+        } else if (state.selectedThread) {
           const thread = state.threads.find(t => t.id === state.selectedThread);
           container.innerHTML = `
             <div class="empty-state">
@@ -1742,6 +2017,8 @@
           if (thread) {
             threadBadge = `<div class="moment-thread-badge">🧵 ${thread.name}</div>`;
           }
+        } else if (!moment.threadId && state.threads.length > 0 && !state.selectedThread) {
+          threadBadge = `<div class="moment-unthreaded-badge">📌 Unthreaded</div>`;
         }
         
         card.innerHTML = `
@@ -1772,6 +2049,15 @@
             codeContainer.appendChild(createCodeBlock(codeBlock.language, codeBlock.code, codeBlock.title || '', null));
           });
           card.appendChild(codeContainer);
+        }
+        
+        if (moment.tables && moment.tables.length > 0) {
+          const tableContainer = document.createElement('div');
+          tableContainer.className = 'moment-tables';
+          moment.tables.forEach(table => {
+            tableContainer.appendChild(createTable(table.title || '', table.data, null));
+          });
+          card.appendChild(tableContainer);
         }
         
         card.addEventListener('click', () => {
@@ -1808,6 +2094,29 @@
         </button>
       `;
       
+      // Thread assignment
+      let threadAssignmentHtml = '';
+      const momentThread = moment.threadId ? state.threads.find(t => t.id === moment.threadId) : null;
+      
+      if (state.threads.length > 0) {
+        threadAssignmentHtml = `
+          <div class="thread-assignment">
+            <div class="thread-assignment-header">
+              <span class="thread-assignment-label">🧵 Thread</span>
+              ${momentThread ? `<button class="thread-remove-btn" onclick="removeFromThread('${moment.id}')">✕</button>` : ''}
+            </div>
+            <select class="thread-select" onchange="assignToThread('${moment.id}', this.value)">
+              <option value="">No thread</option>
+              ${state.threads.map(t => `
+                <option value="${t.id}" ${t.id === moment.threadId ? 'selected' : ''}>
+                  ${t.name}
+                </option>
+              `).join('')}
+            </select>
+          </div>
+        `;
+      }
+      
       let contextHtml = '';
       if (moment.context.service || moment.context.environment || moment.context.version) {
         contextHtml = '<div class="detail-section"><h3>Context</h3><div class="context-grid">';
@@ -1841,6 +2150,7 @@
       panel.innerHTML = `
         ${editButtonHtml}
         ${deleteButtonHtml}
+        ${threadAssignmentHtml}
         <div class="detail-header">
           <div class="detail-type-icon" style="color: ${config.color}">
             ${config.icon}
@@ -1892,6 +2202,23 @@
         section.appendChild(codeContainer);
         panel.appendChild(section);
       }
+      
+      if (moment.tables && moment.tables.length > 0) {
+        const section = document.createElement('div');
+        section.className = 'detail-section';
+        section.innerHTML = '<h3>Tables</h3>';
+        const tableContainer = document.createElement('div');
+        tableContainer.style.display = 'flex';
+        tableContainer.style.flexDirection = 'column';
+        tableContainer.style.gap = '12px';
+        
+        moment.tables.forEach(table => {
+          tableContainer.appendChild(createTable(table.title || '', table.data, null));
+        });
+        
+        section.appendChild(tableContainer);
+        panel.appendChild(section);
+      }
     }
     
     function renderThreads() {
@@ -1923,15 +2250,24 @@
     
     function updateCounts() {
       // Get moments to count based on selected thread
-      const momentsToCount = state.selectedThread
-        ? state.moments.filter(m => m.threadId === state.selectedThread)
-        : state.moments;
+      let momentsToCount;
+      if (state.selectedThread === 'unthreaded') {
+        momentsToCount = state.moments.filter(m => !m.threadId);
+      } else if (state.selectedThread) {
+        momentsToCount = state.moments.filter(m => m.threadId === state.selectedThread);
+      } else {
+        momentsToCount = state.moments;
+      }
       
       document.getElementById('count-all').textContent = momentsToCount.length;
       Object.keys(MOMENT_TYPES).forEach(type => {
         const count = momentsToCount.filter(m => m.type === type).length;
         document.getElementById(`count-${type}`).textContent = count;
       });
+      
+      // Update unthreaded count
+      const unthreadedCount = state.moments.filter(m => !m.threadId).length;
+      document.getElementById('count-unthreaded').textContent = unthreadedCount;
     }
     
     function render() {
@@ -1980,7 +2316,19 @@
       const threadBanner = document.getElementById('threadBanner');
       const threadBannerText = document.getElementById('threadBannerText');
       
-      if (state.selectedThread) {
+      if (state.selectedThread === 'unthreaded') {
+        const unthreadedMoments = state.moments.filter(m => !m.threadId);
+        
+        if (state.filterType === 'all') {
+          titleEl.textContent = `Unthreaded Moments (${unthreadedMoments.length})`;
+        } else {
+          const count = unthreadedMoments.filter(m => m.type === state.filterType).length;
+          titleEl.textContent = `${MOMENT_TYPES[state.filterType].label} (${count})`;
+        }
+        
+        threadBanner.classList.remove('hidden');
+        threadBannerText.textContent = 'Viewing unthreaded moments';
+      } else if (state.selectedThread) {
         const thread = state.threads.find(t => t.id === state.selectedThread);
         const threadMoments = state.moments.filter(m => m.threadId === state.selectedThread);
         
@@ -2004,6 +2352,15 @@
           const count = state.moments.filter(m => m.type === state.filterType).length;
           titleEl.textContent = `${MOMENT_TYPES[state.filterType].label} (${count})`;
         }
+      }
+      
+      // Show/hide unthreaded filter based on whether there are threads
+      const unthreadedFilter = document.getElementById('unthreadedFilter');
+      if (state.threads.length > 0) {
+        unthreadedFilter.classList.remove('hidden');
+        unthreadedFilter.classList.toggle('active', state.selectedThread === 'unthreaded');
+      } else {
+        unthreadedFilter.classList.add('hidden');
       }
       
       renderMoments();
@@ -2048,6 +2405,12 @@
       state.threads.unshift(newThread);
       state.selectedThread = newThread.id;
       saveData();
+      render();
+    });
+    
+    document.getElementById('unthreadedFilter').addEventListener('click', () => {
+      state.selectedThread = state.selectedThread === 'unthreaded' ? null : 'unthreaded';
+      state.view = 'timeline';
       render();
     });
     
@@ -2132,6 +2495,66 @@
       }
     };
     
+    // Table handlers
+    document.getElementById('addTableBtn').addEventListener('click', () => {
+      document.getElementById('tableModal').classList.add('visible');
+      document.getElementById('modalTableTitle').value = '';
+      document.getElementById('modalTableContent').value = '';
+    });
+    
+    document.getElementById('tableModalCancelBtn').addEventListener('click', () => {
+      document.getElementById('tableModal').classList.remove('visible');
+    });
+    
+    document.getElementById('tableModalAddBtn').addEventListener('click', () => {
+      const title = document.getElementById('modalTableTitle').value.trim();
+      const data = document.getElementById('modalTableContent').value.trim();
+      
+      if (!data) {
+        alert('Please enter table data');
+        return;
+      }
+      
+      const tableId = `table-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      state.captureTables.push({ title, data, id: tableId });
+      
+      const preview = document.getElementById('tablePreview');
+      preview.appendChild(createTable(title, data, tableId));
+      
+      document.getElementById('tableModal').classList.remove('visible');
+    });
+    
+    // Global functions for table controls
+    window.editTable = function(tableId) {
+      const tableIndex = state.captureTables.findIndex(t => t.id === tableId);
+      if (tableIndex === -1) return;
+      
+      const table = state.captureTables[tableIndex];
+      document.getElementById('modalTableTitle').value = table.title || '';
+      document.getElementById('modalTableContent').value = table.data;
+      
+      document.getElementById('tableModal').classList.add('visible');
+      
+      // Remove old table
+      const tableElement = document.querySelector(`[data-table-id="${tableId}"]`);
+      if (tableElement) {
+        tableElement.remove();
+      }
+      state.captureTables.splice(tableIndex, 1);
+    };
+    
+    window.removeTable = function(tableId) {
+      const tableIndex = state.captureTables.findIndex(t => t.id === tableId);
+      if (tableIndex !== -1) {
+        state.captureTables.splice(tableIndex, 1);
+      }
+      
+      const tableElement = document.querySelector(`[data-table-id="${tableId}"]`);
+      if (tableElement) {
+        tableElement.remove();
+      }
+    };
+    
     document.getElementById('modalCancelBtn').addEventListener('click', () => {
       document.getElementById('chartModal').classList.remove('visible');
     });
@@ -2183,6 +2606,12 @@
     document.getElementById('codeModal').addEventListener('click', (e) => {
       if (e.target.id === 'codeModal') {
         document.getElementById('codeModal').classList.remove('visible');
+      }
+    });
+    
+    document.getElementById('tableModal').addEventListener('click', (e) => {
+      if (e.target.id === 'tableModal') {
+        document.getElementById('tableModal').classList.remove('visible');
       }
     });
     
@@ -2259,6 +2688,14 @@
         codePreview.appendChild(createCodeBlock(codeBlock.language, codeBlock.code, codeBlock.title || '', codeBlock.id));
       });
       
+      // Populate tables
+      state.captureTables = moment.tables ? JSON.parse(JSON.stringify(moment.tables)) : [];
+      const tablePreview = document.getElementById('tablePreview');
+      tablePreview.innerHTML = '';
+      state.captureTables.forEach(table => {
+        tablePreview.appendChild(createTable(table.title || '', table.data, table.id));
+      });
+      
       // Update button text
       document.getElementById('submitCaptureBtn').innerHTML = '💾 Update Moment';
       
@@ -2269,6 +2706,30 @@
     
     window.clearThreadFilter = function() {
       state.selectedThread = null;
+      render();
+    };
+    
+    // Thread assignment functions
+    window.assignToThread = function(momentId, threadId) {
+      const momentIndex = state.moments.findIndex(m => m.id === momentId);
+      if (momentIndex === -1) return;
+      
+      if (threadId) {
+        state.moments[momentIndex].threadId = threadId;
+      } else {
+        delete state.moments[momentIndex].threadId;
+      }
+      
+      saveData();
+      render();
+    };
+    
+    window.removeFromThread = function(momentId) {
+      const momentIndex = state.moments.findIndex(m => m.id === momentId);
+      if (momentIndex === -1) return;
+      
+      delete state.moments[momentIndex].threadId;
+      saveData();
       render();
     };
     
@@ -2363,10 +2824,12 @@
       state.captureText = '';
       state.captureCharts = [];
       state.captureCodeBlocks = [];
+      state.captureTables = [];
       state.editingMoment = null;
       document.getElementById('captureText').value = '';
       document.getElementById('chartPreview').innerHTML = '';
       document.getElementById('codePreview').innerHTML = '';
+      document.getElementById('tablePreview').innerHTML = '';
       document.getElementById('submitCaptureBtn').innerHTML = '⚡ Capture Moment';
       render();
     });
@@ -2392,7 +2855,8 @@
               version: document.getElementById('contextVersion').value
             },
             charts: state.captureCharts,
-            codeBlocks: state.captureCodeBlocks
+            codeBlocks: state.captureCodeBlocks,
+            tables: state.captureTables
           };
           state.selectedMoment = state.moments[momentIndex];
         }
@@ -2411,6 +2875,7 @@
           },
           charts: state.captureCharts,
           codeBlocks: state.captureCodeBlocks,
+          tables: state.captureTables,
           threadId: state.selectedThread
         };
         
@@ -2422,6 +2887,7 @@
       state.captureText = '';
       state.captureCharts = [];
       state.captureCodeBlocks = [];
+      state.captureTables = [];
       
       document.getElementById('captureText').value = '';
       document.getElementById('contextService').value = '';
@@ -2429,6 +2895,7 @@
       document.getElementById('contextVersion').value = '';
       document.getElementById('chartPreview').innerHTML = '';
       document.getElementById('codePreview').innerHTML = '';
+      document.getElementById('tablePreview').innerHTML = '';
       document.getElementById('submitCaptureBtn').innerHTML = '⚡ Capture Moment';
       
       saveData();
