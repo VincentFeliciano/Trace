@@ -614,6 +614,28 @@
       box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
     }
     
+    /* Select dropdown styling */
+    select.form-input {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300d4ff' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+    
+    select.form-input option {
+      background: #1a1f2e;
+      color: #e4e4e7;
+      padding: 8px;
+    }
+    
+    select.form-input:hover {
+      border-color: rgba(0, 212, 255, 0.3);
+    }
+    
     .context-fields {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -1359,6 +1381,18 @@
         <div class="type-btn" data-type="observation" style="color: #00d4ff;">
           <div class="type-btn-icon">📊</div>
           <div class="type-btn-label">Observation</div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Thread (Optional)</label>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <select id="captureThreadSelect" class="form-input" style="flex: 1; margin: 0;">
+            <option value="">No thread</option>
+          </select>
+          <button class="btn-secondary" id="createThreadFromCaptureBtn" style="margin: 0; white-space: nowrap;">
+            ➕ New Thread
+          </button>
         </div>
       </div>
       
@@ -2311,6 +2345,19 @@
         } else {
           threadIndicator.classList.add('hidden');
         }
+        
+        // Populate thread selector dropdown
+        const threadSelect = document.getElementById('captureThreadSelect');
+        threadSelect.innerHTML = '<option value="">No thread</option>';
+        state.threads.forEach(thread => {
+          const option = document.createElement('option');
+          option.value = thread.id;
+          option.textContent = thread.name;
+          if (state.selectedThread === thread.id) {
+            option.selected = true;
+          }
+          threadSelect.appendChild(option);
+        });
       }
       
       // Update nav items
@@ -2458,6 +2505,30 @@
       document.getElementById('modalCodeLanguage').value = 'javascript';
       document.getElementById('modalCodeTitle').value = '';
       document.getElementById('modalCodeContent').value = '';
+    });
+    
+    // Thread selector in capture form
+    document.getElementById('captureThreadSelect').addEventListener('change', (e) => {
+      const threadId = e.target.value;
+      state.selectedThread = threadId || null;
+      render();
+    });
+    
+    document.getElementById('createThreadFromCaptureBtn').addEventListener('click', () => {
+      const name = prompt('Thread name:');
+      if (!name) return;
+      
+      const newThread = {
+        id: generateId(),
+        name,
+        created: Date.now(),
+        momentIds: []
+      };
+      
+      state.threads.unshift(newThread);
+      state.selectedThread = newThread.id;
+      saveData();
+      render();
     });
     
     document.getElementById('codeModalCancelBtn').addEventListener('click', () => {
@@ -2678,6 +2749,9 @@
       if (!moment) return;
       
       state.editingMoment = moment;
+      
+      // Set selected thread from moment
+      state.selectedThread = moment.threadId || null;
       
       // Populate form fields
       state.captureType = moment.type;
