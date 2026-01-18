@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20width%3D%2229%22%20height%3D%2233%22%20viewBox%3D%220%200%2029%2033%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M14.4088%200L28.8087%208.03863V24.1159L14.4088%2032.1545L0%2024.1159V8.03863L14.4088%200Z%22%20fill%3D%22%23FC6188%22%2F%3E%3Cpath%20d%3D%22M14.6623%2016.0365L0.156921%2024.0583L0.156922%208.01465L14.6623%2016.0365Z%22%20fill%3D%22%23E0115F%22%2F%3E%3Cpath%20d%3D%22M28.8087%208.03863L14.4089%2015.9957L14.4089%200L28.8087%208.03863Z%22%20fill%3D%22%23E0115F%22%2F%3E%3Cpath%20d%3D%22M28.8087%2024.1159L14.2226%2016.0346L28.8087%208.03864L28.8087%2024.1159Z%22%20fill%3D%22%23A00942%22%2F%3E%3Cpath%20d%3D%22M14.4088%2032.1545L14.329%2015.914L28.8086%2024.1159L14.4088%2032.1545Z%22%20fill%3D%22%23E0115F%22%2F%3E%3Cpath%20d%3D%22M14.4089%207.18172L22.6007%2011.7519V20.8923L14.4089%2025.4625L6.21705%2020.8923V11.7519L14.4089%207.18172Z%22%20fill%3D%22%23A00942%22%2F%3E%3Cpath%20d%3D%22M14.4088%2025.4625V7.18172L22.6011%2011.3847V20.8923L14.4088%2025.4625Z%22%20fill%3D%22%23FC6188%22%2F%3E%3C%2Fsvg%3E">
-  <title>RUBY Requests-Utilities-Builds-Yields</title>
+  <title>RUBY - Requests-Utilities-Builds-Yields</title>
   <style>
     * {
       margin: 0;
@@ -987,7 +987,7 @@ display: flex;;
     }
     
     .btn-delete {
-      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+      background: linear-gradient(135deg, #E0115F 0%, #72002c 100%);
       border: none;
       color: #fff;
       box-shadow: 0 4px 20px rgba(255, 107, 107, 0.3);
@@ -995,7 +995,7 @@ display: flex;;
     
     .btn-delete:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(255, 107, 107, 0.4);
+      box-shadow: 0 6px 25px #ff438b;
     }
     
     .btn-danger {
@@ -1171,14 +1171,14 @@ display: flex;;
     }
     
     /* Syntax Highlighting */
-    .syntax-keyword { color: #ff6b6b; font-weight: 600; }
+    .syntax-keyword { color: #E0115F; font-weight: 600; }
     .syntax-string { color: #51cf66; }
     .syntax-number { color: #ffd43b; }
     .syntax-comment { color: #64748b; font-style: italic; }
     .syntax-function { color: #00d4ff; }
     .syntax-operator { color: #a78bfa; }
     .syntax-property { color: #94a3b8; }
-    .syntax-tag { color: #ff6b6b; }
+    .syntax-tag { color: #E0115F; }
     .syntax-attr { color: #00d4ff; }
     
     .moment-code-blocks {
@@ -1252,6 +1252,100 @@ display: flex;;
     ::-webkit-scrollbar-thumb:hover {
       background: rgba(255, 255, 255, 0.2);
     }
+
+    .logoModalBtn{
+        background-color: transparent;
+        all: unset;
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    /* About Modal Specific Styles */
+    .about-content {
+      line-height: 1.7;
+      color: #cbd5e1;
+    }
+
+    .about-content h3 {
+      font-size: 16px;
+      color: #00d4ff;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .about-content h3:first-child {
+      margin-top: 0;
+    }
+
+    .about-content p {
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+
+    .about-content ul {
+      margin-left: 20px;
+      margin-bottom: 12px;
+    }
+
+    .about-content li {
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .about-content code {
+      background: rgba(0, 0, 0, 0.3);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: #00d4ff;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .feature-item {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 12px;
+      border-radius: 6px;
+      border-left: 2px solid #00d4ff;
+    }
+
+    .feature-item-title {
+      font-weight: 600;
+      color: #00d4ff;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .feature-item-desc {
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .creator-section {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .creator-section p {
+      font-size: 13px;
+      color: #94a3b8;
+    }
+
+    .creator-name {
+      color: #00d4ff;
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
@@ -1260,21 +1354,21 @@ display: flex;;
     <div class="sidebar">
       <div class="sidebar-header">
         <div class="logo">
-<svg width="119" height="33" viewBox="0 0 119 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M14.4088 0L28.8087 8.03863V24.1159L14.4088 32.1545L0 24.1159V8.03863L14.4088 0Z" fill="#FC6188"/>
-<path d="M14.6623 16.0365L0.156921 24.0583L0.156922 8.01465L14.6623 16.0365Z" fill="#E0115F"/>
-<path d="M28.8087 8.03863L14.4089 15.9957L14.4089 0L28.8087 8.03863Z" fill="#E0115F"/>
-<path d="M28.8087 24.1159L14.2226 16.0346L28.8087 8.03864L28.8087 24.1159Z" fill="#A00942"/>
-<path d="M14.4088 32.1545L14.329 15.914L28.8086 24.1159L14.4088 32.1545Z" fill="#E0115F"/>
-<path d="M14.4089 7.18172L22.6007 11.7519V20.8923L14.4089 25.4625L6.21705 20.8923V11.7519L14.4089 7.18172Z" fill="#A00942"/>
-<path d="M14.4088 25.4625V7.18172L22.6011 11.3847V20.8923L14.4088 25.4625Z" fill="#FC6188"/>
-<path d="M42.6893 14.2641H48.9421C50.1946 14.2641 51.1817 13.9184 51.9031 13.227C52.6246 12.5356 52.9853 11.7239 52.9853 10.792C52.9853 9.77995 52.6046 8.90817 51.843 8.17668C51.0915 7.43516 50.0243 7.06441 48.6415 7.06441H42.6893V14.2641ZM37.3835 4.34386C38.7062 4.47412 40.55 4.53926 42.9148 4.53926C43.7665 4.53926 44.8287 4.49918 46.1013 4.41901C47.3839 4.33885 48.2306 4.29877 48.6415 4.29877C49.9041 4.29877 51.0414 4.48415 52.0534 4.8549C53.0755 5.21564 53.8972 5.70163 54.5185 6.31288C55.1498 6.9141 55.6307 7.59048 55.9614 8.34201C56.2921 9.09355 56.4574 9.87514 56.4574 10.6868C56.4574 11.1978 56.3773 11.7139 56.2169 12.235C56.0666 12.746 55.8261 13.242 55.4955 13.723C55.1648 14.194 54.769 14.6198 54.308 15.0006C53.8571 15.3714 53.301 15.682 52.6396 15.9325C51.9883 16.173 51.2869 16.3083 50.5353 16.3383C51.2969 16.5888 51.9482 17.0297 52.4893 17.661C53.0304 18.2823 53.4363 18.9487 53.7068 19.6601C53.9874 20.3615 54.2429 21.0529 54.4734 21.7343C54.7139 22.4057 54.9994 22.9668 55.3301 23.4178C55.6608 23.8587 56.0666 24.0791 56.5476 24.0791C57.9705 24.0791 58.682 24.2094 58.682 24.4699V25.026C58.682 25.3667 58.6569 25.6423 58.6068 25.8527C58.5567 26.0632 58.4415 26.2886 58.2611 26.5291C58.0807 26.7596 57.7851 26.9299 57.3743 27.0402C56.9635 27.1604 56.4324 27.2205 55.781 27.2205C55.1397 27.2205 54.5736 27.1153 54.0826 26.9049C53.6016 26.6844 53.2008 26.3938 52.8801 26.0331C52.5695 25.6623 52.2939 25.2365 52.0534 24.7555C51.8129 24.2745 51.5925 23.7635 51.3921 23.2224C51.2017 22.6813 51.0063 22.1352 50.8059 21.584C50.6155 21.0329 50.38 20.4968 50.0994 19.9757C49.8289 19.4447 49.5133 18.9687 49.1525 18.5478C48.8018 18.117 48.3459 17.7462 47.7847 17.4356C47.2336 17.1249 46.5973 16.9145 45.8758 16.8043H42.6893V22.9518C42.6893 23.1021 42.6943 23.2224 42.7044 23.3126C42.7244 23.3927 42.7595 23.4879 42.8096 23.5981C42.8697 23.7084 42.9699 23.7935 43.1102 23.8537C43.2505 23.9038 43.4308 23.9288 43.6513 23.9288C44.1122 23.9288 44.508 23.9889 44.8387 24.1092C45.1694 24.2294 45.3347 24.4098 45.3347 24.6503C45.3347 25.983 45.1694 26.7997 44.8387 27.1003C43.3357 26.9901 42.048 26.9349 40.9758 26.9349C40.054 26.9349 38.8565 26.9901 37.3835 27.1003C37.113 26.94 36.9125 26.6193 36.7823 26.1383C36.652 25.6573 36.5869 25.1613 36.5869 24.6503C36.5869 24.4098 36.7522 24.2294 37.0829 24.1092C37.4136 23.9889 37.8094 23.9288 38.2703 23.9288C38.6611 23.9288 38.9166 23.8486 39.0369 23.6883C39.1571 23.518 39.2172 23.2825 39.2172 22.9819V8.46226C39.2172 8.16165 39.1571 7.93118 39.0369 7.77085C38.9166 7.6005 38.6611 7.51533 38.2703 7.51533C37.148 7.51533 36.5869 7.2548 36.5869 6.73373C36.5869 6.24273 36.652 5.76175 36.7823 5.29079C36.9125 4.80981 37.113 4.49417 37.3835 4.34386Z" fill="white"/>
-<path d="M76.0875 11.8141V22.8316C76.0875 23.0921 76.0925 23.2775 76.1025 23.3877C76.1125 23.4979 76.1376 23.6232 76.1776 23.7635C76.2277 23.8937 76.3029 23.9839 76.4031 24.034C76.5133 24.0741 76.6586 24.1142 76.839 24.1543C77.0194 24.1843 77.2599 24.1994 77.5605 24.1994C78.0114 24.1994 78.297 24.2545 78.4172 24.3647C78.5475 24.4749 78.6126 24.7004 78.6126 25.0411C78.6126 25.5421 78.5525 25.988 78.4322 26.3788C78.322 26.7596 78.2168 26.985 78.1166 27.0552C77.3851 26.975 76.7087 26.9349 76.0875 26.9349C75.6766 26.9349 75.2457 26.955 74.7948 26.9951C74.3539 27.0351 74.0834 27.0552 73.9832 27.0552C73.5824 27.0552 73.3369 26.9349 73.2467 26.6945C73.1665 26.454 73.1264 25.8127 73.1264 24.7705C72.425 25.5822 71.5783 26.2135 70.5862 26.6644C69.6042 27.1153 68.6022 27.3408 67.5801 27.3408C66.8386 27.3408 66.1422 27.2155 65.4908 26.965C64.8495 26.7245 64.2684 26.3638 63.7473 25.8828C63.2262 25.4018 62.8154 24.7555 62.5148 23.9438C62.2142 23.1322 62.0639 22.2053 62.0639 21.1632V15.1359C62.0639 14.1839 61.8133 13.6879 61.3123 13.6478C61.2322 13.6378 61.1169 13.6278 60.9666 13.6178C60.8263 13.6078 60.7111 13.5977 60.6209 13.5877C60.5407 13.5777 60.4405 13.5677 60.3203 13.5577C60.2001 13.5376 60.1049 13.5226 60.0347 13.5126C59.9646 13.4925 59.8794 13.4725 59.7792 13.4524C59.689 13.4224 59.6189 13.3923 59.5688 13.3623C59.5187 13.3322 59.4686 13.2971 59.4185 13.257C59.3684 13.217 59.3333 13.1719 59.3132 13.1218C59.2932 13.0616 59.2832 12.9965 59.2832 12.9264C59.2832 11.764 59.4485 11.0325 59.7792 10.7319C60.7211 10.8421 61.5879 10.8972 62.3795 10.8972C62.9306 10.8972 63.4918 10.8722 64.0629 10.8221C64.6441 10.762 64.9447 10.7319 64.9648 10.7319C65.3055 10.7319 65.4758 11.0926 65.4758 11.8141V21.3435C65.4758 22.4458 65.7614 23.2725 66.3326 23.8236C66.9037 24.3747 67.6352 24.6503 68.527 24.6503C69.2886 24.6503 70.0451 24.4499 70.7967 24.0491C71.5582 23.6482 72.1845 23.1021 72.6755 22.4107V15.1359C72.6755 14.1839 72.425 13.6879 71.924 13.6478C71.8438 13.6378 71.7286 13.6278 71.5783 13.6178C71.438 13.6078 71.3227 13.5977 71.2326 13.5877C71.1524 13.5777 71.0522 13.5677 70.9319 13.5577C70.8117 13.5376 70.7165 13.5226 70.6464 13.5126C70.5762 13.4925 70.491 13.4725 70.3908 13.4524C70.3007 13.4224 70.2305 13.3923 70.1804 13.3623C70.1303 13.3322 70.0802 13.2971 70.0301 13.257C69.98 13.217 69.9449 13.1719 69.9249 13.1218C69.9049 13.0616 69.8948 12.9965 69.8948 12.9264C69.8948 11.754 70.0602 11.0225 70.3908 10.7319C71.3328 10.8421 72.1995 10.8972 72.9911 10.8972C73.6525 10.8972 74.3239 10.8722 75.0053 10.8221C75.6967 10.762 76.0524 10.7319 76.0724 10.7319C76.0825 10.7319 76.0875 11.0926 76.0875 11.8141Z" fill="white"/>
-<path d="M85.4516 17.8564V21.7794C85.7722 22.6211 86.3835 23.3326 87.2853 23.9138C88.1871 24.4849 89.2092 24.7705 90.3516 24.7705C91.564 24.7705 92.6112 24.2545 93.493 23.2224C94.3748 22.1802 94.8157 20.7373 94.8157 18.8935C94.8157 17.0498 94.3447 15.6118 93.4028 14.5797C92.4609 13.5476 91.3436 13.0316 90.0509 13.0316C89.4898 13.0316 88.9387 13.1368 88.3976 13.3472C87.8565 13.5476 87.3655 13.8432 86.9246 14.234C86.4837 14.6248 86.1279 15.1359 85.8574 15.7672C85.5868 16.3884 85.4516 17.0848 85.4516 17.8564ZM85.4516 6.67361V12.9865C85.9426 12.1849 86.644 11.5686 87.5559 11.1377C88.4777 10.6968 89.4147 10.4764 90.3666 10.4764C91.3787 10.4764 92.3557 10.6567 93.2976 11.0175C94.2395 11.3782 95.0862 11.8993 95.8378 12.5807C96.5993 13.252 97.2055 14.1338 97.6565 15.2261C98.1174 16.3183 98.3479 17.5408 98.3479 18.8935C98.3479 20.2463 98.1224 21.4738 97.6715 22.576C97.2206 23.6683 96.6143 24.5551 95.8528 25.2365C95.1013 25.9179 94.2595 26.4389 93.3276 26.7997C92.3957 27.1604 91.4238 27.3408 90.4117 27.3408C88.1571 27.3408 86.143 26.4991 84.3694 24.8156L82.8663 26.3187C82.3252 26.7997 81.8041 27.0402 81.3031 27.0402C80.9023 27.0402 80.5716 26.9099 80.3111 26.6494C80.0505 26.3888 79.9203 26.0632 79.9203 25.6724C79.9203 25.0711 80.2009 24.51 80.762 23.9889L82.0396 22.8165V8.76287C82.0396 8.23179 81.8843 7.85602 81.5737 7.63557C81.273 7.41512 80.6868 7.28486 79.8151 7.24478C79.6848 7.21472 79.5996 7.14958 79.5595 7.04938C79.5295 6.94917 79.5145 6.73373 79.5145 6.40306C79.5145 5.89202 79.5696 5.4411 79.6798 5.0503C79.79 4.6595 79.9002 4.43404 80.0105 4.37392C80.8422 4.48415 81.6388 4.53926 82.4003 4.53926C82.8513 4.53926 83.3272 4.51421 83.8283 4.4641C84.3293 4.40398 84.5948 4.37392 84.6249 4.37392C84.9756 4.37392 85.2011 4.4641 85.3013 4.64447C85.4115 4.81482 85.4666 5.21564 85.4666 5.84693C85.4666 5.91707 85.4616 6.04733 85.4516 6.23772C85.4516 6.41809 85.4516 6.56339 85.4516 6.67361Z" fill="white"/>
-<path d="M105.608 14.5346L109.471 23.1322L112.822 14.5346C112.873 14.3843 112.898 14.2491 112.898 14.1288C112.898 13.9384 112.817 13.7981 112.657 13.708C112.507 13.6178 112.336 13.5677 112.146 13.5577C111.966 13.5476 111.795 13.4975 111.635 13.4073C111.485 13.3071 111.41 13.1518 111.41 12.9414V12.8362C111.56 11.4934 111.73 10.7068 111.921 10.4764C112.903 10.7369 113.96 10.8672 115.092 10.8672C116.294 10.8672 117.402 10.7369 118.414 10.4764C118.805 10.6567 119 11.1327 119 11.9043C119 12.5155 118.88 12.9464 118.639 13.1969C118.399 13.4374 117.978 13.5577 117.377 13.5577C117.236 13.5577 117.111 13.5727 117.001 13.6027C116.891 13.6328 116.801 13.6629 116.73 13.6929C116.67 13.723 116.61 13.7781 116.55 13.8583C116.49 13.9384 116.45 14.0036 116.43 14.0537C116.41 14.0937 116.375 14.1689 116.325 14.2791C116.284 14.3894 116.254 14.4645 116.234 14.5046L110.222 28.3629C109.631 29.6755 108.924 30.6325 108.103 31.2337C107.291 31.845 106.294 32.1506 105.112 32.1506C104.17 32.1506 103.358 31.9652 102.677 31.5944C101.995 31.2337 101.655 30.8229 101.655 30.3619C101.655 29.7707 101.705 29.3699 101.805 29.1595C101.905 28.9591 102.085 28.8589 102.346 28.8589C102.446 28.8589 102.792 28.929 103.383 29.0693C103.984 29.2196 104.541 29.2948 105.052 29.2948C105.282 29.2948 105.462 29.2847 105.593 29.2647C105.723 29.2547 105.858 29.2046 105.998 29.1144C106.139 29.0242 106.244 28.939 106.314 28.8589C106.384 28.7787 106.494 28.6084 106.645 28.3478C106.795 28.0873 106.92 27.8418 107.021 27.6113C107.121 27.3909 107.291 27.0301 107.532 26.5291C107.782 26.0181 108.018 25.5371 108.238 25.0862C107.867 25.0862 107.592 25.0561 107.411 24.996C107.231 24.9258 107.096 24.7856 107.006 24.5751L102.196 14.5046C102.186 14.4745 102.156 14.3994 102.106 14.2791C102.055 14.1589 102.02 14.0837 102 14.0537C101.98 14.0136 101.935 13.9535 101.865 13.8733C101.805 13.7831 101.74 13.723 101.67 13.6929C101.61 13.6629 101.524 13.6328 101.414 13.6027C101.314 13.5727 101.194 13.5577 101.053 13.5577C100.452 13.5577 100.031 13.4374 99.7908 13.1969C99.5503 12.9464 99.4301 12.5155 99.4301 11.9043C99.4301 11.1327 99.6255 10.6567 100.016 10.4764C100.928 10.7369 102.035 10.8672 103.338 10.8672C104.661 10.8672 105.818 10.7369 106.81 10.4764C107.001 10.7068 107.171 11.4934 107.321 12.8362V12.9414C107.321 13.1518 107.226 13.3071 107.036 13.4073C106.845 13.5076 106.64 13.5627 106.419 13.5727C106.199 13.5827 105.993 13.6328 105.803 13.723C105.613 13.8032 105.518 13.9384 105.518 14.1288C105.518 14.2891 105.548 14.4244 105.608 14.5346Z" fill="white"/>
-</svg>
-
-
+            <button class="logoModalBtn" onclick="showAboutModal()">
+                <svg width="119" height="33" viewBox="0 0 119 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.4088 0L28.8087 8.03863V24.1159L14.4088 32.1545L0 24.1159V8.03863L14.4088 0Z" fill="#FC6188"/>
+                <path d="M14.6623 16.0365L0.156921 24.0583L0.156922 8.01465L14.6623 16.0365Z" fill="#E0115F"/>
+                <path d="M28.8087 8.03863L14.4089 15.9957L14.4089 0L28.8087 8.03863Z" fill="#E0115F"/>
+                <path d="M28.8087 24.1159L14.2226 16.0346L28.8087 8.03864L28.8087 24.1159Z" fill="#A00942"/>
+                <path d="M14.4088 32.1545L14.329 15.914L28.8086 24.1159L14.4088 32.1545Z" fill="#E0115F"/>
+                <path d="M14.4089 7.18172L22.6007 11.7519V20.8923L14.4089 25.4625L6.21705 20.8923V11.7519L14.4089 7.18172Z" fill="#A00942"/>
+                <path d="M14.4088 25.4625V7.18172L22.6011 11.3847V20.8923L14.4088 25.4625Z" fill="#FC6188"/>
+                <path d="M42.6893 14.2641H48.9421C50.1946 14.2641 51.1817 13.9184 51.9031 13.227C52.6246 12.5356 52.9853 11.7239 52.9853 10.792C52.9853 9.77995 52.6046 8.90817 51.843 8.17668C51.0915 7.43516 50.0243 7.06441 48.6415 7.06441H42.6893V14.2641ZM37.3835 4.34386C38.7062 4.47412 40.55 4.53926 42.9148 4.53926C43.7665 4.53926 44.8287 4.49918 46.1013 4.41901C47.3839 4.33885 48.2306 4.29877 48.6415 4.29877C49.9041 4.29877 51.0414 4.48415 52.0534 4.8549C53.0755 5.21564 53.8972 5.70163 54.5185 6.31288C55.1498 6.9141 55.6307 7.59048 55.9614 8.34201C56.2921 9.09355 56.4574 9.87514 56.4574 10.6868C56.4574 11.1978 56.3773 11.7139 56.2169 12.235C56.0666 12.746 55.8261 13.242 55.4955 13.723C55.1648 14.194 54.769 14.6198 54.308 15.0006C53.8571 15.3714 53.301 15.682 52.6396 15.9325C51.9883 16.173 51.2869 16.3083 50.5353 16.3383C51.2969 16.5888 51.9482 17.0297 52.4893 17.661C53.0304 18.2823 53.4363 18.9487 53.7068 19.6601C53.9874 20.3615 54.2429 21.0529 54.4734 21.7343C54.7139 22.4057 54.9994 22.9668 55.3301 23.4178C55.6608 23.8587 56.0666 24.0791 56.5476 24.0791C57.9705 24.0791 58.682 24.2094 58.682 24.4699V25.026C58.682 25.3667 58.6569 25.6423 58.6068 25.8527C58.5567 26.0632 58.4415 26.2886 58.2611 26.5291C58.0807 26.7596 57.7851 26.9299 57.3743 27.0402C56.9635 27.1604 56.4324 27.2205 55.781 27.2205C55.1397 27.2205 54.5736 27.1153 54.0826 26.9049C53.6016 26.6844 53.2008 26.3938 52.8801 26.0331C52.5695 25.6623 52.2939 25.2365 52.0534 24.7555C51.8129 24.2745 51.5925 23.7635 51.3921 23.2224C51.2017 22.6813 51.0063 22.1352 50.8059 21.584C50.6155 21.0329 50.38 20.4968 50.0994 19.9757C49.8289 19.4447 49.5133 18.9687 49.1525 18.5478C48.8018 18.117 48.3459 17.7462 47.7847 17.4356C47.2336 17.1249 46.5973 16.9145 45.8758 16.8043H42.6893V22.9518C42.6893 23.1021 42.6943 23.2224 42.7044 23.3126C42.7244 23.3927 42.7595 23.4879 42.8096 23.5981C42.8697 23.7084 42.9699 23.7935 43.1102 23.8537C43.2505 23.9038 43.4308 23.9288 43.6513 23.9288C44.1122 23.9288 44.508 23.9889 44.8387 24.1092C45.1694 24.2294 45.3347 24.4098 45.3347 24.6503C45.3347 25.983 45.1694 26.7997 44.8387 27.1003C43.3357 26.9901 42.048 26.9349 40.9758 26.9349C40.054 26.9349 38.8565 26.9901 37.3835 27.1003C37.113 26.94 36.9125 26.6193 36.7823 26.1383C36.652 25.6573 36.5869 25.1613 36.5869 24.6503C36.5869 24.4098 36.7522 24.2294 37.0829 24.1092C37.4136 23.9889 37.8094 23.9288 38.2703 23.9288C38.6611 23.9288 38.9166 23.8486 39.0369 23.6883C39.1571 23.518 39.2172 23.2825 39.2172 22.9819V8.46226C39.2172 8.16165 39.1571 7.93118 39.0369 7.77085C38.9166 7.6005 38.6611 7.51533 38.2703 7.51533C37.148 7.51533 36.5869 7.2548 36.5869 6.73373C36.5869 6.24273 36.652 5.76175 36.7823 5.29079C36.9125 4.80981 37.113 4.49417 37.3835 4.34386Z" fill="white"/>
+                <path d="M76.0875 11.8141V22.8316C76.0875 23.0921 76.0925 23.2775 76.1025 23.3877C76.1125 23.4979 76.1376 23.6232 76.1776 23.7635C76.2277 23.8937 76.3029 23.9839 76.4031 24.034C76.5133 24.0741 76.6586 24.1142 76.839 24.1543C77.0194 24.1843 77.2599 24.1994 77.5605 24.1994C78.0114 24.1994 78.297 24.2545 78.4172 24.3647C78.5475 24.4749 78.6126 24.7004 78.6126 25.0411C78.6126 25.5421 78.5525 25.988 78.4322 26.3788C78.322 26.7596 78.2168 26.985 78.1166 27.0552C77.3851 26.975 76.7087 26.9349 76.0875 26.9349C75.6766 26.9349 75.2457 26.955 74.7948 26.9951C74.3539 27.0351 74.0834 27.0552 73.9832 27.0552C73.5824 27.0552 73.3369 26.9349 73.2467 26.6945C73.1665 26.454 73.1264 25.8127 73.1264 24.7705C72.425 25.5822 71.5783 26.2135 70.5862 26.6644C69.6042 27.1153 68.6022 27.3408 67.5801 27.3408C66.8386 27.3408 66.1422 27.2155 65.4908 26.965C64.8495 26.7245 64.2684 26.3638 63.7473 25.8828C63.2262 25.4018 62.8154 24.7555 62.5148 23.9438C62.2142 23.1322 62.0639 22.2053 62.0639 21.1632V15.1359C62.0639 14.1839 61.8133 13.6879 61.3123 13.6478C61.2322 13.6378 61.1169 13.6278 60.9666 13.6178C60.8263 13.6078 60.7111 13.5977 60.6209 13.5877C60.5407 13.5777 60.4405 13.5677 60.3203 13.5577C60.2001 13.5376 60.1049 13.5226 60.0347 13.5126C59.9646 13.4925 59.8794 13.4725 59.7792 13.4524C59.689 13.4224 59.6189 13.3923 59.5688 13.3623C59.5187 13.3322 59.4686 13.2971 59.4185 13.257C59.3684 13.217 59.3333 13.1719 59.3132 13.1218C59.2932 13.0616 59.2832 12.9965 59.2832 12.9264C59.2832 11.764 59.4485 11.0325 59.7792 10.7319C60.7211 10.8421 61.5879 10.8972 62.3795 10.8972C62.9306 10.8972 63.4918 10.8722 64.0629 10.8221C64.6441 10.762 64.9447 10.7319 64.9648 10.7319C65.3055 10.7319 65.4758 11.0926 65.4758 11.8141V21.3435C65.4758 22.4458 65.7614 23.2725 66.3326 23.8236C66.9037 24.3747 67.6352 24.6503 68.527 24.6503C69.2886 24.6503 70.0451 24.4499 70.7967 24.0491C71.5582 23.6482 72.1845 23.1021 72.6755 22.4107V15.1359C72.6755 14.1839 72.425 13.6879 71.924 13.6478C71.8438 13.6378 71.7286 13.6278 71.5783 13.6178C71.438 13.6078 71.3227 13.5977 71.2326 13.5877C71.1524 13.5777 71.0522 13.5677 70.9319 13.5577C70.8117 13.5376 70.7165 13.5226 70.6464 13.5126C70.5762 13.4925 70.491 13.4725 70.3908 13.4524C70.3007 13.4224 70.2305 13.3923 70.1804 13.3623C70.1303 13.3322 70.0802 13.2971 70.0301 13.257C69.98 13.217 69.9449 13.1719 69.9249 13.1218C69.9049 13.0616 69.8948 12.9965 69.8948 12.9264C69.8948 11.754 70.0602 11.0225 70.3908 10.7319C71.3328 10.8421 72.1995 10.8972 72.9911 10.8972C73.6525 10.8972 74.3239 10.8722 75.0053 10.8221C75.6967 10.762 76.0524 10.7319 76.0724 10.7319C76.0825 10.7319 76.0875 11.0926 76.0875 11.8141Z" fill="white"/>
+                <path d="M85.4516 17.8564V21.7794C85.7722 22.6211 86.3835 23.3326 87.2853 23.9138C88.1871 24.4849 89.2092 24.7705 90.3516 24.7705C91.564 24.7705 92.6112 24.2545 93.493 23.2224C94.3748 22.1802 94.8157 20.7373 94.8157 18.8935C94.8157 17.0498 94.3447 15.6118 93.4028 14.5797C92.4609 13.5476 91.3436 13.0316 90.0509 13.0316C89.4898 13.0316 88.9387 13.1368 88.3976 13.3472C87.8565 13.5476 87.3655 13.8432 86.9246 14.234C86.4837 14.6248 86.1279 15.1359 85.8574 15.7672C85.5868 16.3884 85.4516 17.0848 85.4516 17.8564ZM85.4516 6.67361V12.9865C85.9426 12.1849 86.644 11.5686 87.5559 11.1377C88.4777 10.6968 89.4147 10.4764 90.3666 10.4764C91.3787 10.4764 92.3557 10.6567 93.2976 11.0175C94.2395 11.3782 95.0862 11.8993 95.8378 12.5807C96.5993 13.252 97.2055 14.1338 97.6565 15.2261C98.1174 16.3183 98.3479 17.5408 98.3479 18.8935C98.3479 20.2463 98.1224 21.4738 97.6715 22.576C97.2206 23.6683 96.6143 24.5551 95.8528 25.2365C95.1013 25.9179 94.2595 26.4389 93.3276 26.7997C92.3957 27.1604 91.4238 27.3408 90.4117 27.3408C88.1571 27.3408 86.143 26.4991 84.3694 24.8156L82.8663 26.3187C82.3252 26.7997 81.8041 27.0402 81.3031 27.0402C80.9023 27.0402 80.5716 26.9099 80.3111 26.6494C80.0505 26.3888 79.9203 26.0632 79.9203 25.6724C79.9203 25.0711 80.2009 24.51 80.762 23.9889L82.0396 22.8165V8.76287C82.0396 8.23179 81.8843 7.85602 81.5737 7.63557C81.273 7.41512 80.6868 7.28486 79.8151 7.24478C79.6848 7.21472 79.5996 7.14958 79.5595 7.04938C79.5295 6.94917 79.5145 6.73373 79.5145 6.40306C79.5145 5.89202 79.5696 5.4411 79.6798 5.0503C79.79 4.6595 79.9002 4.43404 80.0105 4.37392C80.8422 4.48415 81.6388 4.53926 82.4003 4.53926C82.8513 4.53926 83.3272 4.51421 83.8283 4.4641C84.3293 4.40398 84.5948 4.37392 84.6249 4.37392C84.9756 4.37392 85.2011 4.4641 85.3013 4.64447C85.4115 4.81482 85.4666 5.21564 85.4666 5.84693C85.4666 5.91707 85.4616 6.04733 85.4516 6.23772C85.4516 6.41809 85.4516 6.56339 85.4516 6.67361Z" fill="white"/>
+                <path d="M105.608 14.5346L109.471 23.1322L112.822 14.5346C112.873 14.3843 112.898 14.2491 112.898 14.1288C112.898 13.9384 112.817 13.7981 112.657 13.708C112.507 13.6178 112.336 13.5677 112.146 13.5577C111.966 13.5476 111.795 13.4975 111.635 13.4073C111.485 13.3071 111.41 13.1518 111.41 12.9414V12.8362C111.56 11.4934 111.73 10.7068 111.921 10.4764C112.903 10.7369 113.96 10.8672 115.092 10.8672C116.294 10.8672 117.402 10.7369 118.414 10.4764C118.805 10.6567 119 11.1327 119 11.9043C119 12.5155 118.88 12.9464 118.639 13.1969C118.399 13.4374 117.978 13.5577 117.377 13.5577C117.236 13.5577 117.111 13.5727 117.001 13.6027C116.891 13.6328 116.801 13.6629 116.73 13.6929C116.67 13.723 116.61 13.7781 116.55 13.8583C116.49 13.9384 116.45 14.0036 116.43 14.0537C116.41 14.0937 116.375 14.1689 116.325 14.2791C116.284 14.3894 116.254 14.4645 116.234 14.5046L110.222 28.3629C109.631 29.6755 108.924 30.6325 108.103 31.2337C107.291 31.845 106.294 32.1506 105.112 32.1506C104.17 32.1506 103.358 31.9652 102.677 31.5944C101.995 31.2337 101.655 30.8229 101.655 30.3619C101.655 29.7707 101.705 29.3699 101.805 29.1595C101.905 28.9591 102.085 28.8589 102.346 28.8589C102.446 28.8589 102.792 28.929 103.383 29.0693C103.984 29.2196 104.541 29.2948 105.052 29.2948C105.282 29.2948 105.462 29.2847 105.593 29.2647C105.723 29.2547 105.858 29.2046 105.998 29.1144C106.139 29.0242 106.244 28.939 106.314 28.8589C106.384 28.7787 106.494 28.6084 106.645 28.3478C106.795 28.0873 106.92 27.8418 107.021 27.6113C107.121 27.3909 107.291 27.0301 107.532 26.5291C107.782 26.0181 108.018 25.5371 108.238 25.0862C107.867 25.0862 107.592 25.0561 107.411 24.996C107.231 24.9258 107.096 24.7856 107.006 24.5751L102.196 14.5046C102.186 14.4745 102.156 14.3994 102.106 14.2791C102.055 14.1589 102.02 14.0837 102 14.0537C101.98 14.0136 101.935 13.9535 101.865 13.8733C101.805 13.7831 101.74 13.723 101.67 13.6929C101.61 13.6629 101.524 13.6328 101.414 13.6027C101.314 13.5727 101.194 13.5577 101.053 13.5577C100.452 13.5577 100.031 13.4374 99.7908 13.1969C99.5503 12.9464 99.4301 12.5155 99.4301 11.9043C99.4301 11.1327 99.6255 10.6567 100.016 10.4764C100.928 10.7369 102.035 10.8672 103.338 10.8672C104.661 10.8672 105.818 10.7369 106.81 10.4764C107.001 10.7068 107.171 11.4934 107.321 12.8362V12.9414C107.321 13.1518 107.226 13.3071 107.036 13.4073C106.845 13.5076 106.64 13.5627 106.419 13.5727C106.199 13.5827 105.993 13.6328 105.803 13.723C105.613 13.8032 105.518 13.9384 105.518 14.1288C105.518 14.2891 105.548 14.4244 105.608 14.5346Z" fill="white"/>
+                </svg>
+            </button>
 
         </div>
       </div>
@@ -1410,7 +1504,7 @@ display: flex;;
           <div class="type-btn-icon">💭</div>
           <div class="type-btn-label">Thought</div>
         </div>
-        <div class="type-btn" data-type="incident" style="color: #ff6b6b;">
+        <div class="type-btn" data-type="incident" style="color: #E0115F;">
           <div class="type-btn-icon">🚨</div>
           <div class="type-btn-label">Incident</div>
         </div>
@@ -1426,7 +1520,7 @@ display: flex;;
           <div class="type-btn-icon">📊</div>
           <div class="type-btn-label">Observation</div>
         </div>
-        <div class="type-btn" data-type="bug" style="color: #fa5252;">
+        <div class="type-btn" data-type="bug" style="color: #9b003c;">
           <div class="type-btn-icon">🐛</div>
           <div class="type-btn-label">Bug</div>
         </div>
@@ -1518,6 +1612,78 @@ display: flex;;
           <h3>Semantic Search</h3>
           <p>Search your moments by meaning, not just keywords</p>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Modal -->
+  <div class="modal-overlay" id="aboutModal">
+    <div class="modal modal-wide">
+      <h2>📖 About RUBY</h2>
+      
+      <div class="about-content">
+        <p><strong>RUBY</strong> (Requests-Utilities-Builds-Yields) is a developer-focused note-taking tool designed specifically for SREs, DevOps engineers, and developers who need to capture contextual information during critical moments.</p>
+        
+        <h3>🎯 The Concept</h3>
+        <p>In fast-paced development and operations environments, context is everything. RUBY helps you capture thoughts, observations, and data exactly when they matter most—during incidents, deployments, debugging sessions, and decision-making moments.</p>
+        
+        <p>Unlike traditional note-taking apps, RUBY is built around the concept of "moments"—timestamped snapshots that include not just text, but also charts, code snippets, tables, and contextual metadata like service names, environments, and versions.</p>
+        
+        <h3>✨ Key Features</h3>
+        <div class="feature-grid">
+          <div class="feature-item">
+            <div class="feature-item-title">📝 Multiple Moment Types</div>
+            <div class="feature-item-desc">Incidents, Deploys, Ideas, Bugs, Meetings, Decisions, and more</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title">🧵 Thread Organization</div>
+            <div class="feature-item-desc">Group related moments into threads for complex investigations</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title">📊 Rich Attachments</div>
+            <div class="feature-item-desc">Embed charts, code blocks, and tables directly in your moments</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title">🔍 Semantic Search</div>
+            <div class="feature-item-desc">AI-powered search to find moments by meaning, not just keywords</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title">🎨 Syntax Highlighting</div>
+            <div class="feature-item-desc">Beautiful code rendering with support for multiple languages</div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-item-title">💾 Local Storage</div>
+            <div class="feature-item-desc">All data stays in your browser—complete privacy</div>
+          </div>
+        </div>
+        
+        <h3>🚀 Getting Started</h3>
+        <ul>
+          <li><strong>Capture a Moment:</strong> Click the "Capture Moment" button to create a new entry</li>
+          <li><strong>Choose a Type:</strong> Select the type that best describes what you're capturing</li>
+          <li><strong>Add Context:</strong> Include service name, environment, and version information</li>
+          <li><strong>Attach Data:</strong> Add charts for metrics, code snippets, or tables as needed</li>
+          <li><strong>Organize with Threads:</strong> Create threads to group related moments together</li>
+          <li><strong>Search & Filter:</strong> Use the sidebar to filter by type or search semantically</li>
+        </ul>
+        
+        <h3>💡 Pro Tips</h3>
+        <ul>
+          <li>Create threads for long-running incidents or investigations</li>
+          <li>Use observation moments to track gradual changes over time</li>
+          <li>Attach charts during incidents to visualize what you're seeing</li>
+          <li>Use the semantic search to find "moments when latency spiked"</li>
+          <li>Edit moments to add more information as situations develop</li>
+        </ul>
+        
+        <div class="creator-section">
+          <p>Created with 💎 by <span class="creator-name">Vincent Feliciano</span></p>
+          <p>© 2026</p>
+        </div>
+      </div>
+      
+      <div class="modal-actions">
+        <button class="btn-large btn-capture" onclick="hideAboutModal()">Got it!</button>
       </div>
     </div>
   </div>
@@ -1644,10 +1810,11 @@ display: flex;;
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
   <script>
     // Constants
     const MOMENT_TYPES = {
-      incident: { icon: '🚨', color: '#ff6b6b', label: 'Incident', prompts: ['What looks wrong?', 'What changed recently?', 'Initial hypothesis'] },
+      incident: { icon: '🚨', color: '#E0115F', label: 'Incident', prompts: ['What looks wrong?', 'What changed recently?', 'Initial hypothesis'] },
       deploy: { icon: '🚀', color: '#51cf66', label: 'Deploy', prompts: ['What are the expectations?', 'What are the risks?', 'Success criteria'] },
       idea: { icon: '💡', color: '#ffd43b', label: 'Idea', prompts: ['What problem does this solve?', 'Why now?'] },
       observation: { icon: '📊', color: '#00d4ff', label: 'Observation', prompts: ['What did you notice?', 'Why does it matter?'] },
@@ -1675,8 +1842,26 @@ display: flex;;
       captureCharts: [],
       captureCodeBlocks: [],
       captureTables: [],
-      editingMoment: null // Track if we're editing the last moment
+      editingMoment: null
     };
+    
+    // About Modal Functions
+    window.showAboutModal = function() {
+      document.getElementById('aboutModal').classList.add('visible');
+    };
+    
+    window.hideAboutModal = function() {
+      document.getElementById('aboutModal').classList.remove('visible');
+    };
+    
+    // Close about modal on overlay click
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('aboutModal').addEventListener('click', (e) => {
+        if (e.target.id === 'aboutModal') {
+          hideAboutModal();
+        }
+      });
+    });
     
     // Utility Functions
     function generateId() {
@@ -1700,13 +1885,11 @@ display: flex;;
     
     // Syntax Highlighting
     function highlightCode(code, language) {
-      // Escape HTML
       code = code
         .replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
       
-      // Apply language-specific highlighting
       switch(language) {
         case 'javascript':
         case 'java':
@@ -1714,82 +1897,54 @@ display: flex;;
         case 'csharp':
         case 'go':
         case 'rust':
-          // Keywords
           code = code.replace(/\b(const|let|var|function|return|if|else|for|while|class|import|export|from|async|await|new|this|super|extends|try|catch|throw|break|continue|switch|case|default|do|public|private|protected|static|void|int|string|bool|float|double)\b/g, '<span class="syntax-keyword">$1</span>');
-          // Strings
           code = code.replace(/(".*?"|'.*?'|`.*?`)/g, '<span class="syntax-string">$1</span>');
-          // Numbers
           code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syntax-number">$1</span>');
-          // Comments
           code = code.replace(/(\/\/.*$)/gm, '<span class="syntax-comment">$1</span>');
           code = code.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="syntax-comment">$1</span>');
-          // Functions
           code = code.replace(/\b([a-zA-Z_]\w*)\s*\(/g, '<span class="syntax-function">$1</span>(');
           break;
           
         case 'python':
-          // Keywords
           code = code.replace(/\b(def|class|return|if|elif|else|for|while|import|from|as|with|try|except|finally|raise|break|continue|pass|lambda|yield|async|await|None|True|False)\b/g, '<span class="syntax-keyword">$1</span>');
-          // Strings
           code = code.replace(/(".*?"|'.*?'|"""[\s\S]*?"""|'''[\s\S]*?''')/g, '<span class="syntax-string">$1</span>');
-          // Numbers
           code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syntax-number">$1</span>');
-          // Comments
           code = code.replace(/(#.*$)/gm, '<span class="syntax-comment">$1</span>');
-          // Functions
           code = code.replace(/\b([a-zA-Z_]\w*)\s*\(/g, '<span class="syntax-function">$1</span>(');
           break;
           
         case 'sql':
-          // Keywords
           code = code.replace(/\b(SELECT|FROM|WHERE|JOIN|LEFT|RIGHT|INNER|OUTER|ON|AND|OR|NOT|IN|LIKE|ORDER BY|GROUP BY|HAVING|INSERT|UPDATE|DELETE|CREATE|DROP|TABLE|DATABASE|INDEX|VIEW|AS|DISTINCT|COUNT|SUM|AVG|MAX|MIN)\b/gi, '<span class="syntax-keyword">$1</span>');
-          // Strings
           code = code.replace(/('.*?')/g, '<span class="syntax-string">$1</span>');
-          // Numbers
           code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syntax-number">$1</span>');
-          // Comments
           code = code.replace(/(--.*$)/gm, '<span class="syntax-comment">$1</span>');
           break;
           
         case 'bash':
-          // Keywords
           code = code.replace(/\b(if|then|else|elif|fi|for|while|do|done|case|esac|function|return|exit|echo|cd|ls|grep|awk|sed)\b/g, '<span class="syntax-keyword">$1</span>');
-          // Strings
           code = code.replace(/(".*?"|'.*?')/g, '<span class="syntax-string">$1</span>');
-          // Comments
           code = code.replace(/(#.*$)/gm, '<span class="syntax-comment">$1</span>');
           break;
           
         case 'html':
-          // Tags
           code = code.replace(/(&lt;\/?[a-zA-Z][a-zA-Z0-9]*)/g, '<span class="syntax-tag">$1</span>');
           code = code.replace(/(&gt;)/g, '<span class="syntax-tag">$1</span>');
-          // Attributes
           code = code.replace(/\s([a-zA-Z-]+)=/g, ' <span class="syntax-attr">$1</span>=');
-          // Strings
           code = code.replace(/(".*?"|'.*?')/g, '<span class="syntax-string">$1</span>');
           break;
           
         case 'css':
-          // Properties
           code = code.replace(/([a-zA-Z-]+):/g, '<span class="syntax-property">$1</span>:');
-          // Strings
           code = code.replace(/(".*?"|'.*?')/g, '<span class="syntax-string">$1</span>');
-          // Numbers
           code = code.replace(/\b(\d+\.?\d*(px|em|rem|%|vh|vw)?)\b/g, '<span class="syntax-number">$1</span>');
-          // Comments
           code = code.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="syntax-comment">$1</span>');
           break;
           
         case 'json':
         case 'yaml':
-          // Strings
           code = code.replace(/(".*?")/g, '<span class="syntax-string">$1</span>');
-          // Numbers
           code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syntax-number">$1</span>');
-          // Keywords
           code = code.replace(/\b(true|false|null)\b/g, '<span class="syntax-keyword">$1</span>');
-          // Properties
           code = code.replace(/(".*?"):/g, '<span class="syntax-property">$1</span>:');
           break;
       }
@@ -1851,7 +2006,6 @@ display: flex;;
         `;
       }
       
-      // Parse CSV data
       const rows = data.trim().split('\n').map(row => 
         row.split(',').map(cell => cell.trim())
       );
@@ -1910,7 +2064,6 @@ display: flex;;
     function createChart(title, data, color, labels = null, chartId = null, chartType = 'line') {
       const id = chartId || `chart-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       
-      // Create container first to get actual width
       const container = document.createElement('div');
       container.className = 'chart-container';
       container.style.position = 'relative';
@@ -1926,19 +2079,16 @@ display: flex;;
       valueDisplay.className = 'chart-value-display';
       container.appendChild(valueDisplay);
       
-      // Create SVG without viewBox - let it render naturally at full width
       const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
       svg.style.width = '100%';
       svg.style.height = '140px';
       svg.style.display = 'block';
       svg.setAttribute('data-chart-id', id);
       
-      // We'll calculate dimensions after it's in the DOM
       container.appendChild(svg);
       
-      // Render chart after a brief delay to ensure container has width
       setTimeout(() => {
-       const containerWidth = Math.max(container.offsetWidth - 24, 200); // minus padding, minimum 200px
+       const containerWidth = Math.max(container.offsetWidth - 24, 200);
         const width = containerWidth;
         const height = 140;
         const padding = 20;
@@ -1952,10 +2102,8 @@ display: flex;;
         const min = Math.min(...data);
         const range = max - min || 1;
         
-        // Clear any existing content
         svg.innerHTML = '';
         
-        // Draw grid lines
         for (let i = 0; i <= 4; i++) {
           const y = padding + (chartHeight / 4) * i;
           const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -1967,7 +2115,6 @@ display: flex;;
           line.setAttribute('stroke-width', '1');
           svg.appendChild(line);
           
-          // Y-axis labels
           const value = max - (range / 4) * i;
           const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
           text.setAttribute('x', '5');
@@ -1978,9 +2125,7 @@ display: flex;;
           svg.appendChild(text);
         }
         
-        // Draw chart based on type
         if (chartType === 'bar') {
-          // Bar Chart
           const barWidth = (chartWidth / data.length) * 0.7;
           const barGap = (chartWidth / data.length) * 0.3;
           
@@ -2004,7 +2149,6 @@ display: flex;;
             svg.appendChild(rect);
           });
         } else if (chartType === 'horizontalBar') {
-          // Horizontal Bar Chart
           const barHeight = (chartHeight / data.length) * 0.7;
           const barGap = (chartHeight / data.length) * 0.3;
           
@@ -2028,7 +2172,6 @@ display: flex;;
             svg.appendChild(rect);
           });
         } else if (chartType === 'area') {
-          // Area Chart (filled only, no line)
           const areaPoints = data.map((value, i) => {
             const x = padding + (i / (data.length - 1)) * chartWidth;
             const y = padding + chartHeight - ((value - min) / range) * chartHeight;
@@ -2041,7 +2184,6 @@ display: flex;;
           area.setAttribute('opacity', '0.4');
           svg.appendChild(area);
           
-          // Add points for hover
           data.forEach((value, i) => {
             const x = padding + (i / (data.length - 1)) * chartWidth;
             const y = padding + chartHeight - ((value - min) / range) * chartHeight;
@@ -2059,7 +2201,6 @@ display: flex;;
             svg.appendChild(circle);
           });
         } else if (chartType === 'scatter') {
-          // Scatter Plot
           data.forEach((value, i) => {
             const x = padding + (i / (data.length - 1)) * chartWidth;
             const y = padding + chartHeight - ((value - min) / range) * chartHeight;
@@ -2077,25 +2218,22 @@ display: flex;;
             svg.appendChild(circle);
           });
         } else if (chartType === 'pie' || chartType === 'donut') {
-          // Pie/Donut Chart
           const total = data.reduce((sum, val) => sum + val, 0);
           const centerX = width / 2;
           const centerY = height / 2;
           const radius = Math.min(chartWidth, chartHeight) / 2;
           const innerRadius = chartType === 'donut' ? radius * 0.5 : 0;
           
-          let currentAngle = -Math.PI / 2; // Start at top
+          let currentAngle = -Math.PI / 2;
           
           data.forEach((value, i) => {
             const sliceAngle = (value / total) * 2 * Math.PI;
             const endAngle = currentAngle + sliceAngle;
             
-            // Generate color for each slice
             const hue = (i / data.length) * 360;
             const sliceColor = `hsl(${hue}, 70%, 60%)`;
             
             if (chartType === 'donut') {
-              // Donut slice (arc path)
               const x1 = centerX + Math.cos(currentAngle) * radius;
               const y1 = centerY + Math.sin(currentAngle) * radius;
               const x2 = centerX + Math.cos(endAngle) * radius;
@@ -2124,7 +2262,6 @@ display: flex;;
               
               svg.appendChild(path);
             } else {
-              // Pie slice
               const x1 = centerX + Math.cos(currentAngle) * radius;
               const y1 = centerY + Math.sin(currentAngle) * radius;
               const x2 = centerX + Math.cos(endAngle) * radius;
@@ -2152,8 +2289,6 @@ display: flex;;
             currentAngle = endAngle;
           });
         } else {
-          // Line Chart (default)
-          // Draw area fill
           const areaPoints = data.map((value, i) => {
             const x = padding + (i / (data.length - 1)) * chartWidth;
             const y = padding + chartHeight - ((value - min) / range) * chartHeight;
@@ -2166,7 +2301,6 @@ display: flex;;
           area.setAttribute('opacity', '0.2');
           svg.appendChild(area);
           
-          // Draw line
           const linePoints = data.map((value, i) => {
             const x = padding + (i / (data.length - 1)) * chartWidth;
             const y = padding + chartHeight - ((value - min) / range) * chartHeight;
@@ -2181,7 +2315,6 @@ display: flex;;
           polyline.setAttribute('opacity', '0.8');
           svg.appendChild(polyline);
           
-          // Draw points with hover functionality
           data.forEach((value, i) => {
             const x = padding + (i / (data.length - 1)) * chartWidth;
             const y = padding + chartHeight - ((value - min) / range) * chartHeight;
@@ -2200,7 +2333,6 @@ display: flex;;
           });
         }
         
-        // Add hover interactions (works for all chart types)
         svg.addEventListener('mouseover', (e) => {
           if (e.target.tagName === 'circle' || e.target.classList.contains('chart-bar') || e.target.classList.contains('chart-slice')) {
             const value = e.target.getAttribute('data-value');
@@ -2240,7 +2372,6 @@ display: flex;;
         });
       }, 10);
       
-      // Add controls for custom charts
       if (chartId) {
         const controls = document.createElement('div');
         controls.className = 'chart-controls';
@@ -2253,12 +2384,11 @@ display: flex;;
       
       return container;
     }
-    
+
     // Render Functions
     function renderMoments() {
       const container = document.getElementById('momentsList');
       
-      // Filter by thread first if one is selected, or show unthreaded if that filter is active
       let filteredMoments;
       if (state.selectedThread === 'unthreaded') {
         filteredMoments = state.moments.filter(m => !m.threadId);
@@ -2268,7 +2398,6 @@ display: flex;;
         filteredMoments = state.moments;
       }
       
-      // Then filter by type
       if (state.filterType !== 'all') {
         filteredMoments = filteredMoments.filter(m => m.type === state.filterType);
       }
@@ -2326,7 +2455,6 @@ display: flex;;
           contextHtml += '</div>';
         }
         
-        // Add thread badge if moment belongs to a thread
         let threadBadge = '';
         if (moment.threadId && !state.selectedThread) {
           const thread = state.threads.find(t => t.id === moment.threadId);
@@ -2385,11 +2513,8 @@ display: flex;;
         
         card.addEventListener('click', () => {
           state.selectedMoment = moment;
-          
-          // Update selection state without re-rendering
           document.querySelectorAll('.moment-card').forEach(c => c.classList.remove('selected'));
           card.classList.add('selected');
-          
           renderDetail();
         });
         
@@ -2421,7 +2546,6 @@ display: flex;;
         </button>
       `;
       
-      // Thread assignment
       let threadAssignmentHtml = '';
       const momentThread = moment.threadId ? state.threads.find(t => t.id === moment.threadId) : null;
       
@@ -2583,7 +2707,6 @@ display: flex;;
     }
     
     function updateCounts() {
-      // Get moments to count based on selected thread
       let momentsToCount;
       if (state.selectedThread === 'unthreaded') {
         momentsToCount = state.moments.filter(m => !m.threadId);
@@ -2599,18 +2722,15 @@ display: flex;;
         document.getElementById(`count-${type}`).textContent = count;
       });
       
-      // Update unthreaded count
       const unthreadedCount = state.moments.filter(m => !m.threadId).length;
       document.getElementById('count-unthreaded').textContent = unthreadedCount;
     }
     
     function render() {
-      // Update view visibility
       document.getElementById('timelineView').classList.toggle('hidden', state.view !== 'timeline');
       document.getElementById('captureView').classList.toggle('visible', state.view === 'capture');
       document.getElementById('searchView').classList.toggle('visible', state.view === 'search');
       
-      // Update capture view header
       if (state.view === 'capture') {
         const threadIndicator = document.getElementById('captureThreadIndicator');
         
@@ -2623,7 +2743,6 @@ display: flex;;
           document.getElementById('captureSubtitle').textContent = 'What are you thinking right now?';
         }
         
-        // Show thread indicator if a thread is selected
         if (state.selectedThread && !state.editingMoment) {
           const thread = state.threads.find(t => t.id === state.selectedThread);
           if (thread) {
@@ -2634,7 +2753,6 @@ display: flex;;
           threadIndicator.classList.add('hidden');
         }
         
-        // Populate thread selector dropdown
         const threadSelect = document.getElementById('captureThreadSelect');
         threadSelect.innerHTML = '<option value="">No thread</option>';
         state.threads.forEach(thread => {
@@ -2648,23 +2766,19 @@ display: flex;;
         });
       }
       
-      // Update nav items
       document.querySelectorAll('.nav-item').forEach(item => {
         item.classList.toggle('active', item.dataset.view === state.view);
       });
       
-      // Update filter items
       document.querySelectorAll('.filter-item').forEach(item => {
         item.classList.toggle('active', item.dataset.filter === state.filterType);
       });
       
-      // Update timeline title
       const titleEl = document.getElementById('timelineTitle');
       const threadBanner = document.getElementById('threadBanner');
       const threadBannerText = document.getElementById('threadBannerText');
       const threadBannerDeleteBtn = document.getElementById('threadBannerDeleteBtn');
       
-      // Ensure filterType is valid
       if (!state.filterType || (state.filterType !== 'all' && !MOMENT_TYPES[state.filterType])) {
         state.filterType = 'all';
       }
@@ -2681,7 +2795,7 @@ display: flex;;
         
         threadBanner.classList.remove('hidden');
         threadBannerText.textContent = 'Viewing unthreaded moments';
-        threadBannerDeleteBtn.style.display = 'none'; // Hide delete button for unthreaded view
+        threadBannerDeleteBtn.style.display = 'none';
       } else if (state.selectedThread) {
         const thread = state.threads.find(t => t.id === state.selectedThread);
         const threadMoments = state.moments.filter(m => m.threadId === state.selectedThread);
@@ -2696,7 +2810,7 @@ display: flex;;
         if (thread) {
           threadBanner.classList.remove('hidden');
           threadBannerText.textContent = `Viewing thread: ${thread.name}`;
-          threadBannerDeleteBtn.style.display = ''; // Show delete button for real threads
+          threadBannerDeleteBtn.style.display = '';
         }
       } else {
         threadBanner.classList.add('hidden');
@@ -2709,7 +2823,6 @@ display: flex;;
         }
       }
       
-      // Show/hide unthreaded filter based on whether there are threads
       const unthreadedFilter = document.getElementById('unthreadedFilter');
       if (state.threads.length > 0) {
         unthreadedFilter.classList.remove('hidden');
@@ -2796,7 +2909,6 @@ display: flex;;
       document.getElementById('modalCodeContent').value = '';
     });
     
-    // Thread selector in capture form
     document.getElementById('captureThreadSelect').addEventListener('change', (e) => {
       const threadId = e.target.value;
       state.selectedThread = threadId || null;
@@ -2843,7 +2955,6 @@ display: flex;;
       document.getElementById('codeModal').classList.remove('visible');
     });
     
-    // Global functions for code block controls
     window.editCodeBlock = function(codeId) {
       const codeIndex = state.captureCodeBlocks.findIndex(c => c.id === codeId);
       if (codeIndex === -1) return;
@@ -2855,7 +2966,6 @@ display: flex;;
       
       document.getElementById('codeModal').classList.add('visible');
       
-      // Remove old code block
       const codeElement = document.querySelector(`[data-code-id="${codeId}"]`);
       if (codeElement) {
         codeElement.remove();
@@ -2875,7 +2985,6 @@ display: flex;;
       }
     };
     
-    // Table handlers
     document.getElementById('addTableBtn').addEventListener('click', () => {
       document.getElementById('tableModal').classList.add('visible');
       document.getElementById('modalTableTitle').value = '';
@@ -2904,7 +3013,6 @@ display: flex;;
       document.getElementById('tableModal').classList.remove('visible');
     });
     
-    // Global functions for table controls
     window.editTable = function(tableId) {
       const tableIndex = state.captureTables.findIndex(t => t.id === tableId);
       if (tableIndex === -1) return;
@@ -2915,7 +3023,6 @@ display: flex;;
       
       document.getElementById('tableModal').classList.add('visible');
       
-      // Remove old table
       const tableElement = document.querySelector(`[data-table-id="${tableId}"]`);
       if (tableElement) {
         tableElement.remove();
@@ -2968,7 +3075,6 @@ display: flex;;
       document.getElementById('chartModal').classList.remove('visible');
     });
     
-    // Confirmation modal handlers
     document.getElementById('confirmCancelBtn').addEventListener('click', hideConfirmModal);
     
     document.getElementById('confirmDeleteBtn').addEventListener('click', () => {
@@ -2977,7 +3083,6 @@ display: flex;;
       }
     });
     
-    // Close modals on overlay click
     document.getElementById('chartModal').addEventListener('click', (e) => {
       if (e.target.id === 'chartModal') {
         document.getElementById('chartModal').classList.remove('visible');
@@ -3002,7 +3107,6 @@ display: flex;;
       }
     });
     
-    // Global functions for chart controls
     window.editChart = function(chartId) {
       const chartIndex = state.captureCharts.findIndex(c => c.id === chartId);
       if (chartIndex === -1) return;
@@ -3015,7 +3119,6 @@ display: flex;;
       
       document.getElementById('chartModal').classList.add('visible');
       
-      // Remove old chart
       const chartElement = document.querySelector(`[data-chart-id="${chartId}"]`);
       if (chartElement) {
         chartElement.remove();
@@ -3040,23 +3143,18 @@ display: flex;;
       if (!moment) return;
       
       state.editingMoment = moment;
-      
-      // Set selected thread from moment
       state.selectedThread = moment.threadId || null;
       
-      // Populate form fields
       state.captureType = moment.type;
       document.getElementById('captureText').value = moment.text;
       document.getElementById('contextService').value = moment.context.service || '';
       document.getElementById('contextEnvironment').value = moment.context.environment || 'production';
       document.getElementById('contextVersion').value = moment.context.version || '';
       
-      // Update type selector
       document.querySelectorAll('.type-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.type === moment.type);
       });
       
-      // Populate charts
       state.captureCharts = moment.charts ? JSON.parse(JSON.stringify(moment.charts)) : [];
       const chartPreview = document.getElementById('chartPreview');
       chartPreview.innerHTML = '';
@@ -3072,7 +3170,6 @@ display: flex;;
         ));
       });
       
-      // Populate code blocks
       state.captureCodeBlocks = moment.codeBlocks ? JSON.parse(JSON.stringify(moment.codeBlocks)) : [];
       const codePreview = document.getElementById('codePreview');
       codePreview.innerHTML = '';
@@ -3080,7 +3177,6 @@ display: flex;;
         codePreview.appendChild(createCodeBlock(codeBlock.language, codeBlock.code, codeBlock.title || '', codeBlock.id));
       });
       
-      // Populate tables
       state.captureTables = moment.tables ? JSON.parse(JSON.stringify(moment.tables)) : [];
       const tablePreview = document.getElementById('tablePreview');
       tablePreview.innerHTML = '';
@@ -3088,10 +3184,7 @@ display: flex;;
         tablePreview.appendChild(createTable(table.title || '', table.data, table.id));
       });
       
-      // Update button text
       document.getElementById('submitCaptureBtn').innerHTML = '💾 Update Moment';
-      
-      // Switch to capture view
       state.view = 'capture';
       render();
     };
@@ -3101,7 +3194,6 @@ display: flex;;
       render();
     };
     
-    // Thread assignment functions
     window.assignToThread = function(momentId, threadId) {
       const momentIndex = state.moments.findIndex(m => m.id === momentId);
       if (momentIndex === -1) return;
@@ -3125,7 +3217,6 @@ display: flex;;
       render();
     };
     
-    // Confirmation modal system
     let confirmCallback = null;
     
     function showConfirmModal(title, message, icon, onConfirm) {
@@ -3141,7 +3232,6 @@ display: flex;;
       confirmCallback = null;
     }
     
-    // Delete moment
     window.confirmDeleteMoment = function(momentId) {
       const moment = state.moments.find(m => m.id === momentId);
       if (!moment) return;
@@ -3159,19 +3249,14 @@ display: flex;;
       const momentIndex = state.moments.findIndex(m => m.id === momentId);
       if (momentIndex === -1) return;
       
-      // Remove moment
       state.moments.splice(momentIndex, 1);
-      
-      // Clear selection
       state.selectedMoment = null;
       
-      // Save and re-render
       saveData();
       hideConfirmModal();
       render();
     }
     
-    // Delete thread
     window.confirmDeleteThread = function() {
       if (!state.selectedThread) return;
       
@@ -3192,20 +3277,15 @@ display: flex;;
       const threadIndex = state.threads.findIndex(t => t.id === threadId);
       if (threadIndex === -1) return;
       
-      // Remove thread reference from all moments
       state.moments.forEach(moment => {
         if (moment.threadId === threadId) {
           delete moment.threadId;
         }
       });
       
-      // Remove thread
       state.threads.splice(threadIndex, 1);
-      
-      // Clear selection
       state.selectedThread = null;
       
-      // Save and re-render
       saveData();
       hideConfirmModal();
       render();
@@ -3234,7 +3314,6 @@ display: flex;;
       }
       
       if (state.editingMoment) {
-        // Update existing moment
         const momentIndex = state.moments.findIndex(m => m.id === state.editingMoment.id);
         if (momentIndex !== -1) {
           state.moments[momentIndex] = {
@@ -3254,7 +3333,6 @@ display: flex;;
         }
         state.editingMoment = null;
       } else {
-        // Create new moment
         const newMoment = {
           id: generateId(),
           type: state.captureType,
@@ -3344,7 +3422,6 @@ Return only: ["id1", "id2", ...]`
         
       } catch (error) {
         console.error('Search failed:', error);
-        // Fallback to simple search
         state.searchResults = state.moments.filter(m => 
           m.text.toLowerCase().includes(query.toLowerCase()) ||
           m.context.service?.toLowerCase().includes(query.toLowerCase())
