@@ -28,7 +28,7 @@
     
     /* Sidebar */
     .sidebar {
-      width: 240px;
+      width: 350px;
       background: rgba(15, 23, 42, 0.6);
       backdrop-filter: blur(20px);
       border-right: 1px solid rgba(255, 255, 255, 0.05);
@@ -349,6 +349,13 @@ display: flex;;
       line-height: 1.5;
       color: #cbd5e1;
       margin-bottom: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
     
     .moment-context {
@@ -374,6 +381,96 @@ display: flex;;
       margin-top: 8px;
     }
     
+    .moment-attachments {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    
+    .attachment-preview {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .attachment-preview:hover {
+      border-color: rgba(0, 212, 255, 0.5);
+      transform: scale(1.05);
+    }
+    
+    .attachment-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .attachment-file {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      font-size: 24px;
+    }
+    
+    .attachment-preview-large {
+      position: relative;
+      margin-top: 8px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .attachment-preview-large img {
+      width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+      display: block;
+    }
+    
+    .attachment-remove {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: rgba(255, 107, 107, 0.9);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      z-index: 10;
+    }
+    
+    .attachment-remove:hover {
+      background: rgba(255, 107, 107, 1);
+      transform: scale(1.1);
+    }
+    
+    .attachments-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    
+    .attachment-item {
+      position: relative;
+    }
+    
     .moment-type-icon {
       font-size: 32px;
     }
@@ -391,7 +488,7 @@ display: flex;;
     
     /* Detail Panel */
     .detail-panel {
-      width: 350px;
+      width: 450px;
       background: rgba(15, 23, 42, 0.8);
       backdrop-filter: blur(20px);
       border-left: 1px solid rgba(255, 255, 255, 0.05);
@@ -437,6 +534,8 @@ display: flex;;
       line-height: 1.6;
       color: #cbd5e1;
       margin-bottom: 16px;
+      white-space: pre-wrap;
+      word-wrap: break-word;
     }
     
     .detail-section {
@@ -480,9 +579,10 @@ display: flex;;
     /* Capture View */
     .capture-view {
       flex: 1;
-      padding: 24px 32px;
+      padding: 16px 32px;
       overflow-y: auto;
-      max-width: 700px;
+      max-width: 1400px;
+      width: 100%;
       margin: 0 auto;
       display: none;
     }
@@ -492,7 +592,7 @@ display: flex;;
     }
     
     .capture-header {
-      margin-bottom: 24px;
+      margin-bottom: 16px;
     }
     
     .capture-header h1 {
@@ -524,7 +624,7 @@ display: flex;;
     .type-selector {
       display: flex;
       gap: 10px;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
     }
     
@@ -563,7 +663,19 @@ display: flex;;
     }
     
     .form-group {
-      margin-bottom: 18px;
+      margin-bottom: 14px;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+    
+    .form-grid-full {
+      grid-column: 1 / -1;
     }
     
     .form-label {
@@ -639,6 +751,260 @@ display: flex;;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 12px;
     }
+    
+    .template-field {
+      margin-bottom: 16px;
+    }
+    
+    .template-field-label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 6px;
+    }
+    
+    .template-field-textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #e4e4e7;
+      font-size: 13px;
+      line-height: 1.5;
+      resize: vertical;
+      font-family: inherit;
+    }
+    
+    .template-field-textarea:focus {
+      outline: none;
+      border-color: #00d4ff;
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    }
+    
+    .template-data-display {
+      margin-top: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    
+    .template-data-item {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .template-data-item:last-child {
+      border-bottom: none;
+    }
+    
+    .template-data-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    
+    .template-data-value {
+      font-size: 13px;
+      color: #e4e4e7;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    
+    .template-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(0, 212, 255, 0.15);
+      color: #00d4ff;
+    }
+    
+    .template-badge.severity-critical,
+    .template-badge.impact-critical {
+      background: rgba(224, 17, 95, 0.15);
+      color: #E0115F;
+    }
+    
+    .template-badge.severity-high,
+    .template-badge.impact-high {
+      background: rgba(255, 107, 107, 0.15);
+      color: #ff6b6b;
+    }
+    
+    .template-badge.severity-medium,
+    .template-badge.impact-medium {
+      background: rgba(255, 146, 43, 0.15);
+      color: #ff922b;
+    }
+    
+    .template-badge.severity-low,
+    .template-badge.impact-low {
+      background: rgba(81, 207, 102, 0.15);
+      color: #51cf66;
+    }
+    
+    .moment-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    
+    .moment-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      background: rgba(0, 212, 255, 0.1);
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 12px;
+      font-size: 11px;
+      color: #00d4ff;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .moment-tag:hover {
+      background: rgba(0, 212, 255, 0.2);
+      border-color: rgba(0, 212, 255, 0.5);
+    }
+    
+    .moment-tag.auto-tag {
+      background: rgba(255, 146, 43, 0.1);
+      border-color: rgba(255, 146, 43, 0.3);
+      color: #ff922b;
+    }
+    
+    .moment-tag.auto-tag:hover {
+      background: rgba(255, 146, 43, 0.2);
+      border-color: rgba(255, 146, 43, 0.5);
+    }
+    
+    .tag-remove {
+      font-size: 12px;
+      margin-left: 2px;
+      opacity: 0.7;
+    }
+    
+    .tag-remove:hover {
+      opacity: 1;
+    }
+    
+    .priority-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .priority-badge.critical {
+      background: rgba(224, 17, 95, 0.2);
+      color: #E0115F;
+      border: 1px solid rgba(224, 17, 95, 0.5);
+    }
+    
+    .priority-badge.follow-up {
+      background: rgba(255, 146, 43, 0.2);
+      color: #ff922b;
+      border: 1px solid rgba(255, 146, 43, 0.5);
+    }
+    
+    .priority-badge.pinned {
+      background: rgba(255, 215, 0, 0.2);
+      color: #ffd700;
+      border: 1px solid rgba(255, 215, 0, 0.5);
+    }
+    
+    .moment-priority {
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+    
+    .tags-input-container {
+      position: relative;
+      margin-top: 8px;
+    }
+    
+    .tags-input {
+      width: 100%;
+      padding: 8px 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #e4e4e7;
+      font-size: 13px;
+    }
+    
+    .tags-input:focus {
+      outline: none;
+      border-color: #00d4ff;
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    }
+    
+    .tags-display {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+      min-height: 30px;
+    }
+    
+    .priority-selector {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    
+    .priority-btn {
+      flex: 1;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 6px;
+      color: #94a3b8;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    
+    .priority-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .priority-btn.active.critical {
+      background: rgba(224, 17, 95, 0.2);
+      border-color: rgba(224, 17, 95, 0.5);
+      color: #E0115F;
+    }
+    
+    .priority-btn.active.follow-up {
+      background: rgba(255, 146, 43, 0.2);
+      border-color: rgba(255, 146, 43, 0.5);
+      color: #ff922b;
+    }
+    
+    .priority-btn.active.pinned {
+      background: rgba(255, 215, 0, 0.2);
+      border-color: rgba(255, 215, 0, 0.5);
+      color: #ffd700;
+    }
+    
     
     .chart-preview {
       display: flex;
@@ -746,7 +1112,7 @@ display: flex;;
     .form-actions {
       display: flex;
       gap: 10px;
-      margin-top: 24px;
+      margin-top: 16px;
     }
     
     .btn-large {
@@ -1559,13 +1925,46 @@ display: flex;;
         <textarea id="captureText" class="form-textarea" placeholder="What's on your mind?"></textarea>
       </div>
       
-      <div class="form-group">
-        <label class="form-label">Context (Optional)</label>
-        <div class="context-fields">
-          <input id="contextService" class="form-input" placeholder="Service name">
-          <input id="contextEnvironment" class="form-input" placeholder="Environment" value="production">
-          <input id="contextVersion" class="form-input" placeholder="Version/commit">
+      <div id="templateFields" class="form-group" style="display: none;">
+        <label class="form-label">Additional Details</label>
+        <div id="templateFieldsContainer"></div>
+      </div>
+      
+      <div class="form-grid">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Context (Optional)</label>
+          <div class="context-fields">
+            <input id="contextService" class="form-input" placeholder="Service name">
+            <input id="contextEnvironment" class="form-input" placeholder="Environment" value="production">
+            <input id="contextVersion" class="form-input" placeholder="Version/commit">
+          </div>
         </div>
+        
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label">Priority / Pin</label>
+          <div class="priority-selector">
+            <button class="priority-btn" data-priority="critical">
+              🔴 Critical
+            </button>
+            <button class="priority-btn" data-priority="follow-up">
+              🟡 Follow-up
+            </button>
+            <button class="priority-btn" data-priority="pinned">
+              ⭐ Pinned
+            </button>
+            <button class="priority-btn" data-priority="none">
+              ➖ None
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="form-label">Tags</label>
+        <div class="tags-input-container">
+          <input id="tagsInput" class="tags-input" placeholder="Add tags (e.g., #latency, #ui, #customer-impact) - press Enter to add">
+        </div>
+        <div class="tags-display" id="tagsDisplay"></div>
       </div>
       
       <div class="form-group">
@@ -1580,10 +1979,15 @@ display: flex;;
           <button class="btn-secondary" id="addTableBtn" style="flex: 1; margin: 0;">
             📊 Table
           </button>
+          <button class="btn-secondary" id="addFileBtn" style="flex: 1; margin: 0;">
+            📎 Files
+          </button>
         </div>
+        <input type="file" id="fileInput" multiple accept="image/*,application/pdf,.doc,.docx,.txt" style="display: none;">
         <div class="chart-preview" id="chartPreview"></div>
         <div class="code-preview" id="codePreview"></div>
         <div class="table-preview" id="tablePreview"></div>
+        <div class="attachments-container" id="attachmentsPreview"></div>
       </div>
       
       <div class="form-actions">
@@ -1596,7 +2000,7 @@ display: flex;;
     <div class="search-view" id="searchView">
       <div class="search-header">
         <div class="search-box">
-          <input id="searchInput" class="search-input" placeholder="Search your moments semantically...">
+          <input id="searchInput" class="search-input" placeholder="Search moments, tags (#latency), or priority (critical, pinned)...">
           <button class="btn-search" id="searchBtn">
             🔍 Search
           </button>
@@ -1814,16 +2218,98 @@ display: flex;;
   <script>
     // Constants
     const MOMENT_TYPES = {
-      incident: { icon: '🚨', color: '#E0115F', label: 'Incident', prompts: ['What looks wrong?', 'What changed recently?', 'Initial hypothesis'] },
-      deploy: { icon: '🚀', color: '#51cf66', label: 'Deploy', prompts: ['What are the expectations?', 'What are the risks?', 'Success criteria'] },
-      idea: { icon: '💡', color: '#ffd43b', label: 'Idea', prompts: ['What problem does this solve?', 'Why now?'] },
-      observation: { icon: '📊', color: '#00d4ff', label: 'Observation', prompts: ['What did you notice?', 'Why does it matter?'] },
-      thought: { icon: '💭', color: '#a78bfa', label: 'Thought', prompts: [] },
-      bug: { icon: '🐛', color: '#fa5252', label: 'Bug', prompts: ['What is the bug?', 'Steps to reproduce', 'Expected vs actual behavior'] },
-      meeting: { icon: '🤝', color: '#339af0', label: 'Meeting', prompts: ['Key discussion points', 'Action items', 'Decisions made'] },
-      decision: { icon: '⚖️', color: '#be4bdb', label: 'Decision', prompts: ['What was decided?', 'Why?', 'Alternatives considered'] },
-      review: { icon: '👁️', color: '#20c997', label: 'Review', prompts: ['What did you review?', 'Feedback notes', 'Approval status'] },
-      question: { icon: '❓', color: '#ff922b', label: 'Question', prompts: ['What needs clarification?', 'Context for the question'] }
+      incident: { 
+        icon: '🚨', 
+        color: '#E0115F', 
+        label: 'Incident', 
+        prompts: ['What looks wrong?', 'What changed recently?', 'Initial hypothesis'],
+        template: [
+          { name: 'impact', label: 'Impact', type: 'select', options: ['Critical', 'High', 'Medium', 'Low'] },
+          { name: 'rootCause', label: 'Root Cause', type: 'textarea', placeholder: 'What caused this incident?' },
+          { name: 'mitigation', label: 'Mitigation', type: 'textarea', placeholder: 'What steps were taken to resolve?' }
+        ]
+      },
+      deploy: { 
+        icon: '🚀', 
+        color: '#51cf66', 
+        label: 'Deploy', 
+        prompts: ['What are the expectations?', 'What are the risks?', 'Success criteria'],
+        template: [
+          { name: 'deployedBy', label: 'Deployed By', type: 'text', placeholder: 'Your name' },
+          { name: 'changes', label: 'Changes', type: 'textarea', placeholder: 'What was deployed?' },
+          { name: 'rollbackPlan', label: 'Rollback Plan', type: 'textarea', placeholder: 'How to rollback if needed' }
+        ]
+      },
+      idea: { 
+        icon: '💡', 
+        color: '#ffd43b', 
+        label: 'Idea', 
+        prompts: ['What problem does this solve?', 'Why now?'] 
+      },
+      observation: { 
+        icon: '📊', 
+        color: '#00d4ff', 
+        label: 'Observation', 
+        prompts: ['What did you notice?', 'Why does it matter?'] 
+      },
+      thought: { 
+        icon: '💭', 
+        color: '#a78bfa', 
+        label: 'Thought', 
+        prompts: [] 
+      },
+      bug: { 
+        icon: '🐛', 
+        color: '#fa5252', 
+        label: 'Bug', 
+        prompts: ['What is the bug?', 'Steps to reproduce', 'Expected vs actual behavior'],
+        template: [
+          { name: 'severity', label: 'Severity', type: 'select', options: ['Critical', 'High', 'Medium', 'Low'] },
+          { name: 'stepsToReproduce', label: 'Steps to Reproduce', type: 'textarea', placeholder: '1. Go to...\n2. Click on...\n3. See error' },
+          { name: 'expectedBehavior', label: 'Expected Behavior', type: 'textarea', placeholder: 'What should happen' },
+          { name: 'actualBehavior', label: 'Actual Behavior', type: 'textarea', placeholder: 'What actually happens' }
+        ]
+      },
+      meeting: { 
+        icon: '🤝', 
+        color: '#339af0', 
+        label: 'Meeting', 
+        prompts: ['Key discussion points', 'Action items', 'Decisions made'],
+        template: [
+          { name: 'attendees', label: 'Attendees', type: 'text', placeholder: 'Who attended' },
+          { name: 'actionItems', label: 'Action Items', type: 'textarea', placeholder: 'List of action items' },
+          { name: 'nextSteps', label: 'Next Steps', type: 'textarea', placeholder: 'What happens next' }
+        ]
+      },
+      decision: { 
+        icon: '⚖️', 
+        color: '#be4bdb', 
+        label: 'Decision', 
+        prompts: ['What was decided?', 'Why?', 'Alternatives considered'],
+        template: [
+          { name: 'options', label: 'Options Considered', type: 'textarea', placeholder: 'List the options that were evaluated' },
+          { name: 'chosen', label: 'Chosen Option', type: 'text', placeholder: 'What was decided' },
+          { name: 'reason', label: 'Reasoning', type: 'textarea', placeholder: 'Why this option was chosen' },
+          { name: 'tradeoffs', label: 'Trade-offs', type: 'textarea', placeholder: 'What are we giving up?' }
+        ]
+      },
+      review: { 
+        icon: '👁️', 
+        color: '#20c997', 
+        label: 'Review', 
+        prompts: ['What did you review?', 'Feedback notes', 'Approval status'],
+        template: [
+          { name: 'reviewType', label: 'Review Type', type: 'select', options: ['Code Review', 'Design Review', 'Architecture Review', 'Other'] },
+          { name: 'findings', label: 'Findings', type: 'textarea', placeholder: 'What was found during review' },
+          { name: 'approved', label: 'Status', type: 'select', options: ['Approved', 'Needs Changes', 'Rejected'] }
+        ]
+      },
+      question: { 
+        icon: '❓', 
+        color: '#ff922b', 
+        label: 'Question', 
+        prompts: ['What needs clarification?', 'Context for the question'] 
+      }
     };
     
     // State
@@ -1842,6 +2328,9 @@ display: flex;;
       captureCharts: [],
       captureCodeBlocks: [],
       captureTables: [],
+      captureAttachments: [],
+      captureTags: [],
+      capturePriority: null,
       editingMoment: null
     };
     
@@ -2385,6 +2874,58 @@ display: flex;;
       return container;
     }
 
+    
+    function createTemplateDisplay(templateData, templateConfig, compact = false) {
+      if (!templateData || !templateConfig) return null;
+      
+      const container = document.createElement('div');
+      container.className = 'template-data-display';
+      
+      templateConfig.forEach(field => {
+        const value = templateData[field.name];
+        if (!value) return;
+        
+        const item = document.createElement('div');
+        item.className = 'template-data-item';
+        
+        const label = document.createElement('div');
+        label.className = 'template-data-label';
+        label.textContent = field.label;
+        item.appendChild(label);
+        
+        const valueDiv = document.createElement('div');
+        valueDiv.className = 'template-data-value';
+        
+        // Add badge styling for severity/impact/status fields
+        if ((field.name === 'severity' || field.name === 'impact') && field.type === 'select') {
+          const badge = document.createElement('span');
+          badge.className = `template-badge ${field.name}-${value.toLowerCase()}`;
+          badge.textContent = value;
+          valueDiv.appendChild(badge);
+        } else if (field.name === 'approved' && field.type === 'select') {
+          const badge = document.createElement('span');
+          badge.className = 'template-badge';
+          badge.textContent = value;
+          if (value === 'Approved') badge.style.cssText = 'background: rgba(81, 207, 102, 0.15); color: #51cf66;';
+          else if (value === 'Needs Changes') badge.style.cssText = 'background: rgba(255, 146, 43, 0.15); color: #ff922b;';
+          else if (value === 'Rejected') badge.style.cssText = 'background: rgba(224, 17, 95, 0.15); color: #E0115F;';
+          valueDiv.appendChild(badge);
+        } else {
+          // For compact view (timeline), truncate long text
+          if (compact && value.length > 100) {
+            valueDiv.textContent = value.substring(0, 100) + '...';
+          } else {
+            valueDiv.textContent = value;
+          }
+        }
+        
+        item.appendChild(valueDiv);
+        container.appendChild(item);
+      });
+      
+      return container.children.length > 0 ? container : null;
+    }
+    
     // Render Functions
     function renderMoments() {
       const container = document.getElementById('momentsList');
@@ -2465,8 +3006,16 @@ display: flex;;
           threadBadge = `<div class="moment-unthreaded-badge">📌 Unthreaded</div>`;
         }
         
+        let priorityHtml = '';
+        if (moment.priority) {
+          const priorityIcons = { critical: '🔴', 'follow-up': '🟡', pinned: '⭐' };
+          const priorityLabels = { critical: 'Critical', 'follow-up': 'Follow-up', pinned: 'Pinned' };
+          priorityHtml = `<div class="moment-priority"><span class="priority-badge ${moment.priority}">${priorityIcons[moment.priority]} ${priorityLabels[moment.priority]}</span></div>`;
+        }
+        
         card.innerHTML = `
           ${threadBadge}
+          ${priorityHtml}
           <div class="moment-header">
             <div class="moment-type" style="color: ${config.color}">
               ${config.icon} ${config.label}
@@ -2476,6 +3025,26 @@ display: flex;;
           <div class="moment-text">${moment.text}</div>
           ${contextHtml}
         `;
+        
+        if (moment.tags && moment.tags.length > 0) {
+          const tagsContainer = document.createElement('div');
+          tagsContainer.className = 'moment-tags';
+          moment.tags.forEach(tag => {
+            const tagEl = document.createElement('span');
+            tagEl.className = 'moment-tag';
+            tagEl.textContent = '#' + tag;
+            tagEl.style.cursor = 'default';
+            tagsContainer.appendChild(tagEl);
+          });
+          card.appendChild(tagsContainer);
+        }
+        
+        if (moment.templateData && config.template) {
+          const templateDisplay = createTemplateDisplay(moment.templateData, config.template, true);
+          if (templateDisplay) {
+            card.appendChild(templateDisplay);
+          }
+        }
         
         if (moment.charts && moment.charts.length > 0) {
           const chartsContainer = document.createElement('div');
@@ -2509,6 +3078,32 @@ display: flex;;
             tableContainer.appendChild(createTable(table.title || '', table.data, null));
           });
           card.appendChild(tableContainer);
+        }
+        
+        if (moment.attachments && moment.attachments.length > 0) {
+          const attachmentsContainer = document.createElement('div');
+          attachmentsContainer.className = 'moment-attachments';
+          moment.attachments.forEach(attachment => {
+            const preview = document.createElement('div');
+            preview.className = 'attachment-preview';
+            
+            if (attachment.isImage) {
+              preview.innerHTML = `<img src="${attachment.data}" alt="${attachment.name}">`;
+              preview.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showImageModal(attachment.data);
+              });
+            } else {
+              preview.innerHTML = `<div class="attachment-file">📄</div>`;
+              preview.addEventListener('click', (e) => {
+                e.stopPropagation();
+                downloadAttachment(attachment);
+              });
+            }
+            
+            attachmentsContainer.appendChild(preview);
+          });
+          card.appendChild(attachmentsContainer);
         }
         
         card.addEventListener('click', () => {
@@ -2620,6 +3215,47 @@ display: flex;;
         ${contextHtml}
       `;
       
+      if (moment.priority) {
+        const section = document.createElement('div');
+        section.className = 'detail-section';
+        section.innerHTML = '<h3>Priority</h3>';
+        const priorityIcons = { critical: '🔴', 'follow-up': '🟡', pinned: '⭐' };
+        const priorityLabels = { critical: 'Critical', 'follow-up': 'Follow-up Required', pinned: 'Pinned' };
+        const badge = document.createElement('span');
+        badge.className = `priority-badge ${moment.priority}`;
+        badge.innerHTML = `${priorityIcons[moment.priority]} ${priorityLabels[moment.priority]}`;
+        section.appendChild(badge);
+        panel.appendChild(section);
+      }
+      
+      if (moment.tags && moment.tags.length > 0) {
+        const section = document.createElement('div');
+        section.className = 'detail-section';
+        section.innerHTML = '<h3>Tags</h3>';
+        const tagsContainer = document.createElement('div');
+        tagsContainer.className = 'moment-tags';
+        moment.tags.forEach(tag => {
+          const tagEl = document.createElement('span');
+          tagEl.className = 'moment-tag';
+          tagEl.textContent = '#' + tag;
+          tagEl.style.cursor = 'default';
+          tagsContainer.appendChild(tagEl);
+        });
+        section.appendChild(tagsContainer);
+        panel.appendChild(section);
+      }
+      
+      if (moment.templateData && config.template) {
+        const section = document.createElement('div');
+        section.className = 'detail-section';
+        section.innerHTML = '<h3>Details</h3>';
+        const templateDisplay = createTemplateDisplay(moment.templateData, config.template, false);
+        if (templateDisplay) {
+          section.appendChild(templateDisplay);
+          panel.appendChild(section);
+        }
+      }
+      
       if (moment.charts && moment.charts.length > 0) {
         const section = document.createElement('div');
         section.className = 'detail-section';
@@ -2675,6 +3311,44 @@ display: flex;;
         });
         
         section.appendChild(tableContainer);
+        panel.appendChild(section);
+      }
+      
+      if (moment.attachments && moment.attachments.length > 0) {
+        const section = document.createElement('div');
+        section.className = 'detail-section';
+        section.innerHTML = '<h3>Attachments</h3>';
+        const attachmentsContainer = document.createElement('div');
+        attachmentsContainer.style.display = 'flex';
+        attachmentsContainer.style.flexDirection = 'column';
+        attachmentsContainer.style.gap = '12px';
+        
+        moment.attachments.forEach(attachment => {
+          if (attachment.isImage) {
+            const preview = document.createElement('div');
+            preview.className = 'attachment-preview-large';
+            preview.innerHTML = `<img src="${attachment.data}" alt="${attachment.name}" style="cursor: pointer;">`;
+            preview.addEventListener('click', () => showImageModal(attachment.data));
+            attachmentsContainer.appendChild(preview);
+          } else {
+            const fileItem = document.createElement('div');
+            fileItem.style.cssText = 'display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 6px; cursor: pointer; transition: all 0.2s;';
+            fileItem.innerHTML = `
+              <div style="font-size: 32px;">📄</div>
+              <div style="flex: 1;">
+                <div style="font-size: 13px; font-weight: 600; color: #e4e4e7;">${attachment.name}</div>
+                <div style="font-size: 11px; color: #64748b;">${(attachment.size / 1024).toFixed(1)} KB</div>
+              </div>
+              <div style="font-size: 20px; color: #00d4ff;">⬇️</div>
+            `;
+            fileItem.addEventListener('click', () => downloadAttachment(attachment));
+            fileItem.addEventListener('mouseover', () => fileItem.style.background = 'rgba(0, 212, 255, 0.1)');
+            fileItem.addEventListener('mouseout', () => fileItem.style.background = 'rgba(0, 0, 0, 0.2)');
+            attachmentsContainer.appendChild(fileItem);
+          }
+        });
+        
+        section.appendChild(attachmentsContainer);
         panel.appendChild(section);
       }
     }
@@ -2891,8 +3565,70 @@ display: flex;;
         const config = MOMENT_TYPES[state.captureType];
         const placeholder = config.prompts[0] || "What's on your mind?";
         document.getElementById('captureText').placeholder = placeholder;
+        
+        renderTemplateFields(state.captureType);
       });
     });
+    
+    function renderTemplateFields(type) {
+      const config = MOMENT_TYPES[type];
+      const container = document.getElementById('templateFieldsContainer');
+      const wrapper = document.getElementById('templateFields');
+      
+      if (!config.template || config.template.length === 0) {
+        wrapper.style.display = 'none';
+        container.innerHTML = '';
+        return;
+      }
+      
+      wrapper.style.display = 'block';
+      container.innerHTML = '';
+      
+      config.template.forEach(field => {
+        const fieldDiv = document.createElement('div');
+        fieldDiv.className = 'template-field';
+        
+        const label = document.createElement('label');
+        label.className = 'template-field-label';
+        label.textContent = field.label;
+        fieldDiv.appendChild(label);
+        
+        if (field.type === 'text') {
+          const input = document.createElement('input');
+          input.className = 'form-input';
+          input.placeholder = field.placeholder || '';
+          input.dataset.templateField = field.name;
+          fieldDiv.appendChild(input);
+        } else if (field.type === 'textarea') {
+          const textarea = document.createElement('textarea');
+          textarea.className = 'template-field-textarea';
+          textarea.placeholder = field.placeholder || '';
+          textarea.dataset.templateField = field.name;
+          fieldDiv.appendChild(textarea);
+        } else if (field.type === 'select') {
+          const select = document.createElement('select');
+          select.className = 'form-input';
+          select.dataset.templateField = field.name;
+          
+          const emptyOption = document.createElement('option');
+          emptyOption.value = '';
+          emptyOption.textContent = 'Select...';
+          select.appendChild(emptyOption);
+          
+          field.options.forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option;
+            opt.textContent = option;
+            select.appendChild(opt);
+          });
+          
+          fieldDiv.appendChild(select);
+        }
+        
+        container.appendChild(fieldDiv);
+      });
+    }
+    
     
     document.getElementById('addChartBtn').addEventListener('click', () => {
       document.getElementById('chartModal').classList.add('visible');
@@ -2907,6 +3643,180 @@ display: flex;;
       document.getElementById('modalCodeLanguage').value = 'javascript';
       document.getElementById('modalCodeTitle').value = '';
       document.getElementById('modalCodeContent').value = '';
+    });
+    
+    document.getElementById('addFileBtn').addEventListener('click', () => {
+      document.getElementById('fileInput').click();
+    });
+    
+    document.getElementById('fileInput').addEventListener('change', async (e) => {
+      const files = Array.from(e.target.files);
+      
+      for (const file of files) {
+        const reader = new FileReader();
+        
+        reader.onload = (event) => {
+          const attachment = {
+            id: `file-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            data: event.target.result,
+            isImage: file.type.startsWith('image/')
+          };
+          
+          state.captureAttachments.push(attachment);
+          renderAttachmentPreview(attachment);
+        };
+        
+        reader.readAsDataURL(file);
+      }
+      
+      e.target.value = '';
+    });
+    
+    function renderAttachmentPreview(attachment) {
+      const container = document.getElementById('attachmentsPreview');
+      const item = document.createElement('div');
+      item.className = 'attachment-item';
+      item.dataset.attachmentId = attachment.id;
+      
+      if (attachment.isImage) {
+        item.innerHTML = `
+          <div class="attachment-preview">
+            <img src="${attachment.data}" alt="${attachment.name}">
+            <button class="attachment-remove" onclick="removeAttachment('${attachment.id}')">✕</button>
+          </div>
+        `;
+      } else {
+        item.innerHTML = `
+          <div class="attachment-preview">
+            <div class="attachment-file">📄</div>
+            <button class="attachment-remove" onclick="removeAttachment('${attachment.id}')">✕</button>
+          </div>
+          <div style="font-size: 10px; color: #94a3b8; margin-top: 4px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${attachment.name}</div>
+        `;
+      }
+      
+      container.appendChild(item);
+    }
+    
+    window.removeAttachment = function(attachmentId) {
+      const index = state.captureAttachments.findIndex(a => a.id === attachmentId);
+      if (index !== -1) {
+        state.captureAttachments.splice(index, 1);
+      }
+      
+      const element = document.querySelector(`[data-attachment-id="${attachmentId}"]`);
+      if (element) {
+        element.remove();
+      }
+    };
+    
+    // Tags functionality
+    const AUTO_TAG_KEYWORDS = {
+      'latency': ['latency', 'slow', 'performance', 'timeout', 'delay'],
+      'ui': ['ui', 'ux', 'interface', 'design', 'layout', 'button', 'form'],
+      'customer-impact': ['customer', 'user', 'client', 'production', 'outage', 'down'],
+      'database': ['database', 'db', 'sql', 'query', 'postgres', 'mysql'],
+      'api': ['api', 'endpoint', 'rest', 'graphql', 'request', 'response'],
+      'security': ['security', 'auth', 'authentication', 'permission', 'vulnerability'],
+      'performance': ['performance', 'optimization', 'cache', 'speed', 'memory'],
+      'bug': ['bug', 'error', 'issue', 'broken', 'crash', 'fail']
+    };
+    
+    function autoTagText(text) {
+      const autoTags = [];
+      const lowerText = text.toLowerCase();
+      
+      for (const [tag, keywords] of Object.entries(AUTO_TAG_KEYWORDS)) {
+        for (const keyword of keywords) {
+          if (lowerText.includes(keyword)) {
+            autoTags.push(tag);
+            break;
+          }
+        }
+      }
+      
+      return [...new Set(autoTags)];
+    }
+    
+    function renderTag(tag, isAuto = false) {
+      const tagEl = document.createElement('span');
+      tagEl.className = `moment-tag ${isAuto ? 'auto-tag' : ''}`;
+      tagEl.innerHTML = `${isAuto ? '🤖 ' : ''}#${tag} <span class="tag-remove" onclick="removeTag('${tag}')">✕</span>`;
+      return tagEl;
+    }
+    
+    window.removeTag = function(tag) {
+      const index = state.captureTags.indexOf(tag);
+      if (index !== -1) {
+        state.captureTags.splice(index, 1);
+        renderTagsDisplay();
+      }
+    };
+    
+    function renderTagsDisplay() {
+      const container = document.getElementById('tagsDisplay');
+      container.innerHTML = '';
+      state.captureTags.forEach(tag => {
+        container.appendChild(renderTag(tag));
+      });
+    }
+    
+    document.getElementById('tagsInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        const input = e.target;
+        let tag = input.value.trim().toLowerCase();
+        
+        if (!tag) return;
+        
+        // Remove # if user added it
+        tag = tag.replace(/^#/, '');
+        
+        // Add tag if not already present
+        if (tag && !state.captureTags.includes(tag)) {
+          state.captureTags.push(tag);
+          renderTagsDisplay();
+        }
+        
+        input.value = '';
+      }
+    });
+    
+    // Auto-tag when text changes
+    document.getElementById('captureText').addEventListener('input', (e) => {
+      const text = e.target.value;
+      const autoTags = autoTagText(text);
+      
+      // Add auto-tags that aren't already in the list
+      autoTags.forEach(tag => {
+        if (!state.captureTags.includes(tag)) {
+          state.captureTags.push(tag);
+        }
+      });
+      
+      renderTagsDisplay();
+    });
+    
+    // Priority selector
+    document.querySelectorAll('.priority-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const priority = btn.dataset.priority;
+        
+        document.querySelectorAll('.priority-btn').forEach(b => {
+          b.classList.remove('active', 'critical', 'follow-up', 'pinned');
+        });
+        
+        if (priority !== 'none') {
+          btn.classList.add('active', priority);
+          state.capturePriority = priority;
+        } else {
+          state.capturePriority = null;
+        }
+      });
     });
     
     document.getElementById('captureThreadSelect').addEventListener('change', (e) => {
@@ -3184,6 +4094,41 @@ display: flex;;
         tablePreview.appendChild(createTable(table.title || '', table.data, table.id));
       });
       
+      state.captureAttachments = moment.attachments ? JSON.parse(JSON.stringify(moment.attachments)) : [];
+      const attachmentsPreview = document.getElementById('attachmentsPreview');
+      attachmentsPreview.innerHTML = '';
+      state.captureAttachments.forEach(attachment => {
+        renderAttachmentPreview(attachment);
+      });
+      
+      // Populate template fields
+      renderTemplateFields(moment.type);
+      if (moment.templateData) {
+        setTimeout(() => {
+          const container = document.getElementById('templateFieldsContainer');
+          const inputs = container.querySelectorAll('[data-template-field]');
+          inputs.forEach(input => {
+            const fieldName = input.dataset.templateField;
+            if (moment.templateData[fieldName]) {
+              input.value = moment.templateData[fieldName];
+            }
+          });
+        }, 100);
+      }
+      
+      // Populate tags
+      state.captureTags = moment.tags ? [...moment.tags] : [];
+      renderTagsDisplay();
+      
+      // Populate priority
+      state.capturePriority = moment.priority || null;
+      document.querySelectorAll('.priority-btn').forEach(btn => {
+        btn.classList.remove('active', 'critical', 'follow-up', 'pinned');
+        if (moment.priority && btn.dataset.priority === moment.priority) {
+          btn.classList.add('active', moment.priority);
+        }
+      });
+      
       document.getElementById('submitCaptureBtn').innerHTML = '💾 Update Moment';
       state.view = 'capture';
       render();
@@ -3297,14 +4242,40 @@ display: flex;;
       state.captureCharts = [];
       state.captureCodeBlocks = [];
       state.captureTables = [];
+      state.captureAttachments = [];
+      state.captureTags = [];
+      state.capturePriority = null;
       state.editingMoment = null;
       document.getElementById('captureText').value = '';
       document.getElementById('chartPreview').innerHTML = '';
       document.getElementById('codePreview').innerHTML = '';
       document.getElementById('tablePreview').innerHTML = '';
+      document.getElementById('attachmentsPreview').innerHTML = '';
+      document.getElementById('templateFieldsContainer').innerHTML = '';
+      document.getElementById('templateFields').style.display = 'none';
+      document.getElementById('tagsInput').value = '';
+      document.getElementById('tagsDisplay').innerHTML = '';
+      document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active', 'critical', 'follow-up', 'pinned'));
       document.getElementById('submitCaptureBtn').innerHTML = '⚡ Capture Moment';
       render();
     });
+    
+    
+    function collectTemplateData() {
+      const container = document.getElementById('templateFieldsContainer');
+      const inputs = container.querySelectorAll('[data-template-field]');
+      const templateData = {};
+      
+      inputs.forEach(input => {
+        const fieldName = input.dataset.templateField;
+        const value = input.value.trim();
+        if (value) {
+          templateData[fieldName] = value;
+        }
+      });
+      
+      return Object.keys(templateData).length > 0 ? templateData : null;
+    }
     
     document.getElementById('submitCaptureBtn').addEventListener('click', () => {
       const text = document.getElementById('captureText').value.trim();
@@ -3312,6 +4283,8 @@ display: flex;;
         alert('Please enter your thought');
         return;
       }
+      
+      const templateData = collectTemplateData();
       
       if (state.editingMoment) {
         const momentIndex = state.moments.findIndex(m => m.id === state.editingMoment.id);
@@ -3327,7 +4300,11 @@ display: flex;;
             },
             charts: state.captureCharts,
             codeBlocks: state.captureCodeBlocks,
-            tables: state.captureTables
+            tables: state.captureTables,
+            attachments: state.captureAttachments,
+            templateData: templateData,
+            tags: [...state.captureTags],
+            priority: state.capturePriority
           };
           state.selectedMoment = state.moments[momentIndex];
         }
@@ -3346,6 +4323,10 @@ display: flex;;
           charts: state.captureCharts,
           codeBlocks: state.captureCodeBlocks,
           tables: state.captureTables,
+          attachments: state.captureAttachments,
+          templateData: templateData,
+          tags: [...state.captureTags],
+          priority: state.capturePriority,
           threadId: state.selectedThread
         };
         
@@ -3358,6 +4339,9 @@ display: flex;;
       state.captureCharts = [];
       state.captureCodeBlocks = [];
       state.captureTables = [];
+      state.captureAttachments = [];
+      state.captureTags = [];
+      state.capturePriority = null;
       
       document.getElementById('captureText').value = '';
       document.getElementById('contextService').value = '';
@@ -3366,6 +4350,12 @@ display: flex;;
       document.getElementById('chartPreview').innerHTML = '';
       document.getElementById('codePreview').innerHTML = '';
       document.getElementById('tablePreview').innerHTML = '';
+      document.getElementById('attachmentsPreview').innerHTML = '';
+      document.getElementById('templateFieldsContainer').innerHTML = '';
+      document.getElementById('templateFields').style.display = 'none';
+      document.getElementById('tagsInput').value = '';
+      document.getElementById('tagsDisplay').innerHTML = '';
+      document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active', 'critical', 'follow-up', 'pinned'));
       document.getElementById('submitCaptureBtn').innerHTML = '⚡ Capture Moment';
       
       saveData();
@@ -3404,7 +4394,7 @@ display: flex;;
 Search query: "${query}"
 
 Moments:
-${state.moments.map(m => `ID: ${m.id}\nType: ${m.type}\nText: ${m.text}\nContext: ${JSON.stringify(m.context)}\n`).join('\n---\n')}
+${state.moments.map(m => `ID: ${m.id}\nType: ${m.type}\nText: ${m.text}\nContext: ${JSON.stringify(m.context)}\nTags: ${m.tags ? m.tags.join(', ') : 'none'}\nPriority: ${m.priority || 'none'}\n`).join('\n---\n')}
 
 Return only: ["id1", "id2", ...]`
             }]
@@ -3422,10 +4412,36 @@ Return only: ["id1", "id2", ...]`
         
       } catch (error) {
         console.error('Search failed:', error);
-        state.searchResults = state.moments.filter(m => 
-          m.text.toLowerCase().includes(query.toLowerCase()) ||
-          m.context.service?.toLowerCase().includes(query.toLowerCase())
-        );
+        const lowerQuery = query.toLowerCase();
+        
+        state.searchResults = state.moments.filter(m => {
+          // Text search
+          if (m.text.toLowerCase().includes(lowerQuery)) return true;
+          
+          // Context search
+          if (m.context.service?.toLowerCase().includes(lowerQuery)) return true;
+          if (m.context.environment?.toLowerCase().includes(lowerQuery)) return true;
+          if (m.context.version?.toLowerCase().includes(lowerQuery)) return true;
+          
+          // Tag search - support both #tag and tag format
+          if (m.tags && m.tags.length > 0) {
+            const searchTag = lowerQuery.replace(/^#/, ''); // Remove # if present
+            if (m.tags.some(tag => tag.toLowerCase().includes(searchTag))) return true;
+          }
+          
+          // Priority search
+          if (m.priority) {
+            const priorityLabels = {
+              critical: ['critical', 'urgent', 'high priority', '🔴'],
+              'follow-up': ['follow-up', 'follow up', 'followup', 'todo', '🟡'],
+              pinned: ['pinned', 'starred', 'star', 'important', '⭐']
+            };
+            
+            if (priorityLabels[m.priority].some(label => lowerQuery.includes(label))) return true;
+          }
+          
+          return false;
+        });
       }
       
       btn.disabled = false;
@@ -3449,7 +4465,15 @@ Return only: ["id1", "id2", ...]`
             contextHtml += '</div>';
           }
           
+          let priorityHtml = '';
+          if (moment.priority) {
+            const priorityIcons = { critical: '🔴', 'follow-up': '🟡', pinned: '⭐' };
+            const priorityLabels = { critical: 'Critical', 'follow-up': 'Follow-up', pinned: 'Pinned' };
+            priorityHtml = `<div class="moment-priority"><span class="priority-badge ${moment.priority}">${priorityIcons[moment.priority]} ${priorityLabels[moment.priority]}</span></div>`;
+          }
+          
           card.innerHTML = `
+            ${priorityHtml}
             <div class="moment-header">
               <div class="moment-type" style="color: ${config.color}">
                 ${config.icon} ${config.label}
@@ -3459,6 +4483,19 @@ Return only: ["id1", "id2", ...]`
             <div class="moment-text">${moment.text}</div>
             ${contextHtml}
           `;
+          
+          if (moment.tags && moment.tags.length > 0) {
+            const tagsContainer = document.createElement('div');
+            tagsContainer.className = 'moment-tags';
+            moment.tags.forEach(tag => {
+              const tagEl = document.createElement('span');
+              tagEl.className = 'moment-tag';
+              tagEl.textContent = '#' + tag;
+              tagEl.style.cursor = 'default';
+              tagsContainer.appendChild(tagEl);
+            });
+            card.appendChild(tagsContainer);
+          }
           
           card.addEventListener('click', () => {
             state.selectedMoment = moment;
@@ -3479,6 +4516,32 @@ Return only: ["id1", "id2", ...]`
           </div>
         `;
       }
+    }
+    
+    
+    function showImageModal(imageData) {
+      const modal = document.createElement('div');
+      modal.className = 'modal-overlay visible';
+      modal.innerHTML = `
+        <div class="modal modal-wide" style="max-width: 90vw; max-height: 90vh; padding: 0; overflow: hidden;">
+          <img src="${imageData}" style="width: 100%; height: 100%; object-fit: contain; display: block;">
+        </div>
+      `;
+      
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          document.body.removeChild(modal);
+        }
+      });
+      
+      document.body.appendChild(modal);
+    }
+    
+    function downloadAttachment(attachment) {
+      const link = document.createElement('a');
+      link.href = attachment.data;
+      link.download = attachment.name;
+      link.click();
     }
     
     // Initialize
