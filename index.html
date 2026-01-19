@@ -583,6 +583,148 @@ display: flex;;
       word-wrap: break-word;
     }
     
+    /* Markdown Styles */
+    .moment-text p,
+    .detail-content p {
+      margin: 0 0 8px 0;
+    }
+    
+    .moment-text p:last-child,
+    .detail-content p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .moment-text strong,
+    .detail-content strong {
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+    
+    .moment-text em,
+    .detail-content em {
+      color: var(--text-primary);
+      font-style: italic;
+    }
+    
+    .moment-text code,
+    .detail-content code {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--accent-primary);
+    }
+    
+    .moment-text pre,
+    .detail-content pre {
+      background: rgba(0, 0, 0, 0.4);
+      padding: 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 8px 0;
+      border-left: 3px solid var(--accent-primary);
+    }
+    
+    .moment-text pre code,
+    .detail-content pre code {
+      background: none;
+      padding: 0;
+      color: var(--text-primary);
+    }
+    
+    .moment-text ul,
+    .moment-text ol,
+    .detail-content ul,
+    .detail-content ol {
+      margin: 8px 0;
+      padding-left: 24px;
+    }
+    
+    .moment-text li,
+    .detail-content li {
+      margin: 4px 0;
+    }
+    
+    .moment-text blockquote,
+    .detail-content blockquote {
+      border-left: 3px solid var(--accent-primary);
+      padding-left: 12px;
+      margin: 8px 0;
+      color: var(--text-secondary);
+      font-style: italic;
+    }
+    
+    .moment-text a,
+    .detail-content a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    
+    .moment-text a:hover,
+    .detail-content a:hover {
+      border-bottom-color: var(--accent-primary);
+    }
+    
+    .wikilink {
+      color: var(--ruby-accent) !important;
+      font-weight: 500;
+      border-bottom: 1px dashed var(--ruby-accent) !important;
+      transition: all 0.2s;
+    }
+    
+    .wikilink:hover {
+      background: rgba(224, 17, 95, 0.1);
+      border-bottom-style: solid !important;
+    }
+    
+    .wikilink-missing {
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    
+    .moment-text h1,
+    .moment-text h2,
+    .moment-text h3,
+    .moment-text h4,
+    .detail-content h1,
+    .detail-content h2,
+    .detail-content h3,
+    .detail-content h4 {
+      color: var(--text-primary);
+      margin: 12px 0 8px 0;
+      font-weight: 600;
+    }
+    
+    .moment-text h1,
+    .detail-content h1 {
+      font-size: 18px;
+    }
+    
+    .moment-text h2,
+    .detail-content h2 {
+      font-size: 16px;
+    }
+    
+    .moment-text h3,
+    .detail-content h3 {
+      font-size: 14px;
+    }
+    
+    .moment-text h4,
+    .detail-content h4 {
+      font-size: 13px;
+    }
+    
+    .moment-text hr,
+    .detail-content hr {
+      border: none;
+      border-top: 1px solid var(--border-color);
+      margin: 12px 0;
+    }
+    
     .moment-context {
       display: flex;
       flex-wrap: wrap;
@@ -759,7 +901,6 @@ display: flex;;
       line-height: 1.6;
       color: #cbd5e1;
       margin-bottom: 16px;
-      white-space: pre-wrap;
       word-wrap: break-word;
     }
     
@@ -1476,6 +1617,182 @@ display: flex;;
       font-size: 13px;
     }
     
+    /* Graph View */
+    .graph-view {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .graph-view.visible {
+      display: flex;
+    }
+    
+    .graph-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-tertiary);
+    }
+    
+    .graph-header h2 {
+      font-size: 18px;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+    
+    .graph-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    
+    .graph-legend {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+    
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+    
+    #graphContainer {
+      flex: 1;
+      position: relative;
+      background: var(--bg-primary);
+      overflow: hidden;
+    }
+    
+    #graphContainer svg {
+      width: 100%;
+      height: 100%;
+    }
+    
+    .graph-sidebar {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 350px;
+      background: var(--bg-tertiary);
+      border-left: 1px solid var(--border-color);
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      z-index: 10;
+    }
+    
+    .graph-sidebar.visible {
+      transform: translateX(0);
+    }
+    
+    .graph-sidebar-content {
+      padding: 16px;
+    }
+    
+    .graph-node-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    
+    .graph-node-meta {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    
+    .graph-node-text {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+    }
+    
+    .graph-links-section {
+      margin-top: 16px;
+    }
+    
+    .graph-links-section h4 {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .graph-link-item {
+      padding: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 4px;
+      margin-bottom: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--text-secondary);
+      transition: all 0.2s;
+    }
+    
+    .graph-link-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--accent-primary);
+    }
+    
+    .graph-node {
+      cursor: pointer;
+    }
+    
+    .graph-node circle {
+      stroke: rgba(255, 255, 255, 0.3);
+      stroke-width: 2px;
+      transition: all 0.3s;
+    }
+    
+    .graph-node:hover circle {
+      stroke-width: 3px;
+      stroke: var(--accent-primary);
+    }
+    
+    .graph-node.selected circle {
+      stroke: var(--accent-primary);
+      stroke-width: 3px;
+    }
+    
+    .graph-node text {
+      fill: var(--text-primary);
+      font-size: 11px;
+      pointer-events: none;
+      user-select: none;
+    }
+    
+    .graph-link {
+      stroke: rgba(255, 255, 255, 0.15);
+      stroke-width: 1.5px;
+    }
+    
+    .graph-link.highlighted {
+      stroke: var(--ruby-accent);
+      stroke-width: 2.5px;
+    }
+    
     /* Thread View */
     .thread-list {
       margin-top: 12px;
@@ -1938,6 +2255,8 @@ display: flex;;
       font-weight: 600;
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/marked@11.1.1/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
 </head>
 <body>
   <div class="trace-app">
@@ -2020,6 +2339,9 @@ display: flex;;
         </div>
         <div class="nav-item" data-view="search">
           🔍 Search
+        </div>
+        <div class="nav-item" data-view="graph">
+          🕸️ Graph
         </div>
         
         <h3>Filter by Type</h3>
@@ -2196,7 +2518,7 @@ display: flex;;
       
       <div class="form-group">
         <label class="form-label">Your Thought</label>
-        <textarea id="captureText" class="form-textarea" placeholder="What's on your mind?"></textarea>
+        <textarea id="captureText" class="form-textarea" placeholder="What's on your mind? (Markdown + [[wikilinks]] supported)"></textarea>
       </div>
       
       <div id="templateFields" class="form-group" style="display: none;">
@@ -2289,6 +2611,38 @@ display: flex;;
           <div class="empty-state-icon">🔍</div>
           <h3>Semantic Search</h3>
           <p>Search your moments by meaning, not just keywords</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Graph View -->
+    <div class="graph-view" id="graphView">
+      <div class="graph-header">
+        <h2>Knowledge Graph</h2>
+        <p class="graph-subtitle">Visualize connections between moments using [[wikilinks]]</p>
+        <div class="graph-legend">
+          <div class="legend-item">
+            <div class="legend-dot" style="background: var(--accent-primary);"></div>
+            <span>Selected</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background: var(--ruby-accent);"></div>
+            <span>Linked</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot" style="background: var(--text-muted);"></div>
+            <span>Unlinked</span>
+          </div>
+        </div>
+      </div>
+      <div id="graphContainer"></div>
+      <div id="graphSidebar" class="graph-sidebar">
+        <div class="graph-sidebar-content">
+          <div class="empty-state">
+            <div class="empty-state-icon">🕸️</div>
+            <h3>Select a Node</h3>
+            <p>Click on a moment in the graph to see details and connections</p>
+          </div>
         </div>
       </div>
     </div>
@@ -2645,6 +2999,92 @@ display: flex;;
       if (days < 7) return `${days}d ago`;
       return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
     }
+    
+    // Markdown Parser
+    function parseMarkdown(text, momentId = null) {
+      if (!text) return '';
+      
+      // Parse wikilinks [[text]] before markdown
+      let processedText = text.replace(/\[\[([^\]]+)\]\]/g, (match, linkText) => {
+        // Find moment by title (first 50 chars of text) or ID
+        const targetMoment = state.moments.find(m => 
+          m.text.substring(0, 50).toLowerCase().includes(linkText.toLowerCase()) ||
+          m.id === linkText
+        );
+        
+        if (targetMoment) {
+          return `<a href="#" class="wikilink" data-moment-id="${targetMoment.id}" onclick="navigateToMoment('${targetMoment.id}'); return false;">[[${linkText}]]</a>`;
+        }
+        
+        // If no moment found, just return the text
+        return `<span class="wikilink-missing">[[${linkText}]]</span>`;
+      });
+      
+      // Configure marked to be safe
+      marked.setOptions({
+        breaks: true,
+        gfm: true,
+        headerIds: false,
+        mangle: false
+      });
+      
+      return marked.parse(processedText);
+    }
+    
+    // Extract wikilinks from text
+    function extractWikilinks(text) {
+      if (!text) return [];
+      const regex = /\[\[([^\]]+)\]\]/g;
+      const links = [];
+      let match;
+      
+      while ((match = regex.exec(text)) !== null) {
+        links.push(match[1]);
+      }
+      
+      return links;
+    }
+    
+    // Get linked moments
+    function getLinkedMoments(momentId) {
+      const moment = state.moments.find(m => m.id === momentId);
+      if (!moment) return { outgoing: [], incoming: [] };
+      
+      const wikilinks = extractWikilinks(moment.text);
+      const outgoing = [];
+      
+      wikilinks.forEach(linkText => {
+        const targetMoment = state.moments.find(m => 
+          m.text.substring(0, 50).toLowerCase().includes(linkText.toLowerCase()) ||
+          m.id === linkText
+        );
+        if (targetMoment) {
+          outgoing.push(targetMoment);
+        }
+      });
+      
+      // Find moments that link to this one
+      const incoming = state.moments.filter(m => {
+        if (m.id === momentId) return false;
+        const links = extractWikilinks(m.text);
+        return links.some(linkText => 
+          moment.text.substring(0, 50).toLowerCase().includes(linkText.toLowerCase()) ||
+          moment.id === linkText
+        );
+      });
+      
+      return { outgoing, incoming };
+    }
+    
+    // Navigate to moment from wikilink
+    window.navigateToMoment = function(momentId) {
+      const moment = state.moments.find(m => m.id === momentId);
+      if (moment) {
+        state.selectedMoment = moment;
+        state.view = 'timeline';
+        render();
+      }
+    };
     
     // Syntax Highlighting
     function highlightCode(code, language) {
@@ -3296,7 +3736,7 @@ display: flex;;
             </div>
             <div class="moment-time">${formatTime(moment.timestamp)}</div>
           </div>
-          <div class="moment-text">${moment.text}</div>
+          <div class="moment-text">${parseMarkdown(moment.text)}</div>
           ${contextHtml}
         `;
         
@@ -3483,7 +3923,7 @@ display: flex;;
         
         <div class="detail-section">
           <h3>Thought</h3>
-          <div class="detail-content">${moment.text}</div>
+          <div class="detail-content">${parseMarkdown(moment.text)}</div>
         </div>
         
         ${contextHtml}
@@ -3625,6 +4065,45 @@ display: flex;;
         section.appendChild(attachmentsContainer);
         panel.appendChild(section);
       }
+      
+      // Add backlinks section
+      const { outgoing, incoming } = getLinkedMoments(moment.id);
+      if (outgoing.length > 0 || incoming.length > 0) {
+        const linksSection = document.createElement('div');
+        linksSection.className = 'detail-section';
+        linksSection.innerHTML = '<h3>🔗 Links & Backlinks</h3>';
+        
+        if (outgoing.length > 0) {
+          const outgoingDiv = document.createElement('div');
+          outgoingDiv.style.marginBottom = '12px';
+          outgoingDiv.innerHTML = '<h4 style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Links To:</h4>';
+          outgoing.forEach(m => {
+            const cfg = MOMENT_TYPES[m.type];
+            const linkItem = document.createElement('div');
+            linkItem.className = 'graph-link-item';
+            linkItem.textContent = `${cfg.icon} ${m.text.substring(0, 60)}...`;
+            linkItem.onclick = () => navigateToMoment(m.id);
+            outgoingDiv.appendChild(linkItem);
+          });
+          linksSection.appendChild(outgoingDiv);
+        }
+        
+        if (incoming.length > 0) {
+          const incomingDiv = document.createElement('div');
+          incomingDiv.innerHTML = '<h4 style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Linked From (Backlinks):</h4>';
+          incoming.forEach(m => {
+            const cfg = MOMENT_TYPES[m.type];
+            const linkItem = document.createElement('div');
+            linkItem.className = 'graph-link-item';
+            linkItem.textContent = `${cfg.icon} ${m.text.substring(0, 60)}...`;
+            linkItem.onclick = () => navigateToMoment(m.id);
+            incomingDiv.appendChild(linkItem);
+          });
+          linksSection.appendChild(incomingDiv);
+        }
+        
+        panel.appendChild(linksSection);
+      }
     }
     
     function renderThreads() {
@@ -3674,10 +4153,202 @@ display: flex;;
       document.getElementById('count-unthreaded').textContent = unthreadedCount;
     }
     
+    
+    // Render Graph Visualization
+    function renderGraph() {
+      const container = document.getElementById('graphContainer');
+      container.innerHTML = '';
+      
+      if (state.moments.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🕸️</div><h3>No Moments Yet</h3><p>Create moments with [[wikilinks]] to build your knowledge graph</p></div>';
+        return;
+      }
+      
+      // Build nodes and links
+      const nodes = state.moments.map(m => ({
+        id: m.id,
+        label: m.text.substring(0, 30).replace(/\n/g, ' ') + (m.text.length > 30 ? '...' : ''),
+        type: m.type,
+        moment: m
+      }));
+      
+      const links = [];
+      const linkSet = new Set();
+      
+      state.moments.forEach(moment => {
+        const wikilinks = extractWikilinks(moment.text);
+        wikilinks.forEach(linkText => {
+          const targetMoment = state.moments.find(m => 
+            m.text.substring(0, 50).toLowerCase().includes(linkText.toLowerCase()) ||
+            m.id === linkText
+          );
+          if (targetMoment) {
+            const linkKey = `${moment.id}-${targetMoment.id}`;
+            if (!linkSet.has(linkKey)) {
+              links.push({ source: moment.id, target: targetMoment.id });
+              linkSet.add(linkKey);
+            }
+          }
+        });
+      });
+      
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      
+      const svg = d3.select(container)
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height);
+      
+      // Add zoom behavior
+      const g = svg.append('g');
+      
+      svg.call(d3.zoom()
+        .scaleExtent([0.1, 4])
+        .on('zoom', (event) => {
+          g.attr('transform', event.transform);
+        }));
+      
+      // Create force simulation
+      const simulation = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id(d => d.id).distance(100))
+        .force('charge', d3.forceManyBody().strength(-300))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('collision', d3.forceCollide().radius(40));
+      
+      // Draw links
+      const link = g.append('g')
+        .selectAll('line')
+        .data(links)
+        .join('line')
+        .attr('class', 'graph-link')
+        .attr('stroke', 'rgba(255, 255, 255, 0.15)')
+        .attr('stroke-width', 1.5);
+      
+      // Draw nodes
+      const node = g.append('g')
+        .selectAll('g')
+        .data(nodes)
+        .join('g')
+        .attr('class', 'graph-node')
+        .call(d3.drag()
+          .on('start', dragstarted)
+          .on('drag', dragged)
+          .on('end', dragended))
+        .on('click', (event, d) => {
+          event.stopPropagation();
+          showGraphNodeDetails(d.moment);
+          
+          // Highlight connected nodes
+          node.classed('selected', n => n.id === d.id);
+          link.classed('highlighted', l => 
+            l.source.id === d.id || l.target.id === d.id
+          );
+        });
+      
+      // Add circles to nodes
+      node.append('circle')
+        .attr('r', 20)
+        .attr('fill', d => {
+          const config = MOMENT_TYPES[d.type];
+          return config ? config.color : '#64748b';
+        })
+        .attr('opacity', 0.8);
+      
+      // Add labels to nodes
+      node.append('text')
+        .text(d => d.label)
+        .attr('x', 0)
+        .attr('y', 30)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#e4e4e7')
+        .attr('font-size', '11px');
+      
+      // Update positions on simulation tick
+      simulation.on('tick', () => {
+        link
+          .attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y);
+        
+        node.attr('transform', d => `translate(${d.x},${d.y})`);
+      });
+      
+      function dragstarted(event) {
+        if (!event.active) simulation.alphaTarget(0.3).restart();
+        event.subject.fx = event.subject.x;
+        event.subject.fy = event.subject.y;
+      }
+      
+      function dragged(event) {
+        event.subject.fx = event.x;
+        event.subject.fy = event.y;
+      }
+      
+      function dragended(event) {
+        if (!event.active) simulation.alphaTarget(0);
+        event.subject.fx = null;
+        event.subject.fy = null;
+      }
+    }
+    
+    // Show graph node details
+    function showGraphNodeDetails(moment) {
+      const sidebar = document.getElementById('graphSidebar');
+      const content = sidebar.querySelector('.graph-sidebar-content');
+      
+      const config = MOMENT_TYPES[moment.type];
+      const { outgoing, incoming } = getLinkedMoments(moment.id);
+      
+      content.innerHTML = `
+        <div class="graph-node-title">${config.icon} ${config.label}</div>
+        <div class="graph-node-meta">
+          <span>${new Date(moment.timestamp).toLocaleDateString()}</span>
+          <span>•</span>
+          <span>${outgoing.length} outgoing</span>
+          <span>•</span>
+          <span>${incoming.length} incoming</span>
+        </div>
+        <div class="graph-node-text">${moment.text.substring(0, 200)}${moment.text.length > 200 ? '...' : ''}</div>
+        
+        ${outgoing.length > 0 ? `
+          <div class="graph-links-section">
+            <h4>Links To</h4>
+            ${outgoing.map(m => {
+              const cfg = MOMENT_TYPES[m.type];
+              return `<div class="graph-link-item" onclick="navigateToMoment('${m.id}')">${cfg.icon} ${m.text.substring(0, 50)}...</div>`;
+            }).join('')}
+          </div>
+        ` : ''}
+        
+        ${incoming.length > 0 ? `
+          <div class="graph-links-section">
+            <h4>Linked From (Backlinks)</h4>
+            ${incoming.map(m => {
+              const cfg = MOMENT_TYPES[m.type];
+              return `<div class="graph-link-item" onclick="navigateToMoment('${m.id}')">${cfg.icon} ${m.text.substring(0, 50)}...</div>`;
+            }).join('')}
+          </div>
+        ` : ''}
+        
+        <button class="btn-secondary" onclick="navigateToMoment('${moment.id}')" style="width: 100%; margin-top: 16px;">
+          View Full Moment
+        </button>
+      `;
+      
+      sidebar.classList.add('visible');
+    }
+    
     function render() {
       document.getElementById('timelineView').classList.toggle('hidden', state.view !== 'timeline');
       document.getElementById('captureView').classList.toggle('visible', state.view === 'capture');
       document.getElementById('searchView').classList.toggle('visible', state.view === 'search');
+      document.getElementById('graphView').classList.toggle('visible', state.view === 'graph');
+      
+      if (state.view === 'graph') {
+        renderGraph();
+      }
       
       if (state.view === 'capture') {
         const threadIndicator = document.getElementById('captureThreadIndicator');
@@ -4821,7 +5492,7 @@ Return only: ["id1", "id2", ...]`
               </div>
               <div class="moment-time">${formatTime(moment.timestamp)}</div>
             </div>
-            <div class="moment-text">${moment.text}</div>
+            <div class="moment-text">${parseMarkdown(moment.text)}</div>
             ${contextHtml}
           `;
           
