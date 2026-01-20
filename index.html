@@ -569,6 +569,68 @@ display: flex;;
       font-family: 'Courier New', monospace;
     }
     
+    /* SVG Icon Styles */
+    .icon-moment,
+    .icon-nav,
+    .icon-priority,
+    .icon-content,
+    .icon-action,
+    .icon-context {
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+    
+    .icon-moment {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .type-btn .icon-moment {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .detail-type-icon .icon-moment {
+      width: 36px;
+      height: 36px;
+    }
+    
+    .graph-node .icon-moment {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .icon-nav {
+      width: 16px;
+      height: 16px;
+      margin-right: 8px;
+    }
+    
+    .icon-priority {
+      width: 14px;
+      height: 14px;
+      margin-right: 4px;
+    }
+    
+    .icon-content {
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+    }
+    
+    .icon-action {
+      width: 16px;
+      height: 16px;
+      margin-right: 6px;
+    }
+    
+    .icon-context {
+      width: 12px;
+      height: 12px;
+      margin-right: 4px;
+    }
+    
     .moment-text {
       font-size: 13px;
       line-height: 1.5;
@@ -1621,13 +1683,19 @@ display: flex;;
     .graph-view {
       flex: 1;
       display: none;
-      flex-direction: column;
       overflow: hidden;
       position: relative;
     }
     
     .graph-view.visible {
       display: flex;
+    }
+    
+    .graph-container-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
     
     .graph-header {
@@ -2284,7 +2352,7 @@ display: flex;;
         
         <div class="theme-selector">
           <button class="theme-btn" id="themeToggle">
-            <span>🎨 Theme: <span id="currentThemeName">Classic</span></span>
+            <span><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg> Theme: <span id="currentThemeName">Classic</span></span>
             <span>▼</span>
           </button>
           <div class="theme-dropdown" id="themeDropdown">
@@ -2335,79 +2403,93 @@ display: flex;;
       <div class="nav-section">
         <h3>Views</h3>
         <div class="nav-item active" data-view="timeline">
-          🕐 Timeline
+          <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Timeline
         </div>
         <div class="nav-item" data-view="search">
-          🔍 Search
+          <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          Search
         </div>
         <div class="nav-item" data-view="graph">
-          🕸️ Graph
+          <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+          Graph
         </div>
         
         <h3>Filter by Type</h3>
         <div class="filter-item active" data-filter="all">
           <div class="filter-label">
-            💻 All Moments
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            All Moments
           </div>
           <div class="filter-count" id="count-all">0</div>
         </div>
         <div class="filter-item" data-filter="incident">
           <div class="filter-label">
-            🚨 Incident
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+            Incident
           </div>
           <div class="filter-count" id="count-incident">0</div>
         </div>
         <div class="filter-item" data-filter="deploy">
           <div class="filter-label">
-            🚀 Deploy
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+            Deploy
           </div>
           <div class="filter-count" id="count-deploy">0</div>
         </div>
         <div class="filter-item" data-filter="idea">
           <div class="filter-label">
-            💡 Idea
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
+            Idea
           </div>
           <div class="filter-count" id="count-idea">0</div>
         </div>
         <div class="filter-item" data-filter="observation">
           <div class="filter-label">
-            📊 Observation
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg>
+            Observation
           </div>
           <div class="filter-count" id="count-observation">0</div>
         </div>
         <div class="filter-item" data-filter="thought">
           <div class="filter-label">
-            💭 Thought
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+            Thought
           </div>
           <div class="filter-count" id="count-thought">0</div>
         </div>
         <div class="filter-item" data-filter="bug">
           <div class="filter-label">
-            🐛 Bug
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/></svg>
+            Bug
           </div>
           <div class="filter-count" id="count-bug">0</div>
         </div>
         <div class="filter-item" data-filter="meeting">
           <div class="filter-label">
-            🤝 Meeting
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Meeting
           </div>
           <div class="filter-count" id="count-meeting">0</div>
         </div>
         <div class="filter-item" data-filter="decision">
           <div class="filter-label">
-            ⚖️ Decision
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg>
+            Decision
           </div>
           <div class="filter-count" id="count-decision">0</div>
         </div>
         <div class="filter-item" data-filter="review">
           <div class="filter-label">
-            👁️ Review
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            Review
           </div>
           <div class="filter-count" id="count-review">0</div>
         </div>
         <div class="filter-item" data-filter="question">
           <div class="filter-label">
-            ❓ Question
+            <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            Question
           </div>
           <div class="filter-count" id="count-question">0</div>
         </div>
@@ -2415,19 +2497,19 @@ display: flex;;
         <h3>Threads</h3>
         <div class="thread-list" id="threadList"></div>
         <button class="btn-secondary" id="newThreadBtn" style="margin-top: 12px; width: 100%;">
-          ➕ New Thread
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg> New Thread
         </button>
         
         <div id="unthreadedFilter" class="filter-item hidden" style="margin-top: 12px;">
           <div class="filter-label">
-            📌 Unthreaded
+            <svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="17" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/></svg> Unthreaded
           </div>
           <div class="filter-count" id="count-unthreaded">0</div>
         </div>
       </div>
       
       <button class="btn-primary" id="captureMomentBtn">
-        ➕ Capture Moment
+        <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg> Capture Moment
       </button>
     </div>
     
@@ -2439,11 +2521,11 @@ display: flex;;
         </div>
         <div id="threadBanner" class="thread-banner hidden">
           <div class="thread-banner-content">
-            <span class="thread-banner-icon">🧵</span>
+            <span class="thread-banner-icon"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17h.01"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg></span>
             <span class="thread-banner-text" id="threadBannerText"></span>
           </div>
           <div class="thread-banner-actions">
-            <button class="thread-banner-btn" id="threadBannerDeleteBtn" onclick="confirmDeleteThread()" title="Delete Thread">🗑️</button>
+            <button class="thread-banner-btn" id="threadBannerDeleteBtn" onclick="confirmDeleteThread()" title="Delete Thread"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg></button>
             <button class="thread-banner-close" onclick="clearThreadFilter()">✕</button>
           </div>
         </div>
@@ -2463,43 +2545,43 @@ display: flex;;
       
       <div class="type-selector" id="typeSelector">
         <div class="type-btn active" data-type="thought" style="color: #a78bfa;">
-          <div class="type-btn-icon">💭</div>
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></div>
           <div class="type-btn-label">Thought</div>
         </div>
         <div class="type-btn" data-type="incident" style="color: #E0115F;">
-          <div class="type-btn-icon">🚨</div>
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg></div>
           <div class="type-btn-label">Incident</div>
         </div>
         <div class="type-btn" data-type="deploy" style="color: #51cf66;">
-          <div class="type-btn-icon">🚀</div>
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div>
           <div class="type-btn-label">Deploy</div>
         </div>
         <div class="type-btn" data-type="idea" style="color: #ffd43b;">
-          <div class="type-btn-icon">💡</div>
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg></div>
           <div class="type-btn-label">Idea</div>
         </div>
         <div class="type-btn" data-type="observation" style="color: var(--accent-primary);">
-          <div class="type-btn-icon">📊</div>
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg></div>
           <div class="type-btn-label">Observation</div>
         </div>
         <div class="type-btn" data-type="bug" style="color: #9b003c;">
-          <div class="type-btn-icon">🐛</div>
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/></svg></div>
           <div class="type-btn-label">Bug</div>
         </div>
         <div class="type-btn" data-type="meeting" style="color: #339af0;">
-          <div class="type-btn-icon">🤝</div>
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
           <div class="type-btn-label">Meeting</div>
         </div>
         <div class="type-btn" data-type="decision" style="color: #be4bdb;">
-          <div class="type-btn-icon">⚖️</div>
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg></div>
           <div class="type-btn-label">Decision</div>
         </div>
         <div class="type-btn" data-type="review" style="color: #20c997;">
-          <div class="type-btn-icon">👁️</div>
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></div>
           <div class="type-btn-label">Review</div>
         </div>
         <div class="type-btn" data-type="question" style="color: #ff922b;">
-          <div class="type-btn-icon">❓</div>
+          <div class="type-btn-icon"><svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg></div>
           <div class="type-btn-label">Question</div>
         </div>
       </div>
@@ -2511,7 +2593,7 @@ display: flex;;
             <option value="">No thread</option>
           </select>
           <button class="btn-secondary" id="createThreadFromCaptureBtn" style="margin: 0; white-space: nowrap;">
-            ➕ New Thread
+            <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg> New Thread
           </button>
         </div>
       </div>
@@ -2567,16 +2649,20 @@ display: flex;;
         <label class="form-label">Attachments</label>
         <div style="display: flex; gap: 12px; margin-bottom: 12px;">
           <button class="btn-secondary" id="addChartBtn" style="flex: 1; margin: 0;">
-            📈 Chart
+            <svg class="icon-content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Chart
           </button>
           <button class="btn-secondary" id="addCodeBtn" style="flex: 1; margin: 0;">
-            💻 Code
+            <svg class="icon-content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Code
           </button>
           <button class="btn-secondary" id="addTableBtn" style="flex: 1; margin: 0;">
-            📊 Table
+            <svg class="icon-content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M3 15h18"/><path d="M9 3v18"/><path d="M15 3v18"/></svg>
+            Table
           </button>
           <button class="btn-secondary" id="addFileBtn" style="flex: 1; margin: 0;">
-            📎 Files
+            <svg class="icon-content" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+            Files
           </button>
         </div>
         <input type="file" id="fileInput" multiple accept="image/*,application/pdf,.doc,.docx,.txt" style="display: none;">
@@ -2588,7 +2674,7 @@ display: flex;;
       
       <div class="form-actions">
         <button class="btn-large btn-cancel" id="cancelCaptureBtn">Cancel</button>
-        <button class="btn-large btn-capture" id="submitCaptureBtn">⚡ Capture Moment</button>
+        <button class="btn-large btn-capture" id="submitCaptureBtn"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Capture Moment</button>
       </div>
     </div>
     
@@ -2617,34 +2703,29 @@ display: flex;;
     
     <!-- Graph View -->
     <div class="graph-view" id="graphView">
-      <div class="graph-header">
-        <h2>Knowledge Graph</h2>
-        <p class="graph-subtitle">Visualize connections between moments using [[wikilinks]]</p>
-        <div class="graph-legend">
-          <div class="legend-item">
-            <div class="legend-dot" style="background: var(--accent-primary);"></div>
-            <span>Selected</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-dot" style="background: var(--ruby-accent);"></div>
-            <span>Linked</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-dot" style="background: var(--text-muted);"></div>
-            <span>Unlinked</span>
-          </div>
-        </div>
-      </div>
-      <div id="graphContainer"></div>
-      <div id="graphSidebar" class="graph-sidebar">
-        <div class="graph-sidebar-content">
-          <div class="empty-state">
-            <div class="empty-state-icon">🕸️</div>
-            <h3>Select a Node</h3>
-            <p>Click on a moment in the graph to see details and connections</p>
+      <div class="graph-container-wrapper">
+        <div class="graph-header">
+          <h2>Knowledge Graph</h2>
+          <p class="graph-subtitle">Visualize connections between moments using [[wikilinks]]</p>
+          <div class="graph-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--accent-primary);"></div>
+              <span>Selected</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--ruby-accent);"></div>
+              <span>Linked</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: var(--text-muted);"></div>
+              <span>Unlinked</span>
+            </div>
           </div>
         </div>
+        <div id="graphContainer"></div>
       </div>
+      
+      <div class="detail-panel" id="graphDetailPanel"></div>
     </div>
   </div>
 
@@ -2668,7 +2749,7 @@ display: flex;;
             <div class="feature-item-desc">Incidents, Deploys, Ideas, Bugs, Meetings, Decisions, and more</div>
           </div>
           <div class="feature-item">
-            <div class="feature-item-title">🧵 Thread Organization</div>
+            <div class="feature-item-title"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17h.01"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg> Thread Organization</div>
             <div class="feature-item-desc">Group related moments into threads for complex investigations</div>
           </div>
           <div class="feature-item">
@@ -2680,11 +2761,11 @@ display: flex;;
             <div class="feature-item-desc">AI-powered search to find moments by meaning, not just keywords</div>
           </div>
           <div class="feature-item">
-            <div class="feature-item-title">🎨 Syntax Highlighting</div>
+            <div class="feature-item-title"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg> Syntax Highlighting</div>
             <div class="feature-item-desc">Beautiful code rendering with support for multiple languages</div>
           </div>
           <div class="feature-item">
-            <div class="feature-item-title">💾 Local Storage</div>
+            <div class="feature-item-title"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Local Storage</div>
             <div class="feature-item-desc">All data stays in your browser—complete privacy</div>
           </div>
         </div>
@@ -2847,7 +2928,7 @@ display: flex;;
     // Constants
     const MOMENT_TYPES = {
       incident: { 
-        icon: '🚨', 
+        icon: `<svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>`, 
         color: '#E0115F', 
         label: 'Incident', 
         prompts: ['What looks wrong?', 'What changed recently?', 'Initial hypothesis'],
@@ -2858,7 +2939,7 @@ display: flex;;
         ]
       },
       deploy: { 
-        icon: '🚀', 
+        icon: `<svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>`, 
         color: '#51cf66', 
         label: 'Deploy', 
         prompts: ['What are the expectations?', 'What are the risks?', 'Success criteria'],
@@ -2869,25 +2950,25 @@ display: flex;;
         ]
       },
       idea: { 
-        icon: '💡', 
+        icon: `<svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>`, 
         color: '#ffd43b', 
         label: 'Idea', 
         prompts: ['What problem does this solve?', 'Why now?'] 
       },
       observation: { 
-        icon: '📊', 
+        icon: `<svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></svg>`, 
         color: 'var(--accent-primary)', 
         label: 'Observation', 
         prompts: ['What did you notice?', 'Why does it matter?'] 
       },
       thought: { 
-        icon: '💭', 
+        icon: `<svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>`, 
         color: '#a78bfa', 
         label: 'Thought', 
         prompts: [] 
       },
       bug: { 
-        icon: '🐛', 
+        icon: `<svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3.003 3.003 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/></svg>`, 
         color: '#fa5252', 
         label: 'Bug', 
         prompts: ['What is the bug?', 'Steps to reproduce', 'Expected vs actual behavior'],
@@ -2899,7 +2980,7 @@ display: flex;;
         ]
       },
       meeting: { 
-        icon: '🤝', 
+        icon: `<svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`, 
         color: '#339af0', 
         label: 'Meeting', 
         prompts: ['Key discussion points', 'Action items', 'Decisions made'],
@@ -2910,7 +2991,7 @@ display: flex;;
         ]
       },
       decision: { 
-        icon: '⚖️', 
+        icon: `<svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="9" y2="9"/><line x1="4" x2="20" y1="15" y2="15"/><line x1="10" x2="8" y1="3" y2="21"/><line x1="16" x2="14" y1="3" y2="21"/></svg>`, 
         color: '#be4bdb', 
         label: 'Decision', 
         prompts: ['What was decided?', 'Why?', 'Alternatives considered'],
@@ -2922,7 +3003,7 @@ display: flex;;
         ]
       },
       review: { 
-        icon: '👁️', 
+        icon: `<svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`, 
         color: '#20c997', 
         label: 'Review', 
         prompts: ['What did you review?', 'Feedback notes', 'Approval status'],
@@ -2933,7 +3014,7 @@ display: flex;;
         ]
       },
       question: { 
-        icon: '❓', 
+        icon: `<svg class="icon-moment" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>`, 
         color: '#ff922b', 
         label: 'Question', 
         prompts: ['What needs clarification?', 'Context for the question'] 
@@ -3169,8 +3250,8 @@ display: flex;;
       if (codeId) {
         actionsHtml = `
           <div class="code-block-actions">
-            <button class="code-block-btn" onclick="editCodeBlock('${id}')">✏️ Edit</button>
-            <button class="code-block-btn" onclick="removeCodeBlock('${id}')">🗑️ Remove</button>
+            <button class="code-block-btn" onclick="editCodeBlock('${id}')"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg> Edit</button>
+            <button class="code-block-btn" onclick="removeCodeBlock('${id}')"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg> Remove</button>
           </div>
         `;
       }
@@ -3203,8 +3284,8 @@ display: flex;;
       if (tableId) {
         actionsHtml = `
           <div class="table-block-actions">
-            <button class="code-block-btn" onclick="editTable('${id}')">✏️ Edit</button>
-            <button class="code-block-btn" onclick="removeTable('${id}')">🗑️ Remove</button>
+            <button class="code-block-btn" onclick="editTable('${id}')"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg> Edit</button>
+            <button class="code-block-btn" onclick="removeTable('${id}')"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg> Remove</button>
           </div>
         `;
       }
@@ -3579,8 +3660,8 @@ display: flex;;
         const controls = document.createElement('div');
         controls.className = 'chart-controls';
         controls.innerHTML = `
-          <button class="chart-btn" onclick="editChart('${id}')">✏️ Edit</button>
-          <button class="chart-btn" onclick="removeChart('${id}')">🗑️ Remove</button>
+          <button class="chart-btn" onclick="editChart('${id}')"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg> Edit</button>
+          <button class="chart-btn" onclick="removeChart('${id}')"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg> Remove</button>
         `;
         container.appendChild(controls);
       }
@@ -3665,7 +3746,7 @@ display: flex;;
         if (state.selectedThread === 'unthreaded') {
           container.innerHTML = `
             <div class="empty-state">
-              <div class="empty-state-icon">📌</div>
+              <div class="empty-state-icon"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="17" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/></svg></div>
               <h3>No unthreaded moments</h3>
               <p>All moments are assigned to threads</p>
             </div>
@@ -3674,7 +3755,7 @@ display: flex;;
           const thread = state.threads.find(t => t.id === state.selectedThread);
           container.innerHTML = `
             <div class="empty-state">
-              <div class="empty-state-icon">🧵</div>
+              <div class="empty-state-icon"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17h.01"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg></div>
               <h3>No moments in this thread</h3>
               <p>Capture a moment to add it to "${thread ? thread.name : 'this thread'}"</p>
             </div>
@@ -3704,9 +3785,9 @@ display: flex;;
         let contextHtml = '';
         if (moment.context.service || moment.context.environment || moment.context.version) {
           contextHtml = '<div class="moment-context">';
-          if (moment.context.service) contextHtml += `<div class="context-tag">🔧 ${moment.context.service}</div>`;
-          if (moment.context.environment) contextHtml += `<div class="context-tag">📍 ${moment.context.environment}</div>`;
-          if (moment.context.version) contextHtml += `<div class="context-tag">🏷️ ${moment.context.version}</div>`;
+          if (moment.context.service) contextHtml += `<div class="context-tag"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> ${moment.context.service}</div>`;
+          if (moment.context.environment) contextHtml += `<div class="context-tag"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${moment.context.environment}</div>`;
+          if (moment.context.version) contextHtml += `<div class="context-tag"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" x2="7.01" y1="7" y2="7"/></svg> ${moment.context.version}</div>`;
           contextHtml += '</div>';
         }
         
@@ -3714,15 +3795,15 @@ display: flex;;
         if (moment.threadId && !state.selectedThread) {
           const thread = state.threads.find(t => t.id === moment.threadId);
           if (thread) {
-            threadBadge = `<div class="moment-thread-badge">🧵 ${thread.name}</div>`;
+            threadBadge = `<div class="moment-thread-badge"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17h.01"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg> ${thread.name}</div>`;
           }
         } else if (!moment.threadId && state.threads.length > 0 && !state.selectedThread) {
-          threadBadge = `<div class="moment-unthreaded-badge">📌 Unthreaded</div>`;
+          threadBadge = `<div class="moment-unthreaded-badge"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="17" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/></svg> Unthreaded</div>`;
         }
         
         let priorityHtml = '';
         if (moment.priority) {
-          const priorityIcons = { critical: '🔴', 'follow-up': '🟡', pinned: '⭐' };
+          const priorityIcons = { critical: `<svg class="icon-priority" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="#E0115F"/></svg>`, 'follow-up': `<svg class="icon-priority" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="#ff922b"/></svg>`, pinned: `<svg class="icon-priority" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#ffd700"/></svg>` };
           const priorityLabels = { critical: 'Critical', 'follow-up': 'Follow-up', pinned: 'Pinned' };
           priorityHtml = `<div class="moment-priority"><span class="priority-badge ${moment.priority}">${priorityIcons[moment.priority]} ${priorityLabels[moment.priority]}</span></div>`;
         }
@@ -3808,7 +3889,7 @@ display: flex;;
                 showImageModal(attachment.data);
               });
             } else {
-              preview.innerHTML = `<div class="attachment-file">📄</div>`;
+              preview.innerHTML = `<div class="attachment-file"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></div>`;
               preview.addEventListener('click', (e) => {
                 e.stopPropagation();
                 downloadAttachment(attachment);
@@ -3845,13 +3926,13 @@ display: flex;;
       
       let editButtonHtml = `
         <button class="btn-secondary" onclick="editMoment('${moment.id}')" style="width: 100%; margin-bottom: 12px;">
-          ✏️ Edit Moment
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg> Edit Moment
         </button>
       `;
       
       let deleteButtonHtml = `
         <button class="btn-danger" onclick="confirmDeleteMoment('${moment.id}')" style="margin-bottom: 16px;">
-          🗑️ Delete Moment
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg> Delete Moment
         </button>
       `;
       
@@ -3862,7 +3943,7 @@ display: flex;;
         threadAssignmentHtml = `
           <div class="thread-assignment">
             <div class="thread-assignment-header">
-              <span class="thread-assignment-label">🧵 Thread</span>
+              <span class="thread-assignment-label"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17h.01"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg> Thread</span>
               ${momentThread ? `<button class="thread-remove-btn" onclick="removeFromThread('${moment.id}')">✕</button>` : ''}
             </div>
             <select class="thread-select" onchange="assignToThread('${moment.id}', this.value)">
@@ -3933,7 +4014,7 @@ display: flex;;
         const section = document.createElement('div');
         section.className = 'detail-section';
         section.innerHTML = '<h3>Priority</h3>';
-        const priorityIcons = { critical: '🔴', 'follow-up': '🟡', pinned: '⭐' };
+        const priorityIcons = { critical: `<svg class="icon-priority" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="#E0115F"/></svg>`, 'follow-up': `<svg class="icon-priority" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="#ff922b"/></svg>`, pinned: `<svg class="icon-priority" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#ffd700"/></svg>` };
         const priorityLabels = { critical: 'Critical', 'follow-up': 'Follow-up Required', pinned: 'Pinned' };
         const badge = document.createElement('span');
         badge.className = `priority-badge ${moment.priority}`;
@@ -4048,12 +4129,12 @@ display: flex;;
             const fileItem = document.createElement('div');
             fileItem.style.cssText = 'display: flex; align-items: center; gap: 12px; padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 6px; cursor: pointer; transition: all 0.2s;';
             fileItem.innerHTML = `
-              <div style="font-size: 32px;">📄</div>
+              <div style="font-size: 32px;"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></div>
               <div style="flex: 1;">
                 <div style="font-size: 13px; font-weight: 600; color: var(--text-primary);">${attachment.name}</div>
                 <div style="font-size: 11px; color: var(--text-muted);">${(attachment.size / 1024).toFixed(1)} KB</div>
               </div>
-              <div style="font-size: 20px; color: var(--accent-primary);">⬇️</div>
+              <div style="font-size: 20px; color: var(--accent-primary);"><svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg></div>
             `;
             fileItem.addEventListener('click', () => downloadAttachment(attachment));
             fileItem.addEventListener('mouseover', () => fileItem.style.background = 'rgba(0, 212, 255, 0.1)');
@@ -4071,7 +4152,7 @@ display: flex;;
       if (outgoing.length > 0 || incoming.length > 0) {
         const linksSection = document.createElement('div');
         linksSection.className = 'detail-section';
-        linksSection.innerHTML = '<h3>🔗 Links & Backlinks</h3>';
+        linksSection.innerHTML = '<h3><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Links & Backlinks</h3>';
         
         if (outgoing.length > 0) {
           const outgoingDiv = document.createElement('div');
@@ -4295,49 +4376,51 @@ display: flex;;
     
     // Show graph node details
     function showGraphNodeDetails(moment) {
-      const sidebar = document.getElementById('graphSidebar');
-      const content = sidebar.querySelector('.graph-sidebar-content');
+      const panel = document.getElementById('graphDetailPanel');
       
+      if (!moment) {
+        panel.classList.remove('visible');
+        return;
+      }
+      
+      // Just call the same rendering logic as timeline detail panel
+      panel.classList.add('visible');
+      
+      // Temporarily set this as selected moment for rendering
+      const originalSelected = state.selectedMoment;
+      state.selectedMoment = moment;
+      
+      // Render using the same logic, but to the graph detail panel
       const config = MOMENT_TYPES[moment.type];
-      const { outgoing, incoming } = getLinkedMoments(moment.id);
       
-      content.innerHTML = `
-        <div class="graph-node-title">${config.icon} ${config.label}</div>
-        <div class="graph-node-meta">
-          <span>${new Date(moment.timestamp).toLocaleDateString()}</span>
-          <span>•</span>
-          <span>${outgoing.length} outgoing</span>
-          <span>•</span>
-          <span>${incoming.length} incoming</span>
-        </div>
-        <div class="graph-node-text">${moment.text.substring(0, 200)}${moment.text.length > 200 ? '...' : ''}</div>
-        
-        ${outgoing.length > 0 ? `
-          <div class="graph-links-section">
-            <h4>Links To</h4>
-            ${outgoing.map(m => {
-              const cfg = MOMENT_TYPES[m.type];
-              return `<div class="graph-link-item" onclick="navigateToMoment('${m.id}')">${cfg.icon} ${m.text.substring(0, 50)}...</div>`;
-            }).join('')}
-          </div>
-        ` : ''}
-        
-        ${incoming.length > 0 ? `
-          <div class="graph-links-section">
-            <h4>Linked From (Backlinks)</h4>
-            ${incoming.map(m => {
-              const cfg = MOMENT_TYPES[m.type];
-              return `<div class="graph-link-item" onclick="navigateToMoment('${m.id}')">${cfg.icon} ${m.text.substring(0, 50)}...</div>`;
-            }).join('')}
-          </div>
-        ` : ''}
-        
-        <button class="btn-secondary" onclick="navigateToMoment('${moment.id}')" style="width: 100%; margin-top: 16px;">
-          View Full Moment
+      let editButtonHtml = `
+        <button class="btn-secondary" onclick="editMoment('${moment.id}')" style="width: 100%; margin-bottom: 12px;">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4Z"/></svg> Edit Moment
         </button>
       `;
       
-      sidebar.classList.add('visible');
+      let deleteButtonHtml = `
+        <button class="btn-danger" onclick="confirmDeleteMoment('${moment.id}')" style="margin-bottom: 16px;">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg> Delete Moment
+        </button>
+      `;
+      
+      panel.innerHTML = editButtonHtml + deleteButtonHtml;
+      
+      // Restore original selected moment
+      state.selectedMoment = originalSelected;
+      
+      // Now render full details by copying logic from renderDetail
+      const detailPanel = document.getElementById('detailPanel');
+      if (detailPanel) {
+        // Temporarily swap the panel reference
+        const tempHTML = detailPanel.innerHTML;
+        state.selectedMoment = moment;
+        renderDetail();
+        panel.innerHTML = detailPanel.innerHTML;
+        detailPanel.innerHTML = tempHTML;
+        state.selectedMoment = originalSelected;
+      }
     }
     
     function render() {
@@ -4366,7 +4449,7 @@ display: flex;;
           const thread = state.threads.find(t => t.id === state.selectedThread);
           if (thread) {
             threadIndicator.classList.remove('hidden');
-            threadIndicator.innerHTML = `🧵 Adding to thread: <strong>${thread.name}</strong>`;
+            threadIndicator.innerHTML = `<svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17h.01"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg> Adding to thread: <strong>${thread.name}</strong>`;
           }
         } else {
           threadIndicator.classList.add('hidden');
@@ -4474,7 +4557,7 @@ display: flex;;
     document.getElementById('captureMomentBtn').addEventListener('click', () => {
       state.view = 'capture';
       state.editingMoment = null;
-      document.getElementById('submitCaptureBtn').innerHTML = '⚡ Capture Moment';
+      document.getElementById('submitCaptureBtn').innerHTML = '<svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Capture Moment';
       render();
     });
     
@@ -4693,7 +4776,7 @@ display: flex;;
       } else {
         item.innerHTML = `
           <div class="attachment-preview">
-            <div class="attachment-file">📄</div>
+            <div class="attachment-file"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg></div>
             <button class="attachment-remove" onclick="removeAttachment('${attachment.id}')">✕</button>
           </div>
           <div style="font-size: 10px; color: var(--text-secondary); margin-top: 4px; max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${attachment.name}</div>
@@ -4746,7 +4829,7 @@ display: flex;;
     function renderTag(tag, isAuto = false) {
       const tagEl = document.createElement('span');
       tagEl.className = `moment-tag ${isAuto ? 'auto-tag' : ''}`;
-      tagEl.innerHTML = `${isAuto ? '🤖 ' : ''}#${tag} <span class="tag-remove" onclick="removeTag('${tag}')">✕</span>`;
+      tagEl.innerHTML = `${isAuto ? '<svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> ' : ''}#${tag} <span class="tag-remove" onclick="removeTag('${tag}')">✕</span>`;
       return tagEl;
     }
     
@@ -5131,7 +5214,7 @@ display: flex;;
         }
       });
       
-      document.getElementById('submitCaptureBtn').innerHTML = '💾 Update Moment';
+      document.getElementById('submitCaptureBtn').innerHTML = '<svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Update Moment';
       state.view = 'capture';
       render();
     };
@@ -5187,7 +5270,7 @@ display: flex;;
       showConfirmModal(
         'Delete Moment?',
         `Are you sure you want to delete this ${config.label.toLowerCase()}? This action cannot be undone.`,
-        '🗑️',
+        '<svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>',
         () => deleteMoment(momentId)
       );
     };
@@ -5215,7 +5298,7 @@ display: flex;;
       showConfirmModal(
         'Delete Thread?',
         `Are you sure you want to delete "${thread.name}"? This will remove the thread but keep all ${threadMoments.length} moment${threadMoments.length !== 1 ? 's' : ''} (they will become unthreaded).`,
-        '🧵',
+        '<svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17h.01"/><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>',
         () => deleteThread(state.selectedThread)
       );
     };
@@ -5258,7 +5341,7 @@ display: flex;;
       document.getElementById('tagsInput').value = '';
       document.getElementById('tagsDisplay').innerHTML = '';
       document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active', 'critical', 'follow-up', 'pinned'));
-      document.getElementById('submitCaptureBtn').innerHTML = '⚡ Capture Moment';
+      document.getElementById('submitCaptureBtn').innerHTML = '<svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Capture Moment';
       render();
     });
     
@@ -5358,7 +5441,7 @@ display: flex;;
       document.getElementById('tagsInput').value = '';
       document.getElementById('tagsDisplay').innerHTML = '';
       document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active', 'critical', 'follow-up', 'pinned'));
-      document.getElementById('submitCaptureBtn').innerHTML = '⚡ Capture Moment';
+      document.getElementById('submitCaptureBtn').innerHTML = '<svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Capture Moment';
       
       saveData();
       render();
@@ -5472,14 +5555,14 @@ Return only: ["id1", "id2", ...]`
           let contextHtml = '';
           if (moment.context.service || moment.context.environment) {
             contextHtml = '<div class="moment-context">';
-            if (moment.context.service) contextHtml += `<div class="context-tag">🔧 ${moment.context.service}</div>`;
-            if (moment.context.environment) contextHtml += `<div class="context-tag">📍 ${moment.context.environment}</div>`;
+            if (moment.context.service) contextHtml += `<div class="context-tag"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> ${moment.context.service}</div>`;
+            if (moment.context.environment) contextHtml += `<div class="context-tag"><svg class="icon-context" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg> ${moment.context.environment}</div>`;
             contextHtml += '</div>';
           }
           
           let priorityHtml = '';
           if (moment.priority) {
-            const priorityIcons = { critical: '🔴', 'follow-up': '🟡', pinned: '⭐' };
+            const priorityIcons = { critical: `<svg class="icon-priority" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="#E0115F"/></svg>`, 'follow-up': `<svg class="icon-priority" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="#ff922b"/></svg>`, pinned: `<svg class="icon-priority" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#ffd700"/></svg>` };
             const priorityLabels = { critical: 'Critical', 'follow-up': 'Follow-up', pinned: 'Pinned' };
             priorityHtml = `<div class="moment-priority"><span class="priority-badge ${moment.priority}">${priorityIcons[moment.priority]} ${priorityLabels[moment.priority]}</span></div>`;
           }
