@@ -4085,16 +4085,43 @@ display: flex;;
   
 async function loadData() {
   console.log('[RUBY] Starting loadData...');
+  console.log('[RUBY] 🔄 Auto-save will automatically reconnect if configured');
   
   // First, try to load from auto-save file
   const fileHandle = await getFileHandleFromDB();
-  console.log('[RUBY] File handle from IndexedDB:', fileHandle ? 'Found' : 'Not found');
+  console.log('[RUBY] File handle from IndexedDB:', fileHandle ? 'Found ✓' : 'Not found');
   
   if (fileHandle) {
     try {
       console.log('[RUBY] Attempting to load from auto-save file...');
       
-      // Try to read the file directly - this will fail with NotAllowedError if permission expired
+      // Check if we have permission to read the file
+      const permissionStatus = await fileHandle.queryPermission({ mode: 'readwrite' });
+      console.log('[RUBY] Permission status:', permissionStatus);
+      
+      // If we don't have permission, request it
+      if (permissionStatus !== 'granted') {
+        console.log('[RUBY] Permission not granted, requesting permission...');
+        const newPermission = await fileHandle.requestPermission({ mode: 'readwrite' });
+        
+        if (newPermission !== 'granted') {
+          console.log('[RUBY] Permission denied by user');
+          state.autoSaveFileHandle = fileHandle;
+          state.autoSaveEnabled = false;
+          
+          // Show prompt to re-authorize after UI loads
+          setTimeout(() => {
+            showAutoSaveReauthorizePrompt();
+          }, 1000);
+          
+          // Fall through to localStorage
+          throw new Error('Permission denied');
+        }
+        
+        console.log('[RUBY] Permission granted!');
+      }
+      
+      // Now we have permission, read the file
       const file = await fileHandle.getFile();
       const text = await file.text();
       const data = JSON.parse(text);
@@ -4143,7 +4170,7 @@ async function loadData() {
           notification.innerHTML = `
             <div style="display: flex; align-items: center; gap: 8px;">
               <svg style="width: 16px; height: 16px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-              <span>Loaded from auto-save file (${state.moments.length} moments)</span>
+              <span>Auto-save reconnected (${state.moments.length} moments)</span>
             </div>
           `;
           document.body.appendChild(notification);
@@ -4162,18 +4189,16 @@ async function loadData() {
     } catch (error) {
       console.error('[RUBY] Failed to load from auto-save file:', error.name, error.message);
       
-      // If permission denied, store the handle for later and prompt user
-      if (error.name === 'NotAllowedError') {
-        console.log('[RUBY] Permission denied - will prompt user to re-authorize');
-        state.autoSaveFileHandle = fileHandle;
-        state.autoSaveEnabled = false; // Disabled until user re-authorizes
-        
-        // Show prompt to re-authorize after UI loads
-        setTimeout(() => {
-          showAutoSaveReauthorizePrompt();
-        }, 1000);
+      // Handle specific errors
+      if (error.message === 'Permission denied') {
+        // Already handled above with prompt
+        console.log('[RUBY] Falling back to localStorage due to permission denial');
       } else if (error.name === 'NotFoundError') {
         console.log('[RUBY] File not found - removing invalid file handle from IndexedDB');
+        await removeFileHandleFromDB();
+      } else if (error.name === 'NotAllowedError') {
+        // Shouldn't happen anymore since we request permission above, but handle it anyway
+        console.log('[RUBY] Unexpected NotAllowedError - file handle may be stale');
         await removeFileHandleFromDB();
       }
       // Fall through to localStorage
@@ -6877,7 +6902,7 @@ nejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle
       }, 30000); // 30 seconds
       
       updateAutoSaveUI();
-      alert('Auto-save is now active!\n\nYour data will be saved every 30 seconds to the selected file.\n\nThe file will automatically load on app restart.');
+      alert('Auto-save is now active!\n\n✓ Data saves every 30 seconds\n✓ Automatically reconnects when you reopen the app\n✓ No need to re-select the file\n\nYour work is protected!');
       
     } catch (error) {
       if (error.name === 'AbortError') {
