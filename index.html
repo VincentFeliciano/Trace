@@ -4238,7 +4238,21 @@
       .replace(/&/g, '&amp;')
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
-    
+
+    // Skip existing HTML tags when applying a pattern, to prevent corrupting already-inserted spans.
+    // Usage: st(code, /pattern/, (match) => replacement)
+    function st(str, pattern, fn) {
+      return str.replace(
+        new RegExp('(<[^>]*>)|(?:' + pattern.source + ')', (pattern.flags || '').replace('g', '') + 'g'),
+        function(m, tag) {
+          if (tag) return tag;
+          var args = Array.prototype.slice.call(arguments, 1);
+          args[0] = undefined; // drop the `tag` capture so fn gets the real groups
+          return fn.apply(null, args.slice(1));
+        }
+      );
+    }
+
     switch(language) {
       case 'javascript':
       case 'java':
@@ -4246,58 +4260,61 @@
       case 'csharp':
       case 'go':
       case 'rust':
-        code = code.replace(/\b(const|let|var|function|return|if|else|for|while|class|import|export|from|async|await|new|this|super|extends|try|catch|throw|break|continue|switch|case|default|do|public|private|protected|static|void|int|string|bool|float|double)\b/g, '<span class="syntax-keyword">$1</span>');
+        // Strings first — no spans in code yet, safe to apply directly
         code = code.replace(/(".*?"|'.*?'|`.*?`)/g, '<span class="syntax-string">$1</span>');
-        code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syntax-number">$1</span>');
-        code = code.replace(/(\/\/.*$)/gm, '<span class="syntax-comment">$1</span>');
-        code = code.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="syntax-comment">$1</span>');
-        code = code.replace(/\b([a-zA-Z_]\w*)\s*\(/g, '<span class="syntax-function">$1</span>(');
+        // Everything else uses st() to skip already-inserted span tags
+        code = st(code, /(\/\/[^\n]*)/gm, (c) => '<span class="syntax-comment">' + c + '</span>');
+        code = st(code, /(\/\*[\s\S]*?\*\/)/, (c) => '<span class="syntax-comment">' + c + '</span>');
+        code = st(code, /\b(const|let|var|function|return|if|else|for|while|class|import|export|from|async|await|new|this|super|extends|try|catch|throw|break|continue|switch|case|default|do|public|private|protected|static|void|int|string|bool|float|double)\b/, (k) => '<span class="syntax-keyword">' + k + '</span>');
+        code = st(code, /\b(\d+\.?\d*)\b/, (n) => '<span class="syntax-number">' + n + '</span>');
+        code = st(code, /\b([a-zA-Z_]\w*)(\s*\()/, (f, p) => '<span class="syntax-function">' + f + '</span>' + p);
         break;
-        
+
       case 'python':
-        code = code.replace(/\b(def|class|return|if|elif|else|for|while|import|from|as|with|try|except|finally|raise|break|continue|pass|lambda|yield|async|await|None|True|False)\b/g, '<span class="syntax-keyword">$1</span>');
         code = code.replace(/(".*?"|'.*?'|"""[\s\S]*?"""|'''[\s\S]*?''')/g, '<span class="syntax-string">$1</span>');
-        code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syntax-number">$1</span>');
-        code = code.replace(/(#.*$)/gm, '<span class="syntax-comment">$1</span>');
-        code = code.replace(/\b([a-zA-Z_]\w*)\s*\(/g, '<span class="syntax-function">$1</span>(');
+        code = st(code, /(#[^\n]*)/gm, (c) => '<span class="syntax-comment">' + c + '</span>');
+        code = st(code, /\b(def|class|return|if|elif|else|for|while|import|from|as|with|try|except|finally|raise|break|continue|pass|lambda|yield|async|await|None|True|False)\b/, (k) => '<span class="syntax-keyword">' + k + '</span>');
+        code = st(code, /\b(\d+\.?\d*)\b/, (n) => '<span class="syntax-number">' + n + '</span>');
+        code = st(code, /\b([a-zA-Z_]\w*)(\s*\()/, (f, p) => '<span class="syntax-function">' + f + '</span>' + p);
         break;
-        
+
       case 'sql':
-        code = code.replace(/\b(SELECT|FROM|WHERE|JOIN|LEFT|RIGHT|INNER|OUTER|ON|AND|OR|NOT|IN|LIKE|ORDER BY|GROUP BY|HAVING|INSERT|UPDATE|DELETE|CREATE|DROP|TABLE|DATABASE|INDEX|VIEW|AS|DISTINCT|COUNT|SUM|AVG|MAX|MIN)\b/gi, '<span class="syntax-keyword">$1</span>');
         code = code.replace(/('.*?')/g, '<span class="syntax-string">$1</span>');
-        code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syntax-number">$1</span>');
-        code = code.replace(/(--.*$)/gm, '<span class="syntax-comment">$1</span>');
+        code = st(code, /(--[^\n]*)/gm, (c) => '<span class="syntax-comment">' + c + '</span>');
+        code = st(code, /\b(SELECT|FROM|WHERE|JOIN|LEFT|RIGHT|INNER|OUTER|ON|AND|OR|NOT|IN|LIKE|ORDER BY|GROUP BY|HAVING|INSERT|UPDATE|DELETE|CREATE|DROP|TABLE|DATABASE|INDEX|VIEW|AS|DISTINCT|COUNT|SUM|AVG|MAX|MIN)\b/i, (k) => '<span class="syntax-keyword">' + k + '</span>');
+        code = st(code, /\b(\d+\.?\d*)\b/, (n) => '<span class="syntax-number">' + n + '</span>');
         break;
-        
+
       case 'bash':
-        code = code.replace(/\b(if|then|else|elif|fi|for|while|do|done|case|esac|function|return|exit|echo|cd|ls|grep|awk|sed)\b/g, '<span class="syntax-keyword">$1</span>');
         code = code.replace(/(".*?"|'.*?')/g, '<span class="syntax-string">$1</span>');
-        code = code.replace(/(#.*$)/gm, '<span class="syntax-comment">$1</span>');
+        code = st(code, /(#[^\n]*)/gm, (c) => '<span class="syntax-comment">' + c + '</span>');
+        code = st(code, /\b(if|then|else|elif|fi|for|while|do|done|case|esac|function|return|exit|echo|cd|ls|grep|awk|sed)\b/, (k) => '<span class="syntax-keyword">' + k + '</span>');
         break;
-        
+
       case 'html':
         code = code.replace(/(&lt;\/?[a-zA-Z][a-zA-Z0-9]*)/g, '<span class="syntax-tag">$1</span>');
         code = code.replace(/(&gt;)/g, '<span class="syntax-tag">$1</span>');
-        code = code.replace(/\s([a-zA-Z-]+)=/g, ' <span class="syntax-attr">$1</span>=');
-        code = code.replace(/(".*?"|'.*?')/g, '<span class="syntax-string">$1</span>');
+        code = st(code, /(\s)([a-zA-Z-]+)(=)/, (sp, a, eq) => sp + '<span class="syntax-attr">' + a + '</span>' + eq);
+        code = st(code, /(".*?"|'.*?')/, (s) => '<span class="syntax-string">' + s + '</span>');
         break;
-        
+
       case 'css':
         code = code.replace(/([a-zA-Z-]+):/g, '<span class="syntax-property">$1</span>:');
-        code = code.replace(/(".*?"|'.*?')/g, '<span class="syntax-string">$1</span>');
-        code = code.replace(/\b(\d+\.?\d*(px|em|rem|%|vh|vw)?)\b/g, '<span class="syntax-number">$1</span>');
-        code = code.replace(/(\/\*[\s\S]*?\*\/)/g, '<span class="syntax-comment">$1</span>');
+        code = st(code, /(".*?"|'.*?')/, (s) => '<span class="syntax-string">' + s + '</span>');
+        code = st(code, /\b(\d+\.?\d*(px|em|rem|%|vh|vw)?)/, (n) => '<span class="syntax-number">' + n + '</span>');
+        code = st(code, /(\/\*[\s\S]*?\*\/)/, (c) => '<span class="syntax-comment">' + c + '</span>');
         break;
-        
+
       case 'json':
       case 'yaml':
-        code = code.replace(/(".*?")/g, '<span class="syntax-string">$1</span>');
-        code = code.replace(/\b(\d+\.?\d*)\b/g, '<span class="syntax-number">$1</span>');
-        code = code.replace(/\b(true|false|null)\b/g, '<span class="syntax-keyword">$1</span>');
-        code = code.replace(/(".*?"):/g, '<span class="syntax-property">$1</span>:');
+        // Properties first (key: pattern), then strings, then numbers/keywords
+        code = code.replace(/(".*?")(\s*:)/g, '<span class="syntax-property">$1</span>$2');
+        code = st(code, /(".*?")/, (s) => '<span class="syntax-string">' + s + '</span>');
+        code = st(code, /\b(\d+\.?\d*)\b/, (n) => '<span class="syntax-number">' + n + '</span>');
+        code = st(code, /\b(true|false|null)\b/, (k) => '<span class="syntax-keyword">' + k + '</span>');
         break;
     }
-    
+
     return code;
   }
   
