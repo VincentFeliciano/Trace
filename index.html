@@ -1962,7 +1962,282 @@
       75%  { transform: translate(var(--dx3), var(--dy3)) scale(1.08); opacity: calc(var(--star-opacity) * 1.2); }
       100% { transform: translate(0, 0) scale(1);   opacity: var(--star-opacity); }
     }
-    
+
+    /* ── Whiteboard View ── */
+    .whiteboard-view {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+    .whiteboard-view.visible { display: flex; }
+
+    .whiteboard-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-color);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      z-index: 10;
+    }
+    .wb-toolbar-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-right: 6px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .wb-tool-btn {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      font-size: 12px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .wb-tool-btn:hover { background: var(--border-color); }
+    .wb-tool-btn.active {
+      background: rgba(0,212,255,0.12);
+      color: var(--accent-primary);
+      border-color: var(--accent-primary);
+    }
+    .wb-zoom-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .wb-zoom-controls button {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      border-radius: 4px;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .wb-zoom-controls button:hover { background: var(--border-color); }
+    .wb-zoom-controls span { min-width: 38px; text-align: center; }
+
+    .whiteboard-canvas-outer {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+      background: var(--bg-primary);
+      background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 24px 24px;
+      cursor: default;
+    }
+    .whiteboard-canvas-outer.panning { cursor: grabbing; }
+    .whiteboard-canvas {
+      position: absolute;
+      top: 0; left: 0;
+      width: 4000px;
+      height: 3000px;
+      transform-origin: 0 0;
+    }
+    .wb-links-svg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .wb-link-line {
+      stroke: var(--accent-primary);
+      stroke-width: 1.5;
+      fill: none;
+      opacity: 0.7;
+      pointer-events: stroke;
+      cursor: pointer;
+    }
+    .wb-link-line:hover { opacity: 1; stroke-width: 2.5; }
+
+    /* Tiles */
+    .wb-tile {
+      position: absolute;
+      min-width: 160px;
+      min-height: 80px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+      display: flex;
+      flex-direction: column;
+      user-select: none;
+    }
+    .wb-tile.selected {
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 2px rgba(0,212,255,0.2), 0 2px 10px rgba(0,0,0,0.35);
+    }
+    .wb-tile.link-source {
+      border-color: #e05252;
+      box-shadow: 0 0 0 2px rgba(224,82,82,0.3), 0 2px 10px rgba(0,0,0,0.35);
+    }
+    .wb-tile-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 8px;
+      background: var(--bg-tertiary);
+      border-bottom: 1px solid var(--border-color);
+      border-radius: 8px 8px 0 0;
+      cursor: grab;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .wb-tile-header:active { cursor: grabbing; }
+    .wb-tile-type-badge {
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.07);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .wb-tile-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 15px;
+      line-height: 1;
+      padding: 0 2px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .wb-tile-close:hover { color: var(--text-primary); }
+    .wb-tile-body {
+      flex: 1;
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--text-primary);
+      overflow: hidden;
+      position: relative;
+      min-height: 60px;
+    }
+    .wb-tile-body textarea {
+      width: 100%;
+      height: 100%;
+      min-height: 60px;
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-size: 12px;
+      resize: none;
+      outline: none;
+      font-family: inherit;
+      line-height: 1.5;
+    }
+    .wb-tile-body pre {
+      width: 100%;
+      height: 100%;
+      min-height: 60px;
+      background: rgba(0,0,0,0.2);
+      border: none;
+      color: var(--text-primary);
+      font-size: 11px;
+      font-family: 'Courier New', monospace;
+      outline: none;
+      margin: 0;
+      padding: 4px;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      overflow: auto;
+      box-sizing: border-box;
+    }
+    .wb-tile-body img {
+      max-width: 100%;
+      max-height: 250px;
+      object-fit: contain;
+      border-radius: 4px;
+      display: block;
+    }
+    .wb-tile-moment-type {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .wb-tile-moment-text {
+      font-size: 12px;
+      line-height: 1.5;
+      max-height: 110px;
+      overflow: hidden;
+      color: var(--text-primary);
+    }
+    .wb-tile-moment-open {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--accent-primary);
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .wb-tile-resize {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 14px;
+      height: 14px;
+      cursor: se-resize;
+      opacity: 0.3;
+      color: var(--text-muted);
+    }
+    .wb-tile-resize:hover { opacity: 0.8; }
+
+    /* Moment picker */
+    .wb-moment-picker {
+      position: fixed;
+      inset: 0;
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.55);
+    }
+    .wb-moment-picker-inner {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 480px;
+      width: 90%;
+      max-height: 65vh;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .wb-moment-pick-item {
+      padding: 8px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid var(--border-color);
+      font-size: 12px;
+      background: var(--bg-tertiary);
+      transition: border-color 0.15s;
+    }
+    .wb-moment-pick-item:hover { border-color: var(--accent-primary); }
+    .wb-moment-list { overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+
     .graph-sidebar {
       position: absolute;
       right: 0;
@@ -2571,16 +2846,18 @@
   .timeline-view,
   .capture-view,
   .search-view,
-  .graph-view {
+  .graph-view,
+  .whiteboard-view {
     z-index: 2;
     transform: translateX(100%);
     background: var(--bg-primary);
   }
-  
+
   .timeline-view.visible,
   .capture-view.visible,
   .search-view.visible,
-  .graph-view.visible {
+  .graph-view.visible,
+  .whiteboard-view.visible {
     transform: translateX(0);
   }
   
@@ -2941,7 +3218,8 @@
     display: flex;
   }
   
-  .graph-view.visible {
+  .graph-view.visible,
+  .whiteboard-view.visible {
     display: flex;
   }
 }
@@ -3097,16 +3375,13 @@
 }
 .theme-popover {
   display: none;
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 50%;
-  transform: translateX(-50%);
+  position: fixed;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
   border-radius: 10px;
   padding: 10px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-  z-index: 500;
+  z-index: 99999;
   width: 180px;
 }
 .theme-popover.visible {
@@ -3327,6 +3602,10 @@
         <div class="nav-item" data-view="graph">
           <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
           Graph
+        </div>
+        <div class="nav-item" data-view="whiteboard">
+          <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h6"/><path d="M3 15h6"/></svg>
+          Whiteboard
         </div>
         </div>
 
@@ -3669,6 +3948,45 @@
       </div>
       
       <div class="detail-panel" id="graphDetailPanel"></div>
+    </div>
+
+    <!-- Whiteboard View -->
+    <div class="whiteboard-view" id="whiteboardView">
+      <div class="whiteboard-toolbar" id="whiteboardToolbar">
+        <span class="wb-toolbar-title">Whiteboard</span>
+        <button class="wb-tool-btn" id="wbAddText">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 6H3"/><path d="M21 12H3"/><path d="M15 18H3"/></svg>
+          Text
+        </button>
+        <button class="wb-tool-btn" id="wbAddCode">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Code
+        </button>
+        <button class="wb-tool-btn" id="wbAddImage">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Image
+        </button>
+        <button class="wb-tool-btn" id="wbAddMoment">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Moment
+        </button>
+        <button class="wb-tool-btn" id="wbLinkMode">
+          <svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+          Link
+        </button>
+        <button class="wb-tool-btn" id="wbClearCanvas" style="margin-left:4px;color:var(--text-muted)">Clear All</button>
+        <div class="wb-zoom-controls">
+          <button id="wbZoomOut">−</button>
+          <span id="wbZoomLabel">100%</span>
+          <button id="wbZoomIn">+</button>
+          <button id="wbZoomReset">Reset</button>
+        </div>
+      </div>
+      <div class="whiteboard-canvas-outer" id="wbCanvasOuter">
+        <div class="whiteboard-canvas" id="wbCanvas">
+          <svg class="wb-links-svg" id="wbLinksSvg"></svg>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -4105,7 +4423,9 @@
     lastAutoSave: null,
     sortOrder: 'desc',
     inlineFilter: '',
-    collapsedSections: { filtertype: true }
+    collapsedSections: { filtertype: true },
+    whiteboardTiles: [],
+    whiteboardLinks: []
   };
   
   // About Modal Functions
@@ -4629,31 +4949,26 @@ async function loadData() {
     try {
       console.log('[RUBY] Attempting to load from auto-save file...');
       
-      // Check if we have permission to read the file
+      // Check if we already have permission (no user gesture needed for queryPermission)
       const permissionStatus = await fileHandle.queryPermission({ mode: 'readwrite' });
       console.log('[RUBY] Permission status:', permissionStatus);
-      
-      // If we don't have permission, request it
+
+      // requestPermission() requires a user gesture so we cannot call it on page load.
+      // If permission isn't already granted, fall back to localStorage and show a
+      // re-authorize prompt so the user can grant it with a click.
       if (permissionStatus !== 'granted') {
-        console.log('[RUBY] Permission not granted, requesting permission...');
-        const newPermission = await fileHandle.requestPermission({ mode: 'readwrite' });
-        
-        if (newPermission !== 'granted') {
-          console.log('[RUBY] Permission denied by user');
-          state.autoSaveFileHandle = fileHandle;
-          state.autoSaveEnabled = false;
-          
-          // Show prompt to re-authorize after UI loads
-          setTimeout(() => {
-            showAutoSaveReauthorizePrompt();
-          }, 1000);
-          
-          // Fall through to localStorage
-          throw new Error('Permission denied');
-        }
-        
-        console.log('[RUBY] Permission granted!');
+        console.log('[RUBY] Permission not pre-granted; will load from localStorage and prompt user to re-authorize.');
+        state.autoSaveFileHandle = fileHandle;
+        state.autoSaveEnabled = false;
+
+        setTimeout(() => {
+          showAutoSaveReauthorizePrompt();
+        }, 1000);
+
+        throw new Error('Permission denied');
       }
+
+      console.log('[RUBY] Permission already granted, loading file...');
       
       // Now we have permission, read the file
       const file = await fileHandle.getFile();
@@ -4665,6 +4980,13 @@ async function loadData() {
       if (data.moments && Array.isArray(data.moments)) {
         state.moments = migrateMoments(data.moments);
         state.threads = data.threads || [];
+        state.whiteboardTiles = data.whiteboardTiles || [];
+        state.whiteboardLinks = data.whiteboardLinks || [];
+        const savedThread = localStorage.getItem('ruby-selected-thread');
+        if (savedThread) {
+          const valid = savedThread === 'unthreaded' || state.threads.some(t => t.id === savedThread);
+          if (valid) state.selectedThread = savedThread;
+        }
         state.autoSaveFileHandle = fileHandle;
         state.autoSaveEnabled = true;
         
@@ -4754,7 +5076,17 @@ async function loadData() {
       state.threads = JSON.parse(threads);
       console.log('[RUBY] Loaded', state.threads.length, 'threads from localStorage');
     }
-    
+    const wbTiles = localStorage.getItem('ruby-whiteboard-tiles');
+    const wbLinks = localStorage.getItem('ruby-whiteboard-links');
+    if (wbTiles) state.whiteboardTiles = JSON.parse(wbTiles);
+    if (wbLinks) state.whiteboardLinks = JSON.parse(wbLinks);
+
+    const savedThread = localStorage.getItem('ruby-selected-thread');
+    if (savedThread) {
+      const valid = savedThread === 'unthreaded' || state.threads.some(t => t.id === savedThread);
+      if (valid) state.selectedThread = savedThread;
+    }
+
     updateAutoSaveUI();
     render();
   } catch (error) {
@@ -4767,11 +5099,21 @@ async function loadData() {
   }
 }
   
+function saveSelectedThread() {
+  if (state.selectedThread) {
+    localStorage.setItem('ruby-selected-thread', state.selectedThread);
+  } else {
+    localStorage.removeItem('ruby-selected-thread');
+  }
+}
+
 function saveData() {
   try {
     // Only save to localStorage as lightweight backup
     localStorage.setItem('trace-moments', JSON.stringify(state.moments));
     localStorage.setItem('trace-threads', JSON.stringify(state.threads));
+    localStorage.setItem('ruby-whiteboard-tiles', JSON.stringify(state.whiteboardTiles));
+    localStorage.setItem('ruby-whiteboard-links', JSON.stringify(state.whiteboardLinks));
     console.log('Data saved to localStorage:', { moments: state.moments.length, threads: state.threads.length });
   } catch (error) {
     console.error('Failed to save data to localStorage:', error);
@@ -5733,6 +6075,7 @@ window.addEventListener('beforeunload', () => {
       
       item.addEventListener('click', () => {
       state.selectedThread = state.selectedThread === thread.id ? null : thread.id;
+  saveSelectedThread();
   state.selectedMoment = null; // Clear selected moment
   state.view = 'timeline';
   render();
@@ -5786,7 +6129,7 @@ window.addEventListener('beforeunload', () => {
     // Galaxy background
     const galaxy = document.createElement('div');
     galaxy.className = 'graph-galaxy';
-    const starChars = ['✦', '✧', '⋆', '·', '✸', '✹'];
+    const starChars = ['✦', '✧', '⋆', '·'];
     const count = 120;
     for (let i = 0; i < count; i++) {
       const star = document.createElement('span');
@@ -6116,13 +6459,15 @@ window.addEventListener('beforeunload', () => {
     const captureView = document.getElementById('captureView');
     const searchView = document.getElementById('searchView');
     const graphView = document.getElementById('graphView');
-    
+    const whiteboardView = document.getElementById('whiteboardView');
+
     // Remove all visible classes first
     timelineView.classList.remove('visible');
     captureView.classList.remove('visible');
     searchView.classList.remove('visible');
     graphView.classList.remove('visible');
-    
+    if (whiteboardView) whiteboardView.classList.remove('visible');
+
     // Add visible class based on current view
     if (state.view === 'timeline') {
       timelineView.classList.add('visible');
@@ -6133,6 +6478,8 @@ window.addEventListener('beforeunload', () => {
       searchView.classList.add('visible');
     } else if (state.view === 'graph') {
       graphView.classList.add('visible');
+    } else if (state.view === 'whiteboard') {
+      if (whiteboardView) whiteboardView.classList.add('visible');
     }
   }
   
@@ -6238,20 +6585,676 @@ function renderMobileCaptureButton() {
       // Keep state.view as is so when they navigate again it remembers
     }
   };
-  
+
+  // ── Whiteboard ──────────────────────────────────────────────────────────────
+
+  const wb = {
+    scale: 1, panX: 0, panY: 0,
+    isPanning: false, panStartX: 0, panStartY: 0,
+    linkMode: false, linkSourceId: null,
+    eventsSetup: false,
+    topZ: 10
+  };
+
+  function wbBringToFront(tile, el) {
+    wb.topZ++;
+    tile.zIndex = wb.topZ;
+    el.style.zIndex = wb.topZ;
+  }
+
+  function wbVisibleCenter() {
+    const outer = document.getElementById('wbCanvasOuter');
+    const r = outer ? outer.getBoundingClientRect() : { width: 800, height: 600 };
+    return {
+      x: Math.max(20, (r.width  / 2 - wb.panX) / wb.scale - 110),
+      y: Math.max(20, (r.height / 2 - wb.panY) / wb.scale - 60)
+    };
+  }
+
+  function wbIsUrl(text) {
+    return /^https?:\/\/\S+$/.test(text.trim()) || /^www\.\S+\.\S+$/.test(text.trim());
+  }
+
+  function wbIsCode(text) {
+    if (!text.includes('\n')) return false;
+    const lines = text.split('\n');
+    const indented = lines.filter(l => /^[ \t]{2,}/.test(l)).length;
+    const codeChars = (text.match(/[{}();=><]/g) || []).length;
+    return indented >= 2 || codeChars >= 6;
+  }
+
+  function renderWhiteboard() {
+    setupWhiteboardEvents();
+    const canvas = document.getElementById('wbCanvas');
+    const svg = document.getElementById('wbLinksSvg');
+    if (!canvas || !svg) return;
+
+    // Sync topZ so new bring-to-fronts are always above existing tiles
+    if (state.whiteboardTiles.length) {
+      wb.topZ = Math.max(wb.topZ, ...state.whiteboardTiles.map(t => t.zIndex || 1));
+    }
+
+    canvas.style.transform = `translate(${wb.panX}px,${wb.panY}px) scale(${wb.scale})`;
+
+    // Remove old tiles
+    canvas.querySelectorAll('.wb-tile').forEach(el => el.remove());
+
+    // Build SVG defs (arrowhead marker)
+    svg.innerHTML = `<defs>
+      <marker id="wb-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L0,6 L8,3 z" fill="var(--accent-primary)" opacity="0.7"/>
+      </marker>
+    </defs>`;
+
+    // Draw links
+    state.whiteboardLinks.forEach(link => {
+      const from = state.whiteboardTiles.find(t => t.id === link.fromTileId);
+      const to   = state.whiteboardTiles.find(t => t.id === link.toTileId);
+      if (!from || !to) return;
+      const x1 = from.x + (from.width || 200) / 2;
+      const y1 = from.y + (from.height || 120) / 2;
+      const x2 = to.x   + (to.width   || 200) / 2;
+      const y2 = to.y   + (to.height  || 120) / 2;
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+      line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+      line.setAttribute('class', 'wb-link-line');
+      line.setAttribute('marker-end', 'url(#wb-arrow)');
+      line.style.pointerEvents = 'stroke';
+      line.addEventListener('contextmenu', e => {
+        e.preventDefault();
+        state.whiteboardLinks = state.whiteboardLinks.filter(l => l.id !== link.id);
+        saveData(); renderWhiteboard();
+      });
+      svg.appendChild(line);
+      if (link.label) {
+        const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        txt.setAttribute('x', (x1 + x2) / 2);
+        txt.setAttribute('y', (y1 + y2) / 2 - 5);
+        txt.setAttribute('text-anchor', 'middle');
+        txt.setAttribute('font-size', '11');
+        txt.setAttribute('fill', 'var(--text-muted)');
+        txt.textContent = link.label;
+        svg.appendChild(txt);
+      }
+    });
+
+    // Render tiles
+    state.whiteboardTiles.forEach(tile => canvas.appendChild(createWbTile(tile)));
+
+    const lbl = document.getElementById('wbZoomLabel');
+    if (lbl) lbl.textContent = Math.round(wb.scale * 100) + '%';
+  }
+
+  function wbRedrawLinks() {
+    const svg = document.getElementById('wbLinksSvg');
+    if (!svg) return;
+    svg.querySelectorAll('line, text').forEach(el => el.remove());
+    state.whiteboardLinks.forEach(link => {
+      const from = state.whiteboardTiles.find(t => t.id === link.fromTileId);
+      const to   = state.whiteboardTiles.find(t => t.id === link.toTileId);
+      if (!from || !to) return;
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      line.setAttribute('x1', from.x + (from.width || 200) / 2);
+      line.setAttribute('y1', from.y + (from.height || 120) / 2);
+      line.setAttribute('x2', to.x   + (to.width   || 200) / 2);
+      line.setAttribute('y2', to.y   + (to.height  || 120) / 2);
+      line.setAttribute('class', 'wb-link-line');
+      line.setAttribute('marker-end', 'url(#wb-arrow)');
+      svg.appendChild(line);
+    });
+  }
+
+  function createWbTile(tile) {
+    const el = document.createElement('div');
+    el.className = 'wb-tile';
+    el.id = 'wbt-' + tile.id;
+    el.style.left    = tile.x + 'px';
+    el.style.top     = tile.y + 'px';
+    el.style.width   = (tile.width  || 200) + 'px';
+    el.style.zIndex  = tile.zIndex || 1;
+    if (tile.height) el.style.height = tile.height + 'px';
+
+    // Bring to front on any click/mousedown
+    el.addEventListener('mousedown', () => wbBringToFront(tile, el), true);
+
+    // Header
+    const header = document.createElement('div');
+    header.className = 'wb-tile-header';
+    const badge = document.createElement('span');
+    badge.className = 'wb-tile-type-badge';
+    badge.textContent = (tile.type === 'code' && tile.language) ? tile.language : tile.type;
+    const label = document.createElement('span');
+    label.style.cssText = 'flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-left:4px';
+    label.textContent = tile.title || '';
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'wb-tile-close';
+    closeBtn.textContent = '×';
+    closeBtn.title = 'Remove tile';
+    closeBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      state.whiteboardTiles = state.whiteboardTiles.filter(t => t.id !== tile.id);
+      state.whiteboardLinks = state.whiteboardLinks.filter(l =>
+        l.fromTileId !== tile.id && l.toTileId !== tile.id);
+      saveData(); renderWhiteboard();
+    });
+    header.appendChild(badge);
+    header.appendChild(label);
+    header.appendChild(closeBtn);
+    el.appendChild(header);
+
+    // Body
+    const body = document.createElement('div');
+    body.className = 'wb-tile-body';
+
+    if (tile.type === 'text') {
+      const ta = document.createElement('textarea');
+      ta.value = tile.content || '';
+      ta.placeholder = 'Type a note…';
+      ta.addEventListener('mousedown', e => e.stopPropagation());
+      ta.addEventListener('input', () => { tile.content = ta.value; saveData(); });
+      body.appendChild(ta);
+
+    } else if (tile.type === 'code') {
+      const lang = tile.language || 'javascript';
+
+      const pre = document.createElement('pre');
+      pre.style.cssText = 'margin:0;padding:4px;font-size:11px;font-family:monospace;overflow:auto;height:100%;box-sizing:border-box;white-space:pre-wrap;word-break:break-all;cursor:text;min-height:60px';
+      pre.innerHTML = highlightCode(tile.content || '', lang);
+      pre.title = 'Double-click to edit';
+
+      const showHighlighted = () => {
+        pre.innerHTML = highlightCode(tile.content || '', lang);
+        pre.style.display = '';
+        ta.style.display = 'none';
+      };
+
+      const ta = document.createElement('textarea');
+      ta.style.cssText = 'display:none;width:100%;height:100%;min-height:60px;background:transparent;border:none;color:var(--text-primary);font-size:11px;font-family:monospace;resize:none;outline:none;box-sizing:border-box;padding:4px';
+      ta.spellcheck = false;
+      ta.value = tile.content || '';
+      ta.addEventListener('mousedown', e => e.stopPropagation());
+      ta.addEventListener('input', () => { tile.content = ta.value; saveData(); });
+      ta.addEventListener('blur', showHighlighted);
+
+      pre.addEventListener('mousedown', e => e.stopPropagation());
+      pre.addEventListener('dblclick', () => {
+        ta.value = tile.content || '';
+        pre.style.display = 'none';
+        ta.style.display = '';
+        ta.focus();
+      });
+
+      body.appendChild(pre);
+      body.appendChild(ta);
+
+    } else if (tile.type === 'link') {
+      const url = (tile.content || '').trim();
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.style.cssText = 'color:var(--accent-primary);font-size:12px;word-break:break-all;display:block;text-decoration:none;';
+      a.textContent = url;
+      a.addEventListener('mousedown', e => e.stopPropagation());
+      const domain = document.createElement('div');
+      domain.style.cssText = 'font-size:10px;color:var(--text-muted);margin-top:4px';
+      try { domain.textContent = new URL(url).hostname; } catch { domain.textContent = ''; }
+      body.appendChild(a);
+      body.appendChild(domain);
+
+    } else if (tile.type === 'image') {
+      if (tile.content) {
+        const img = document.createElement('img');
+        img.src = tile.content;
+        body.appendChild(img);
+      } else {
+        const hint = document.createElement('div');
+        hint.style.cssText = 'color:var(--text-muted);font-size:11px;padding:8px';
+        hint.textContent = 'No image';
+        body.appendChild(hint);
+      }
+
+    } else if (tile.type === 'moment') {
+      const m = tile.momentId ? state.moments.find(x => x.id === tile.momentId) : null;
+      if (m) {
+        const typeRow = document.createElement('div');
+        typeRow.className = 'wb-tile-moment-type';
+        typeRow.textContent = (MOMENT_TYPES && MOMENT_TYPES[m.type]) ? (MOMENT_TYPES[m.type].label || m.type) : m.type;
+        const textRow = document.createElement('div');
+        textRow.className = 'wb-tile-moment-text';
+        textRow.textContent = m.text.substring(0, 200) + (m.text.length > 200 ? '…' : '');
+        const openLink = document.createElement('div');
+        openLink.className = 'wb-tile-moment-open';
+        openLink.textContent = 'Open in timeline →';
+        openLink.addEventListener('click', e => {
+          e.stopPropagation();
+          state.selectedMoment = m;
+          state.view = 'timeline';
+          render();
+        });
+        body.appendChild(typeRow);
+        body.appendChild(textRow);
+        body.appendChild(openLink);
+      } else {
+        body.textContent = 'Moment not found';
+        body.style.color = 'var(--text-muted)';
+      }
+    }
+
+    el.appendChild(body);
+
+    // Resize handle
+    const resizeHandle = document.createElement('div');
+    resizeHandle.className = 'wb-tile-resize';
+    resizeHandle.title = 'Resize';
+    resizeHandle.innerHTML = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2L2 10M6 2L2 6M10 6L6 10"/></svg>';
+    el.appendChild(resizeHandle);
+
+    // Drag tile via header
+    header.addEventListener('mousedown', e => {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (wb.linkMode) return;
+      const sx = e.clientX, sy = e.clientY;
+      const ox = tile.x,    oy = tile.y;
+      const onMove = e => {
+        tile.x = ox + (e.clientX - sx) / wb.scale;
+        tile.y = oy + (e.clientY - sy) / wb.scale;
+        el.style.left = tile.x + 'px';
+        el.style.top  = tile.y + 'px';
+        wbRedrawLinks();
+      };
+      const onUp = () => {
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onUp);
+        saveData();
+      };
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+    });
+
+    // Resize via handle
+    resizeHandle.addEventListener('mousedown', e => {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const sx = e.clientX, sy = e.clientY;
+      const ow = tile.width || 200, oh = tile.height || 120;
+      const onMove = e => {
+        tile.width  = Math.max(140, ow + (e.clientX - sx) / wb.scale);
+        tile.height = Math.max(80,  oh + (e.clientY - sy) / wb.scale);
+        el.style.width  = tile.width  + 'px';
+        el.style.height = tile.height + 'px';
+        wbRedrawLinks();
+      };
+      const onUp = () => {
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onUp);
+        saveData();
+      };
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+    });
+
+    // Click tile for link mode
+    el.addEventListener('click', e => {
+      if (!wb.linkMode) return;
+      e.stopPropagation();
+      if (!wb.linkSourceId) {
+        wb.linkSourceId = tile.id;
+        el.classList.add('link-source');
+      } else if (wb.linkSourceId !== tile.id) {
+        // Avoid duplicate links
+        const exists = state.whiteboardLinks.some(l =>
+          l.fromTileId === wb.linkSourceId && l.toTileId === tile.id);
+        if (!exists) {
+          state.whiteboardLinks.push({ id: generateId(), fromTileId: wb.linkSourceId, toTileId: tile.id, label: '' });
+        }
+        wb.linkMode = false;
+        wb.linkSourceId = null;
+        document.getElementById('wbLinkMode')?.classList.remove('active');
+        saveData(); renderWhiteboard();
+      }
+    });
+
+    return el;
+  }
+
+  function showWbMomentPicker() {
+    const existing = document.getElementById('wbMomentPicker');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.className = 'wb-moment-picker';
+    overlay.id = 'wbMomentPicker';
+
+    const inner = document.createElement('div');
+    inner.className = 'wb-moment-picker-inner';
+
+    const title = document.createElement('h3');
+    title.style.cssText = 'margin:0;font-size:14px';
+    title.textContent = 'Add a Moment to Whiteboard';
+
+    const search = document.createElement('input');
+    search.className = 'form-input';
+    search.placeholder = 'Search moments…';
+    search.style.width = '100%';
+
+    const list = document.createElement('div');
+    list.className = 'wb-moment-list';
+
+    const actions = document.createElement('div');
+    actions.style.cssText = 'display:flex;justify-content:flex-end';
+    const cancelBtn = document.createElement('button');
+    cancelBtn.className = 'btn-secondary';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.style.margin = '0';
+    cancelBtn.addEventListener('click', () => overlay.remove());
+    actions.appendChild(cancelBtn);
+
+    inner.appendChild(title);
+    inner.appendChild(search);
+    inner.appendChild(list);
+    inner.appendChild(actions);
+    overlay.appendChild(inner);
+    document.body.appendChild(overlay);
+
+    const renderList = query => {
+      list.innerHTML = '';
+      const q = (query || '').toLowerCase();
+      const filtered = state.moments.filter(m =>
+        !q || m.text.toLowerCase().includes(q) || (m.tags || []).some(t => t.toLowerCase().includes(q))
+      ).slice(0, 40);
+      if (!filtered.length) {
+        list.innerHTML = '<div style="color:var(--text-muted);font-size:12px;padding:8px">No moments found</div>';
+        return;
+      }
+      filtered.forEach(m => {
+        const item = document.createElement('div');
+        item.className = 'wb-moment-pick-item';
+        item.innerHTML = `<div style="font-size:10px;color:var(--text-muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:0.4px">${m.type}</div>
+          <div>${(m.text || '').substring(0, 120)}${m.text.length > 120 ? '…' : ''}</div>`;
+        item.addEventListener('click', () => {
+          const tile = {
+            id: generateId(), type: 'moment', momentId: m.id,
+            x: Math.max(20, 200 - wb.panX / wb.scale),
+            y: Math.max(20, 100 - wb.panY / wb.scale),
+            width: 260, height: 140,
+            title: (m.text || '').substring(0, 32)
+          };
+          state.whiteboardTiles.push(tile);
+          saveData(); renderWhiteboard();
+          overlay.remove();
+        });
+        list.appendChild(item);
+      });
+    };
+
+    renderList('');
+    search.addEventListener('input', e => renderList(e.target.value));
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    setTimeout(() => search.focus(), 50);
+  }
+
+  const WB_CODE_LANGS = [
+    'javascript','python','sql','bash','html','css','json','yaml',
+    'java','cpp','csharp','go','rust','typescript','php','ruby','swift','kotlin'
+  ];
+
+  function showWbCodeLangPicker(code, pos) {
+    const existing = document.getElementById('wbCodeLangPicker');
+    if (existing) existing.remove();
+
+    const overlay = document.createElement('div');
+    overlay.id = 'wbCodeLangPicker';
+    overlay.style.cssText = `position:fixed;inset:0;z-index:1200;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5)`;
+
+    const box = document.createElement('div');
+    box.style.cssText = `background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:10px;padding:20px;width:280px;display:flex;flex-direction:column;gap:14px`;
+
+    const title = document.createElement('div');
+    title.style.cssText = 'font-size:13px;font-weight:600;color:var(--text-primary)';
+    title.textContent = 'Select code language';
+
+    const select = document.createElement('select');
+    select.style.cssText = `width:100%;padding:8px 10px;background:var(--bg-tertiary);border:1px solid var(--border-color);border-radius:6px;color:var(--text-primary);font-size:13px;cursor:pointer`;
+    WB_CODE_LANGS.forEach(lang => {
+      const opt = document.createElement('option');
+      opt.value = lang;
+      opt.textContent = lang.charAt(0).toUpperCase() + lang.slice(1);
+      select.appendChild(opt);
+    });
+
+    const btns = document.createElement('div');
+    btns.style.cssText = 'display:flex;gap:8px;justify-content:flex-end';
+
+    const cancel = document.createElement('button');
+    cancel.className = 'btn-secondary';
+    cancel.style.margin = '0';
+    cancel.textContent = 'Cancel';
+    cancel.addEventListener('click', () => overlay.remove());
+
+    const confirm = document.createElement('button');
+    confirm.className = 'btn-primary';
+    confirm.style.cssText = 'margin:0;flex:1';
+    confirm.textContent = 'Add Code Tile';
+    confirm.addEventListener('click', () => {
+      const lang = select.value;
+      const c = pos || wbVisibleCenter();
+      const tile = { id: generateId(), type: 'code', title: lang, language: lang,
+        x: c.x, y: c.y, width: 340, height: 200, content: code || '' };
+      state.whiteboardTiles.push(tile);
+      saveData(); renderWhiteboard();
+      overlay.remove();
+    });
+
+    btns.appendChild(cancel);
+    btns.appendChild(confirm);
+    box.appendChild(title);
+    box.appendChild(select);
+    box.appendChild(btns);
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    setTimeout(() => select.focus(), 50);
+  }
+
+  function setupWhiteboardEvents() {
+    if (wb.eventsSetup) return;
+    wb.eventsSetup = true;
+
+    const outer = document.getElementById('wbCanvasOuter');
+    const canvas = document.getElementById('wbCanvas');
+    if (!outer || !canvas) return;
+
+    // Pan: middle-mouse or space+drag
+    let spaceDown = false;
+    document.addEventListener('keydown', e => { if (e.code === 'Space' && state.view === 'whiteboard') { e.preventDefault(); spaceDown = true; } });
+    document.addEventListener('keyup',   e => { if (e.code === 'Space') spaceDown = false; });
+
+    outer.addEventListener('mousedown', e => {
+      if (e.button === 1 || (e.button === 0 && spaceDown)) {
+        e.preventDefault();
+        wb.isPanning = true;
+        wb.panStartX = e.clientX - wb.panX;
+        wb.panStartY = e.clientY - wb.panY;
+        outer.classList.add('panning');
+      }
+    });
+    window.addEventListener('mousemove', e => {
+      if (!wb.isPanning) return;
+      wb.panX = e.clientX - wb.panStartX;
+      wb.panY = e.clientY - wb.panStartY;
+      canvas.style.transform = `translate(${wb.panX}px,${wb.panY}px) scale(${wb.scale})`;
+    });
+    window.addEventListener('mouseup', () => {
+      if (wb.isPanning) { wb.isPanning = false; outer.classList.remove('panning'); }
+    });
+
+    // Wheel zoom (centred on cursor)
+    outer.addEventListener('wheel', e => {
+      e.preventDefault();
+      const rect = outer.getBoundingClientRect();
+      const mx = e.clientX - rect.left;
+      const my = e.clientY - rect.top;
+      const factor = e.deltaY < 0 ? 1.1 : 0.9;
+      const newScale = Math.min(3, Math.max(0.15, wb.scale * factor));
+      wb.panX = mx - (mx - wb.panX) * (newScale / wb.scale);
+      wb.panY = my - (my - wb.panY) * (newScale / wb.scale);
+      wb.scale = newScale;
+      canvas.style.transform = `translate(${wb.panX}px,${wb.panY}px) scale(${wb.scale})`;
+      const lbl = document.getElementById('wbZoomLabel');
+      if (lbl) lbl.textContent = Math.round(wb.scale * 100) + '%';
+    }, { passive: false });
+
+    // Toolbar: Text
+    document.getElementById('wbAddText')?.addEventListener('click', () => {
+      const tile = { id: generateId(), type: 'text', title: 'Note',
+        x: Math.max(20, 60 - wb.panX / wb.scale), y: Math.max(20, 60 - wb.panY / wb.scale),
+        width: 220, height: 130, content: '' };
+      state.whiteboardTiles.push(tile);
+      saveData(); renderWhiteboard();
+    });
+
+    // Toolbar: Code
+    document.getElementById('wbAddCode')?.addEventListener('click', () => {
+      showWbCodeLangPicker('', null);
+    });
+
+    // Toolbar: Image
+    document.getElementById('wbAddImage')?.addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const tile = { id: generateId(), type: 'image', title: file.name,
+            x: Math.max(20, 100 - wb.panX / wb.scale), y: Math.max(20, 100 - wb.panY / wb.scale),
+            width: 280, height: 200, content: ev.target.result };
+          state.whiteboardTiles.push(tile);
+          saveData(); renderWhiteboard();
+        };
+        reader.readAsDataURL(file);
+      };
+      input.click();
+    });
+
+    // Toolbar: Moment picker
+    document.getElementById('wbAddMoment')?.addEventListener('click', showWbMomentPicker);
+
+    // Toolbar: Link mode toggle
+    document.getElementById('wbLinkMode')?.addEventListener('click', () => {
+      wb.linkMode = !wb.linkMode;
+      wb.linkSourceId = null;
+      document.getElementById('wbLinkMode').classList.toggle('active', wb.linkMode);
+      document.querySelectorAll('.wb-tile.link-source').forEach(el => el.classList.remove('link-source'));
+    });
+
+    // Toolbar: Clear
+    document.getElementById('wbClearCanvas')?.addEventListener('click', () => {
+      if (!confirm('Clear all whiteboard tiles and links?')) return;
+      state.whiteboardTiles = [];
+      state.whiteboardLinks = [];
+      saveData(); renderWhiteboard();
+    });
+
+    // Zoom buttons
+    document.getElementById('wbZoomIn')?.addEventListener('click', () => {
+      wb.scale = Math.min(3, wb.scale * 1.2);
+      if (canvas) canvas.style.transform = `translate(${wb.panX}px,${wb.panY}px) scale(${wb.scale})`;
+      const lbl = document.getElementById('wbZoomLabel');
+      if (lbl) lbl.textContent = Math.round(wb.scale * 100) + '%';
+    });
+    document.getElementById('wbZoomOut')?.addEventListener('click', () => {
+      wb.scale = Math.max(0.15, wb.scale / 1.2);
+      if (canvas) canvas.style.transform = `translate(${wb.panX}px,${wb.panY}px) scale(${wb.scale})`;
+      const lbl = document.getElementById('wbZoomLabel');
+      if (lbl) lbl.textContent = Math.round(wb.scale * 100) + '%';
+    });
+    document.getElementById('wbZoomReset')?.addEventListener('click', () => {
+      wb.scale = 1; wb.panX = 0; wb.panY = 0;
+      if (canvas) canvas.style.transform = 'translate(0px,0px) scale(1)';
+      const lbl = document.getElementById('wbZoomLabel');
+      if (lbl) lbl.textContent = '100%';
+    });
+
+    // Smart paste: image, URL, code, or plain text
+    document.addEventListener('paste', e => {
+      if (state.view !== 'whiteboard') return;
+      // Don't intercept paste while editing a tile's textarea/pre
+      const tag = document.activeElement?.tagName;
+      if (tag === 'TEXTAREA' || document.activeElement?.contentEditable === 'true') return;
+
+      const items = e.clipboardData?.items;
+      if (!items) return;
+
+      // 1. Image
+      for (const item of items) {
+        if (item.type.startsWith('image/')) {
+          e.preventDefault();
+          const blob = item.getAsFile();
+          const reader = new FileReader();
+          reader.onload = ev => {
+            const c = wbVisibleCenter();
+            const tile = { id: generateId(), type: 'image', title: 'Pasted Image',
+              x: c.x, y: c.y, width: 280, height: 200, content: ev.target.result };
+            state.whiteboardTiles.push(tile);
+            saveData(); renderWhiteboard();
+          };
+          reader.readAsDataURL(blob);
+          return;
+        }
+      }
+
+      // 2. Text — detect URL / code / plain
+      const textItem = [...items].find(i => i.type === 'text/plain');
+      if (!textItem) return;
+      e.preventDefault();
+      textItem.getAsString(text => {
+        if (!text.trim()) return;
+        const c = wbVisibleCenter();
+        let tile;
+        if (wbIsUrl(text)) {
+          tile = { id: generateId(), type: 'link', title: text.trim().replace(/^https?:\/\//, '').split('/')[0],
+            x: c.x, y: c.y, width: 280, height: 80, content: text.trim() };
+        } else if (wbIsCode(text)) {
+          showWbCodeLangPicker(text, c);
+          return;
+        } else {
+          tile = { id: generateId(), type: 'text', title: 'Note',
+            x: c.x, y: c.y, width: 240, height: 130, content: text };
+        }
+        state.whiteboardTiles.push(tile);
+        saveData(); renderWhiteboard();
+      });
+    });
+  }
+
+  // ── End Whiteboard ───────────────────────────────────────────────────────────
+
   function render() {
     const timelineView = document.getElementById('timelineView');
     const captureView = document.getElementById('captureView');
     const searchView = document.getElementById('searchView');
     const graphView = document.getElementById('graphView');
-    
+    const whiteboardView = document.getElementById('whiteboardView');
+
     if (timelineView) timelineView.classList.toggle('hidden', state.view !== 'timeline');
     if (captureView) captureView.classList.toggle('visible', state.view === 'capture');
     if (searchView) searchView.classList.toggle('visible', state.view === 'search');
     if (graphView) graphView.classList.toggle('visible', state.view === 'graph');
-    
+    if (whiteboardView) whiteboardView.classList.toggle('visible', state.view === 'whiteboard');
+
     if (state.view === 'graph') {
       renderGraph();
+    }
+    if (state.view === 'whiteboard') {
+      renderWhiteboard();
     }
     
     if (state.view === 'capture') {
@@ -6453,7 +7456,16 @@ function renderMobileCaptureButton() {
 
   window.toggleThemePopover = function(e) {
     e.stopPropagation();
-    document.getElementById('themePopover').classList.toggle('visible');
+    const popover = document.getElementById('themePopover');
+    const indicator = document.getElementById('themeIndicator');
+    if (popover.classList.contains('visible')) {
+      popover.classList.remove('visible');
+    } else {
+      const rect = indicator.getBoundingClientRect();
+      popover.style.top  = (rect.bottom + 8) + 'px';
+      popover.style.left = Math.max(8, rect.right - 180) + 'px';
+      popover.classList.add('visible');
+    }
   };
 
   window.closeThemePopover = function() {
@@ -6681,6 +7693,7 @@ document.getElementById('newThreadBtn').addEventListener('click', () => {
   
   document.getElementById('unthreadedFilter').addEventListener('click', () => {
     state.selectedThread = state.selectedThread === 'unthreaded' ? null : 'unthreaded';
+    saveSelectedThread();
     state.view = 'timeline';
     render();
   });
@@ -7770,11 +8783,13 @@ nejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle
         version: '1.0',
         exportDate: new Date().toISOString(),
         moments: state.moments,
-        threads: state.threads
+        threads: state.threads,
+        whiteboardTiles: state.whiteboardTiles,
+        whiteboardLinks: state.whiteboardLinks
       };
-      
+
       const jsonStr = JSON.stringify(exportData, null, 2);
-      
+
       const writable = await state.autoSaveFileHandle.createWritable();
       await writable.write(jsonStr);
       await writable.close();
