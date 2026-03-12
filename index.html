@@ -429,6 +429,8 @@
       flex: 1;
       display: flex;
       overflow: hidden;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.045) 1px, transparent 1px);
+      background-size: 22px 22px;
     }
     
     .timeline-list {
@@ -2839,10 +2841,75 @@
   }
   
   .sidebar {
-    z-index: 1;
+    z-index: 100;
+    transform: translateX(-100%);
+    width: 320px;
+    max-width: 85vw;
+  }
+
+  .sidebar.drawer-open {
     transform: translateX(0);
   }
-  
+
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 99;
+  }
+
+  .sidebar-backdrop.visible {
+    display: block;
+  }
+
+  /* Bottom navigation bar */
+  .mobile-bottom-nav {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 58px;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    z-index: 50;
+    align-items: stretch;
+  }
+
+  .mobile-nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    color: var(--text-muted);
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 9px;
+    padding: 4px 0;
+    transition: color 0.2s;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobile-nav-item.active {
+    color: var(--accent-primary);
+  }
+
+  .mobile-nav-item svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+
+  /* Capture nav item highlight */
+  .mobile-nav-item.capture-nav.active {
+    color: var(--accent-primary);
+  }
+
   .timeline-view,
   .capture-view,
   .search-view,
@@ -2851,6 +2918,7 @@
     z-index: 2;
     transform: translateX(100%);
     background: var(--bg-primary);
+    padding-bottom: 58px;
   }
 
   .timeline-view.visible,
@@ -3134,16 +3202,9 @@
   }
 
     
-  /* Fixed capture button container in timeline for mobile */
+  /* Fixed capture button container in timeline for mobile — hidden since bottom nav handles this */
   .mobile-capture-btn-container {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 12px;
-    background: linear-gradient(to top, var(--bg-primary) 80%, transparent);
-    z-index: 5;
-    pointer-events: none; /* Allow clicks to pass through container */
+    display: none !important;
   }
   
   .mobile-capture-btn {
@@ -3176,28 +3237,65 @@
     height: 20px;
   }
   
-  /* Add padding to timeline list so content doesn't get hidden behind button */
+  /* Timeline list padding for bottom nav */
   .timeline-view .timeline-list {
-    padding-bottom: 80px !important;
+    padding-bottom: 10px !important;
   }
-  
-  /* Empty state padding for button */
-  .timeline-view .empty-state {
-    padding-bottom: 80px;
+
+  /* Whiteboard canvas must fill remaining height, not be pushed by bottom padding */
+  .whiteboard-view {
+    padding-bottom: 0 !important;
   }
-  
-  /* Empty state capture button - hide it since we have the fixed one */
-  .mobile-empty-capture-btn {
-    display: none !important;
+
+  .whiteboard-canvas-outer {
+    height: calc(100vh - 58px - 48px - 46px); /* viewport - bottom nav - toolbar - mobile header */
   }
+
+  /* Make whiteboard toolbar scrollable on mobile */
+  .whiteboard-toolbar {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding: 6px 12px;
+    gap: 5px;
+  }
+  .whiteboard-toolbar::-webkit-scrollbar { display: none; }
+  .wb-toolbar-title { display: none; } /* hide label, save space */
+  .wb-tool-btn { font-size: 11px; padding: 4px 8px; white-space: nowrap; }
+
+  /* Hide desktop mobile-bottom-nav on desktop */
+  .mobile-bottom-nav {
+    display: flex !important;
+  }
+
+  /* Mobile header hamburger button */
+  .mobile-menu-btn {
+    background: var(--border-color);
+    border: none;
+    border-radius: 6px;
+    color: var(--text-primary);
+    cursor: pointer;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .mobile-menu-btn:hover { background: rgba(255,255,255,0.2); }
 }
 
-/* Desktop - hide mobile capture buttons */
+/* Desktop - hide all mobile-only UI */
 @media (min-width: 769px) {
   .mobile-capture-btn-container,
   .mobile-capture-btn,
   .mobile-empty-capture-btn,
-  .mobile-capture-btn-sidebar {
+  .mobile-capture-btn-sidebar,
+  .mobile-bottom-nav,
+  .sidebar-backdrop {
     display: none !important;
   }
   
@@ -3532,8 +3630,10 @@
 </head>
 <body>
   <div class="trace-app">
+    <!-- Mobile sidebar backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeMobileSidebar()"></div>
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" id="appSidebar">
       <div class="sidebar-header">
         <div class="sidebar-header-top">
           <div class="logo">
@@ -3988,6 +4088,34 @@
         </div>
       </div>
     </div>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav">
+      <button class="mobile-nav-item active" data-view="timeline" onclick="mobileNavTo('timeline')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Timeline</span>
+      </button>
+      <button class="mobile-nav-item capture-nav" data-view="capture" onclick="mobileNavTo('capture')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        <span>Capture</span>
+      </button>
+      <button class="mobile-nav-item" data-view="search" onclick="mobileNavTo('search')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <span>Search</span>
+      </button>
+      <button class="mobile-nav-item" data-view="graph" onclick="mobileNavTo('graph')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 12h10"/><path d="m7 10 10-3"/><path d="m7 14 10 3"/></svg>
+        <span>Graph</span>
+      </button>
+      <button class="mobile-nav-item" data-view="whiteboard" onclick="mobileNavTo('whiteboard')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h6"/><path d="M3 15h6"/></svg>
+        <span>Board</span>
+      </button>
+      <button class="mobile-nav-item" onclick="openMobileSidebar()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        <span>Menu</span>
+      </button>
+    </nav>
   </div>
 
   <!-- About Modal -->
@@ -6074,16 +6202,13 @@ window.addEventListener('beforeunload', () => {
       `;
       
       item.addEventListener('click', () => {
-      state.selectedThread = state.selectedThread === thread.id ? null : thread.id;
-  saveSelectedThread();
-  state.selectedMoment = null; // Clear selected moment
-  state.view = 'timeline';
-  render();
-        
-        // For mobile, show timeline view
-        if (window.innerWidth <= 768) {
-          document.getElementById('timelineView').classList.add('visible');
-        }
+        state.selectedThread = state.selectedThread === thread.id ? null : thread.id;
+        saveSelectedThread();
+        state.selectedMoment = null;
+        state.view = 'timeline';
+        if (window.innerWidth <= 768) closeMobileSidebar();
+        render();
+        if (window.innerWidth <= 768) updateMobileViews();
       });
       
       container.appendChild(item);
@@ -6352,100 +6477,92 @@ window.addEventListener('beforeunload', () => {
     }
   }
   
+  const MENU_ICON = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>`;
+  const BACK_ICON = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>`;
+
   function addMobileHeaders() {
-    // Timeline view header
+    // Timeline view header — hamburger to open sidebar drawer
     const timelineView = document.getElementById('timelineView');
     const timelineList = timelineView.querySelector('.timeline-list');
     if (timelineList && !timelineList.querySelector('.mobile-header')) {
       const header = document.createElement('div');
       header.className = 'mobile-header';
       header.innerHTML = `
-        <button class="mobile-back-btn" onclick="mobileBack('timeline')">
-          <svg width="24" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </button>
+        <button class="mobile-back-btn mobile-menu-btn" onclick="openMobileSidebar()">${MENU_ICON}</button>
         <h2 id="mobileTimelineTitle">Timeline</h2>
       `;
       timelineList.insertBefore(header, timelineList.firstChild);
     }
-    
-    // Capture view header
+
+    // Capture view header — back button to go to timeline
     const captureView = document.getElementById('captureView');
     if (!captureView.querySelector('.mobile-header')) {
       const header = document.createElement('div');
       header.className = 'mobile-header';
       header.innerHTML = `
-        <button class="mobile-back-btn" onclick="mobileBack('capture')">
-          <svg width="24" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </button>
+        <button class="mobile-back-btn" onclick="mobileBack('capture')">${BACK_ICON}</button>
         <h2>Capture Moment</h2>
       `;
       captureView.insertBefore(header, captureView.firstChild);
     }
-    
-    // Search view header
+
+    // Search view header — hamburger
     const searchView = document.getElementById('searchView');
     if (!searchView.querySelector('.mobile-header')) {
       const header = document.createElement('div');
       header.className = 'mobile-header';
       header.innerHTML = `
-        <button class="mobile-back-btn" onclick="mobileBack('search')">
-          <svg width="24" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </button>
+        <button class="mobile-back-btn mobile-menu-btn" onclick="openMobileSidebar()">${MENU_ICON}</button>
         <h2>Search</h2>
       `;
       searchView.insertBefore(header, searchView.firstChild);
     }
-    
-    // Graph view header  
+
+    // Graph view header — hamburger
     const graphView = document.getElementById('graphView');
     const graphContainer = graphView.querySelector('.graph-container-wrapper');
     if (graphContainer && !graphContainer.querySelector('.mobile-header')) {
       const header = document.createElement('div');
       header.className = 'mobile-header';
       header.innerHTML = `
-        <button class="mobile-back-btn" onclick="mobileBack('graph')">
-          <svg width="24" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </button>
+        <button class="mobile-back-btn mobile-menu-btn" onclick="openMobileSidebar()">${MENU_ICON}</button>
         <h2>Knowledge Graph</h2>
       `;
       graphContainer.insertBefore(header, graphContainer.firstChild);
     }
-    
-    // Detail panel header
+
+    // Whiteboard view header — hamburger
+    const whiteboardView = document.getElementById('whiteboardView');
+    if (whiteboardView && !whiteboardView.querySelector('.mobile-header')) {
+      const header = document.createElement('div');
+      header.className = 'mobile-header';
+      header.style.cssText = 'position:relative;z-index:20;';
+      header.innerHTML = `
+        <button class="mobile-back-btn mobile-menu-btn" onclick="openMobileSidebar()">${MENU_ICON}</button>
+        <h2>Whiteboard</h2>
+      `;
+      whiteboardView.insertBefore(header, whiteboardView.firstChild);
+    }
+
+    // Detail panel header — back button
     const detailPanel = document.getElementById('detailPanel');
     if (!detailPanel.querySelector('.mobile-header')) {
       const header = document.createElement('div');
       header.className = 'mobile-header';
       header.innerHTML = `
-        <button class="mobile-back-btn" onclick="mobileBack('detail')">
-          <svg width="24" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </button>
+        <button class="mobile-back-btn" onclick="mobileBack('detail')">${BACK_ICON}</button>
         <h2>Moment Details</h2>
       `;
       detailPanel.insertBefore(header, detailPanel.firstChild);
     }
-    
-    // Graph detail panel header
+
+    // Graph detail panel header — back button
     const graphDetailPanel = document.getElementById('graphDetailPanel');
     if (!graphDetailPanel.querySelector('.mobile-header')) {
       const header = document.createElement('div');
       header.className = 'mobile-header';
       header.innerHTML = `
-        <button class="mobile-back-btn" onclick="mobileBack('graphDetail')">
-          <svg width="24" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m15 18-6-6 6-6"/>
-          </svg>
-        </button>
+        <button class="mobile-back-btn" onclick="mobileBack('graphDetail')">${BACK_ICON}</button>
         <h2>Moment Details</h2>
       `;
       graphDetailPanel.insertBefore(header, graphDetailPanel.firstChild);
@@ -6454,7 +6571,7 @@ window.addEventListener('beforeunload', () => {
   
   function updateMobileViews() {
     if (window.innerWidth > 768) return;
-    
+
     const timelineView = document.getElementById('timelineView');
     const captureView = document.getElementById('captureView');
     const searchView = document.getElementById('searchView');
@@ -6481,6 +6598,11 @@ window.addEventListener('beforeunload', () => {
     } else if (state.view === 'whiteboard') {
       if (whiteboardView) whiteboardView.classList.add('visible');
     }
+
+    // Update bottom nav active state
+    document.querySelectorAll('.mobile-nav-item[data-view]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.view === state.view);
+    });
   }
   
   function updateMobileTimelineTitle() {
@@ -6536,17 +6658,12 @@ function renderMobileCaptureButton() {
 }
   
   window.mobileBack = function(from) {
-    if (window.innerWidth > 768) return; // Only for mobile
-    
+    if (window.innerWidth > 768) return;
+
     if (from === 'detail' || from === 'graphDetail') {
-      // Close detail panel
       state.selectedMoment = null;
-      const detailPanel = document.getElementById('detailPanel');
-      const graphDetailPanel = document.getElementById('graphDetailPanel');
-      detailPanel.classList.remove('visible');
-      graphDetailPanel.classList.remove('visible');
-      
-      // Re-render to update the moment cards
+      document.getElementById('detailPanel').classList.remove('visible');
+      document.getElementById('graphDetailPanel').classList.remove('visible');
       renderMoments();
     } else if (from === 'capture') {
       // Cancel capture and go back to timeline
@@ -6570,20 +6687,32 @@ function renderMobileCaptureButton() {
       document.getElementById('tagsDisplay').innerHTML = '';
       document.querySelectorAll('.priority-btn').forEach(b => b.classList.remove('active', 'critical', 'follow-up', 'pinned'));
       render();
-    } else {
-      // Go back to sidebar - hide current view
-      const timelineView = document.getElementById('timelineView');
-      const captureView = document.getElementById('captureView');
-      const searchView = document.getElementById('searchView');
-      const graphView = document.getElementById('graphView');
-      
-      timelineView.classList.remove('visible');
-      captureView.classList.remove('visible');
-      searchView.classList.remove('visible');
-      graphView.classList.remove('visible');
-      
-      // Keep state.view as is so when they navigate again it remembers
+      updateMobileViews();
     }
+  };
+
+  window.openMobileSidebar = function() {
+    if (window.innerWidth > 768) return;
+    document.getElementById('appSidebar').classList.add('drawer-open');
+    document.getElementById('sidebarBackdrop').classList.add('visible');
+  };
+
+  window.closeMobileSidebar = function() {
+    document.getElementById('appSidebar').classList.remove('drawer-open');
+    document.getElementById('sidebarBackdrop').classList.remove('visible');
+  };
+
+  window.mobileNavTo = function(view) {
+    if (window.innerWidth > 768) return;
+    closeMobileSidebar();
+    state.view = view;
+    if (view === 'capture') {
+      state.editingMoment = null;
+      const submitBtn = document.getElementById('submitCaptureBtn');
+      if (submitBtn) submitBtn.innerHTML = '<svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Capture Moment';
+    }
+    render();
+    updateMobileViews();
   };
 
   // ── Whiteboard ──────────────────────────────────────────────────────────────
@@ -6851,7 +6980,7 @@ function renderMobileCaptureButton() {
     resizeHandle.innerHTML = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 2L2 10M6 2L2 6M10 6L6 10"/></svg>';
     el.appendChild(resizeHandle);
 
-    // Drag tile via header
+    // Drag tile via header (mouse)
     header.addEventListener('mousedown', e => {
       if (e.button !== 0) return;
       e.preventDefault();
@@ -6875,7 +7004,32 @@ function renderMobileCaptureButton() {
       window.addEventListener('mouseup', onUp);
     });
 
-    // Resize via handle
+    // Drag tile via header (touch)
+    header.addEventListener('touchstart', e => {
+      if (wb.linkMode) return;
+      wbBringToFront(tile, el);
+      const t0 = e.touches[0];
+      const sx = t0.clientX, sy = t0.clientY;
+      const ox = tile.x, oy = tile.y;
+      const onMove = ev => {
+        ev.preventDefault();
+        const t = ev.touches[0];
+        tile.x = ox + (t.clientX - sx) / wb.scale;
+        tile.y = oy + (t.clientY - sy) / wb.scale;
+        el.style.left = tile.x + 'px';
+        el.style.top  = tile.y + 'px';
+        wbRedrawLinks();
+      };
+      const onEnd = () => {
+        window.removeEventListener('touchmove', onMove);
+        window.removeEventListener('touchend', onEnd);
+        saveData();
+      };
+      window.addEventListener('touchmove', onMove, { passive: false });
+      window.addEventListener('touchend', onEnd);
+    }, { passive: true });
+
+    // Resize via handle (mouse)
     resizeHandle.addEventListener('mousedown', e => {
       if (e.button !== 0) return;
       e.preventDefault();
@@ -6897,6 +7051,29 @@ function renderMobileCaptureButton() {
       window.addEventListener('mousemove', onMove);
       window.addEventListener('mouseup', onUp);
     });
+
+    // Resize via handle (touch)
+    resizeHandle.addEventListener('touchstart', e => {
+      const t0 = e.touches[0];
+      const sx = t0.clientX, sy = t0.clientY;
+      const ow = tile.width || 200, oh = tile.height || 120;
+      const onMove = ev => {
+        ev.preventDefault();
+        const t = ev.touches[0];
+        tile.width  = Math.max(140, ow + (t.clientX - sx) / wb.scale);
+        tile.height = Math.max(80,  oh + (t.clientY - sy) / wb.scale);
+        el.style.width  = tile.width  + 'px';
+        el.style.height = tile.height + 'px';
+        wbRedrawLinks();
+      };
+      const onEnd = () => {
+        window.removeEventListener('touchmove', onMove);
+        window.removeEventListener('touchend', onEnd);
+        saveData();
+      };
+      window.addEventListener('touchmove', onMove, { passive: false });
+      window.addEventListener('touchend', onEnd);
+    }, { passive: true });
 
     // Click tile for link mode
     el.addEventListener('click', e => {
@@ -7092,6 +7269,59 @@ function renderMobileCaptureButton() {
     window.addEventListener('mouseup', () => {
       if (wb.isPanning) { wb.isPanning = false; outer.classList.remove('panning'); }
     });
+
+    // Touch support: pan with single finger, pinch-zoom with two fingers
+    let wbTouchState = { touches: 0, lastX: 0, lastY: 0, lastDist: 0 };
+    outer.addEventListener('touchstart', e => {
+      wbTouchState.touches = e.touches.length;
+      if (e.touches.length === 1) {
+        wbTouchState.lastX = e.touches[0].clientX;
+        wbTouchState.lastY = e.touches[0].clientY;
+      } else if (e.touches.length === 2) {
+        wbTouchState.lastX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        wbTouchState.lastY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        wbTouchState.lastDist = Math.hypot(
+          e.touches[1].clientX - e.touches[0].clientX,
+          e.touches[1].clientY - e.touches[0].clientY
+        );
+      }
+    }, { passive: true });
+    outer.addEventListener('touchmove', e => {
+      e.preventDefault();
+      if (e.touches.length === 1) {
+        const dx = e.touches[0].clientX - wbTouchState.lastX;
+        const dy = e.touches[0].clientY - wbTouchState.lastY;
+        wb.panX += dx;
+        wb.panY += dy;
+        wbTouchState.lastX = e.touches[0].clientX;
+        wbTouchState.lastY = e.touches[0].clientY;
+        canvas.style.transform = `translate(${wb.panX}px,${wb.panY}px) scale(${wb.scale})`;
+      } else if (e.touches.length === 2) {
+        const cx = (e.touches[0].clientX + e.touches[1].clientX) / 2;
+        const cy = (e.touches[0].clientY + e.touches[1].clientY) / 2;
+        const dist = Math.hypot(
+          e.touches[1].clientX - e.touches[0].clientX,
+          e.touches[1].clientY - e.touches[0].clientY
+        );
+        const factor = dist / (wbTouchState.lastDist || dist);
+        const newScale = Math.min(3, Math.max(0.15, wb.scale * factor));
+        const rect = outer.getBoundingClientRect();
+        const mx = cx - rect.left;
+        const my = cy - rect.top;
+        wb.panX = mx - (mx - wb.panX) * (newScale / wb.scale);
+        wb.panY = my - (my - wb.panY) * (newScale / wb.scale);
+        wb.scale = newScale;
+        // Also pan
+        wb.panX += cx - wbTouchState.lastX;
+        wb.panY += cy - wbTouchState.lastY;
+        wbTouchState.lastX = cx;
+        wbTouchState.lastY = cy;
+        wbTouchState.lastDist = dist;
+        canvas.style.transform = `translate(${wb.panX}px,${wb.panY}px) scale(${wb.scale})`;
+        const lbl = document.getElementById('wbZoomLabel');
+        if (lbl) lbl.textContent = Math.round(wb.scale * 100) + '%';
+      }
+    }, { passive: false });
 
     // Wheel zoom (centred on cursor)
     outer.addEventListener('wheel', e => {
@@ -7387,9 +7617,8 @@ function renderMobileCaptureButton() {
     item.addEventListener('click', () => {
       state.view = item.dataset.view;
       render();
-      
-      // For mobile, show the selected view
       if (window.innerWidth <= 768) {
+        closeMobileSidebar();
         updateMobileViews();
       }
     });
@@ -7398,7 +7627,12 @@ function renderMobileCaptureButton() {
   document.querySelectorAll('.filter-item').forEach(item => {
     item.addEventListener('click', () => {
       state.filterType = item.dataset.filter;
+      if (window.innerWidth <= 768) {
+        closeMobileSidebar();
+        state.view = 'timeline';
+      }
       render();
+      if (window.innerWidth <= 768) updateMobileViews();
     });
   });
   
@@ -7406,6 +7640,7 @@ function renderMobileCaptureButton() {
     state.view = 'capture';
     state.editingMoment = null;
     document.getElementById('submitCaptureBtn').innerHTML = '<svg class="icon-action" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Capture Moment';
+    if (window.innerWidth <= 768) closeMobileSidebar();
     render();
   });
   
@@ -7695,7 +7930,9 @@ document.getElementById('newThreadBtn').addEventListener('click', () => {
     state.selectedThread = state.selectedThread === 'unthreaded' ? null : 'unthreaded';
     saveSelectedThread();
     state.view = 'timeline';
+    if (window.innerWidth <= 768) closeMobileSidebar();
     render();
+    if (window.innerWidth <= 768) updateMobileViews();
   });
   
   document.querySelectorAll('.type-btn').forEach(btn => {
