@@ -1975,6 +1975,183 @@
     }
     .whiteboard-view.visible { display: flex; }
 
+    /* ── Markdown Editor View ── */
+    .markdown-editor-view {
+      flex: 1;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .markdown-editor-view.visible { display: flex; }
+    .md-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      flex-shrink: 0;
+    }
+    .md-doc-select {
+      flex: 1;
+      max-width: 220px;
+      background: var(--bg-tertiary);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 13px;
+    }
+    .md-title-input {
+      flex: 1;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 4px 8px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .md-title-input:hover, .md-title-input:focus { border-color: var(--border-color); }
+    .md-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      padding: 6px 12px;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-secondary);
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .md-tool-btn {
+      background: none;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      border-radius: 5px;
+      padding: 4px 7px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: monospace;
+      transition: all 0.12s;
+      line-height: 1;
+    }
+    .md-tool-btn:hover { background: var(--bg-tertiary); border-color: var(--border-color); color: var(--text-primary); }
+    .md-tool-sep { width: 1px; height: 16px; background: var(--border-color); margin: 0 3px; }
+    .md-body {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+    .md-editor-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border-color);
+      min-width: 0;
+    }
+    .md-editor-pane textarea {
+      flex: 1;
+      width: 100%;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      border: none;
+      resize: none;
+      padding: 20px 24px;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 13px;
+      line-height: 1.7;
+      outline: none;
+      tab-size: 2;
+    }
+    .md-preview-pane {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 28px;
+      background: var(--bg-primary);
+      min-width: 0;
+    }
+    .md-preview-pane h1,
+    .md-preview-pane h2,
+    .md-preview-pane h3,
+    .md-preview-pane h4 { color: var(--text-primary); margin: 1.2em 0 0.4em; }
+    .md-preview-pane h1 { font-size: 1.7em; border-bottom: 1px solid var(--border-color); padding-bottom: 0.3em; }
+    .md-preview-pane h2 { font-size: 1.3em; border-bottom: 1px solid var(--border-color); padding-bottom: 0.2em; }
+    .md-preview-pane p { margin: 0.6em 0; color: var(--text-secondary); line-height: 1.7; }
+    .md-preview-pane code { background: var(--bg-tertiary); padding: 1px 5px; border-radius: 3px; font-family: monospace; font-size: 0.88em; color: var(--accent-primary); }
+    .md-preview-pane pre { background: var(--bg-tertiary); border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin: 1em 0; }
+    .md-preview-pane pre code { background: none; padding: 0; color: var(--text-primary); }
+    .md-preview-pane blockquote { border-left: 3px solid var(--accent-primary); margin: 1em 0; padding: 4px 16px; color: var(--text-muted); background: var(--bg-secondary); border-radius: 0 4px 4px 0; }
+    .md-preview-pane ul, .md-preview-pane ol { color: var(--text-secondary); padding-left: 1.6em; margin: 0.6em 0; }
+    .md-preview-pane li { margin: 0.25em 0; }
+    .md-preview-pane a { color: var(--accent-primary); }
+    .md-preview-pane hr { border: none; border-top: 1px solid var(--border-color); margin: 1.5em 0; }
+    .md-preview-pane table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    .md-preview-pane th, .md-preview-pane td { border: 1px solid var(--border-color); padding: 6px 12px; text-align: left; }
+    .md-preview-pane th { background: var(--bg-secondary); color: var(--text-primary); }
+    .md-empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 12px; color: var(--text-muted); }
+    .md-empty-state svg { opacity: 0.3; }
+
+    /* ── Code Editor View ── */
+    .code-editor-view { flex: 1; display: none; flex-direction: column; overflow: hidden; }
+    .code-editor-view.visible { display: flex; }
+    .ce-topbar { display: flex; align-items: stretch; background: #1e1e1e; border-bottom: 1px solid #252526; flex-shrink: 0; height: 35px; }
+    .ce-tab-bar { flex: 1; display: flex; align-items: stretch; overflow-x: auto; overflow-y: hidden; scrollbar-width: none; }
+    .ce-tab-bar::-webkit-scrollbar { display: none; }
+    .ce-tab { display: flex; align-items: center; gap: 6px; padding: 0 10px; min-width: 90px; max-width: 170px; border-right: 1px solid #252526; cursor: pointer; font-size: 12px; color: #969696; white-space: nowrap; flex-shrink: 0; user-select: none; background: #2d2d2d; transition: background 0.1s, color 0.1s; }
+    .ce-tab:hover { background: #1e1e1e; color: #ccc; }
+    .ce-tab.active { background: #1e1e1e; color: #fff; border-top: 1px solid var(--accent-primary); }
+    .ce-tab-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .ce-tab-name { flex: 1; overflow: hidden; text-overflow: ellipsis; font-family: 'Consolas', monospace; font-size: 12px; }
+    .ce-tab-close { background: none; border: none; color: #969696; cursor: pointer; font-size: 15px; line-height: 1; padding: 0 1px; border-radius: 3px; opacity: 0; transition: opacity 0.1s, background 0.1s; flex-shrink: 0; }
+    .ce-tab:hover .ce-tab-close, .ce-tab.active .ce-tab-close { opacity: 1; }
+    .ce-tab-close:hover { background: rgba(255,255,255,0.1); color: #fff; }
+    .ce-new-tab-btn { background: none; border: none; color: #555; cursor: pointer; font-size: 20px; line-height: 1; padding: 0 12px; flex-shrink: 0; align-self: center; transition: color 0.15s; }
+    .ce-new-tab-btn:hover { color: #ccc; }
+    .ce-run-btn { background: #2ea043; border: none; border-left: 1px solid #252526; color: #fff; font-size: 12px; font-weight: 700; padding: 0 20px; cursor: pointer; flex-shrink: 0; letter-spacing: 0.5px; transition: background 0.15s; }
+    .ce-run-btn:hover { background: #3fb950; }
+    .ce-run-btn.running { background: #da3633; }
+    .ce-run-btn.running:hover { background: #f85149; }
+    .ce-body { flex: 1; display: flex; overflow: hidden; }
+    .ce-editor-area { flex: 1; position: relative; overflow: hidden; min-width: 200px; background: #1e1e1e; }
+    .ce-editor-mount { position: absolute; inset: 0; }
+    .ce-divider { width: 4px; background: #252526; cursor: col-resize; flex-shrink: 0; transition: background 0.15s; }
+    .ce-divider:hover, .ce-divider.dragging { background: var(--accent-primary); }
+    .ce-output-panel { width: 380px; min-width: 140px; display: flex; flex-direction: column; background: #1e1e1e; flex-shrink: 0; }
+    .ce-output-header { display: flex; align-items: center; background: #252526; border-bottom: 1px solid #333; flex-shrink: 0; height: 30px; padding-right: 8px; }
+    .ce-out-tab { background: none; border: none; border-bottom: 2px solid transparent; color: #969696; font-size: 11px; padding: 0 14px; height: 100%; cursor: pointer; transition: color 0.12s, border-color 0.12s; white-space: nowrap; }
+    .ce-out-tab:hover { color: #ccc; }
+    .ce-out-tab.active { color: #e2e2e2; border-bottom-color: var(--accent-primary); }
+    .ce-exec-time { font-size: 10px; color: #6a9955; font-family: monospace; padding: 0 6px; }
+    .ce-clear-btn { margin-left: auto; background: none; border: none; color: #555; font-size: 11px; cursor: pointer; padding: 2px 6px; border-radius: 3px; transition: color 0.12s; }
+    .ce-clear-btn:hover { color: #ccc; }
+    .ce-output-body { flex: 1; overflow-y: auto; padding: 6px 0; font-family: 'JetBrains Mono','Fira Code','Consolas',monospace; font-size: 12px; line-height: 1.55; }
+    .ce-output-body::-webkit-scrollbar { width: 6px; }
+    .ce-output-body::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+    .ce-output-empty { color: #444; font-size: 12px; font-family: monospace; padding: 20px 16px; }
+    .ce-log-line { padding: 1px 14px; white-space: pre-wrap; word-break: break-all; color: #d4d4d4; border-left: 2px solid transparent; }
+    .ce-log-line.warn   { color: #ddb26f; border-left-color: #ddb26f; background: rgba(221,178,111,0.04); }
+    .ce-log-line.error  { color: #f48771; border-left-color: #f48771; background: rgba(244,135,113,0.04); }
+    .ce-log-line.info   { color: #9cdcfe; border-left-color: #569cd6; }
+    .ce-log-line.result { color: #4ec9b0; border-top: 1px solid #2a2a2a; margin-top: 4px; padding-top: 5px; }
+    .ce-log-line.system { color: #4d4d4d; font-style: italic; }
+    .ce-input-body { display: none; background: #1e1e1e; color: #d4d4d4; border: none; resize: none; padding: 10px 14px; font-family: 'JetBrains Mono','Fira Code','Consolas',monospace; font-size: 12px; line-height: 1.6; outline: none; width: 100%; flex: 1; box-sizing: border-box; }
+    .ce-input-body.visible { display: block; }
+    .ce-loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; color: #666; font-size: 13px; background: #1e1e1e; z-index: 10; }
+    .ce-loading.hidden { display: none; }
+    .ce-spinner { width: 28px; height: 28px; border: 2px solid #333; border-top-color: var(--accent-primary); border-radius: 50%; animation: ce-spin 0.8s linear infinite; }
+    @keyframes ce-spin { to { transform: rotate(360deg); } }
+    .ce-status-bar { display: flex; align-items: center; gap: 12px; padding: 3px 14px; background: var(--accent-primary); color: rgba(0,0,0,0.85); font-size: 11px; flex-shrink: 0; }
+    .ce-lang-select { background: transparent; border: none; color: rgba(0,0,0,0.85); font-size: 11px; cursor: pointer; outline: none; font-family: monospace; }
+    .ce-lang-select option { background: #2d2d2d; color: #d4d4d4; }
+    .ce-cursor-pos { font-family: monospace; font-size: 11px; }
+    .ce-sb-spacer { flex: 1; }
+    .ce-format-btn { background: rgba(0,0,0,0.18); border: none; color: rgba(0,0,0,0.85); font-size: 11px; padding: 2px 10px; border-radius: 3px; cursor: pointer; font-weight: 600; transition: background 0.15s; }
+    .ce-format-btn:hover { background: rgba(0,0,0,0.28); }
+    .ce-format-btn:disabled { opacity: 0.5; cursor: wait; }
+
     .whiteboard-toolbar {
       display: flex;
       align-items: center;
@@ -3986,6 +4163,14 @@
           <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h6"/><path d="M3 15h6"/></svg>
           Whiteboard
         </div>
+        <div class="nav-item" data-view="code">
+          <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Code
+        </div>
+        <div class="nav-item" data-view="editor">
+          <svg class="icon-nav" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          Editor
+        </div>
         </div>
 
         <h3 data-section="filtertype" onclick="toggleNavSection('filtertype')">Filter by Type <svg class="nav-section-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></h3>
@@ -4364,6 +4549,102 @@
       </div>
     </div>
 
+    <!-- Markdown Editor View -->
+    <div class="markdown-editor-view" id="markdownEditorView">
+      <div class="md-header">
+        <select class="md-doc-select" id="mdDocSelect" onchange="mdSwitchDoc(this.value)"></select>
+        <input class="md-title-input" id="mdTitleInput" placeholder="Untitled" oninput="mdOnTitleChange()" />
+        <button class="btn-secondary" onclick="mdNewDoc()" title="New document" style="padding:5px 10px;font-size:12px;">+ New</button>
+        <button class="btn-secondary" onclick="mdDeleteDoc()" title="Delete document" style="padding:5px 10px;font-size:12px;color:var(--text-muted);">Delete</button>
+      </div>
+      <div class="md-toolbar">
+        <button class="md-tool-btn" onclick="mdWrap('**','**')" title="Bold"><b>B</b></button>
+        <button class="md-tool-btn" onclick="mdWrap('*','*')" title="Italic"><i>I</i></button>
+        <button class="md-tool-btn" onclick="mdWrap('~~','~~')" title="Strikethrough"><s>S</s></button>
+        <div class="md-tool-sep"></div>
+        <button class="md-tool-btn" onclick="mdLinePrefix('# ')" title="Heading 1">H1</button>
+        <button class="md-tool-btn" onclick="mdLinePrefix('## ')" title="Heading 2">H2</button>
+        <button class="md-tool-btn" onclick="mdLinePrefix('### ')" title="Heading 3">H3</button>
+        <div class="md-tool-sep"></div>
+        <button class="md-tool-btn" onclick="mdLinePrefix('- ')" title="Bullet list">• List</button>
+        <button class="md-tool-btn" onclick="mdLinePrefix('1. ')" title="Numbered list">1. List</button>
+        <button class="md-tool-btn" onclick="mdLinePrefix('> ')" title="Blockquote">" Quote</button>
+        <div class="md-tool-sep"></div>
+        <button class="md-tool-btn" onclick="mdWrap('\`','\`')" title="Inline code">`code`</button>
+        <button class="md-tool-btn" onclick="mdInsertBlock('\`\`\`\n','\n\`\`\`')" title="Code block">```</button>
+        <button class="md-tool-btn" onclick="mdInsertAtCursor('\n---\n')" title="Horizontal rule">—</button>
+        <button class="md-tool-btn" onclick="mdInsertLink()" title="Link">🔗</button>
+      </div>
+      <div class="md-body">
+        <div class="md-editor-pane">
+          <textarea id="mdEditorTextarea" placeholder="Start writing…" spellcheck="true" oninput="mdOnInput()"></textarea>
+        </div>
+        <div class="md-preview-pane" id="mdPreview"></div>
+      </div>
+    </div>
+
+    <!-- Code Editor View -->
+    <div class="code-editor-view" id="codeEditorView">
+      <div class="ce-topbar">
+        <div class="ce-tab-bar" id="ceTabBar"></div>
+        <button class="ce-run-btn" id="ceRunBtn" onclick="ceRun()" title="Run (Ctrl+Enter)">▶ Run</button>
+      </div>
+      <div class="ce-body">
+        <div class="ce-editor-area">
+          <div class="ce-editor-mount" id="ceEditorMount"></div>
+          <div class="ce-loading" id="ceLoading">
+            <div class="ce-spinner"></div>
+            Loading Monaco Editor…
+          </div>
+        </div>
+        <div class="ce-divider" id="ceDivider"></div>
+        <div class="ce-output-panel" id="ceOutputPanel">
+          <div class="ce-output-header">
+            <button class="ce-out-tab active" id="ceOutTabOutput" onclick="ceShowTab('output')">Output</button>
+            <button class="ce-out-tab" id="ceOutTabInput" onclick="ceShowTab('input')">Input</button>
+            <span class="ce-exec-time" id="ceExecTime"></span>
+            <button class="ce-clear-btn" onclick="ceClearOutput()">Clear</button>
+          </div>
+          <div class="ce-output-body" id="ceOutputBody">
+            <div class="ce-output-empty">▶ Run your code to see output here</div>
+          </div>
+          <textarea class="ce-input-body" id="ceInputBody" placeholder="Paste input data here…&#10;&#10;Access it in your script via:&#10;  $input  → raw string&#10;  $json   → parsed JSON (or null)&#10;  $lines  → array of lines&#10;  $csv    → array of string arrays"></textarea>
+        </div>
+      </div>
+      <div class="ce-status-bar">
+        <select class="ce-lang-select" id="ceLangSelect" onchange="ceLangChange(this.value)">
+          <option value="plaintext">Plain Text</option>
+          <option value="javascript">JavaScript</option>
+          <option value="typescript">TypeScript</option>
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="scss">SCSS</option>
+          <option value="less">Less</option>
+          <option value="json">JSON</option>
+          <option value="markdown">Markdown</option>
+          <option value="python">Python</option>
+          <option value="ruby">Ruby</option>
+          <option value="go">Go</option>
+          <option value="rust">Rust</option>
+          <option value="java">Java</option>
+          <option value="c">C</option>
+          <option value="cpp">C++</option>
+          <option value="csharp">C#</option>
+          <option value="php">PHP</option>
+          <option value="swift">Swift</option>
+          <option value="kotlin">Kotlin</option>
+          <option value="shell">Shell</option>
+          <option value="sql">SQL</option>
+          <option value="yaml">YAML</option>
+          <option value="xml">XML</option>
+          <option value="dockerfile">Dockerfile</option>
+        </select>
+        <span class="ce-cursor-pos" id="ceCursorPos">Ln 1, Col 1</span>
+        <span class="ce-sb-spacer"></span>
+        <button class="ce-format-btn" id="ceFormatBtn" onclick="ceFormat()">Format</button>
+      </div>
+    </div>
+
     <!-- Quick Capture Overlay -->
     <div class="quick-capture-overlay" id="quickCaptureOverlay" onclick="qcBackdropClick(event)">
       <div class="quick-capture-modal">
@@ -4409,6 +4690,14 @@
       <button class="mobile-nav-item" data-view="whiteboard" onclick="mobileNavTo('whiteboard')">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h6"/><path d="M3 15h6"/></svg>
         <span>Board</span>
+      </button>
+      <button class="mobile-nav-item" data-view="code" onclick="mobileNavTo('code')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <span>Code</span>
+      </button>
+      <button class="mobile-nav-item" data-view="editor" onclick="mobileNavTo('editor')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+        <span>Editor</span>
       </button>
       <button class="mobile-nav-item" onclick="openMobileSidebar()">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
@@ -6123,6 +6412,681 @@ window.addEventListener('beforeunload', () => {
     URL.revokeObjectURL(url);
   };
 
+  // ── Markdown Editor ──────────────────────────────────────────────────────
+  const MD_STORAGE_KEY = 'ruby-md-docs';
+  const MD_CURRENT_KEY = 'ruby-md-current';
+
+  function mdLoadDocs() {
+    try { return JSON.parse(localStorage.getItem(MD_STORAGE_KEY) || '[]'); } catch { return []; }
+  }
+  function mdSaveDocs(docs) { localStorage.setItem(MD_STORAGE_KEY, JSON.stringify(docs)); }
+  function mdGetCurrentId() { return localStorage.getItem(MD_CURRENT_KEY) || null; }
+  function mdSetCurrentId(id) { localStorage.setItem(MD_CURRENT_KEY, id); }
+
+  function mdGenerateId() { return 'md_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7); }
+
+  let _mdInitialized = false;
+
+  function mdInitView() {
+    if (_mdInitialized) { mdRefreshSelect(); return; }
+    _mdInitialized = true;
+    let docs = mdLoadDocs();
+    if (docs.length === 0) {
+      const first = { id: mdGenerateId(), title: 'Untitled', content: '', updated: Date.now() };
+      docs = [first];
+      mdSaveDocs(docs);
+      mdSetCurrentId(first.id);
+    }
+    mdRefreshSelect();
+    const currentId = mdGetCurrentId() || docs[0].id;
+    mdLoadDoc(currentId);
+
+    const ta = document.getElementById('mdEditorTextarea');
+    if (ta) ta.addEventListener('input', mdOnInput);
+  }
+
+  function mdRefreshSelect() {
+    const sel = document.getElementById('mdDocSelect');
+    if (!sel) return;
+    const docs = mdLoadDocs();
+    const currentId = mdGetCurrentId();
+    sel.innerHTML = docs.map(d =>
+      `<option value="${d.id}" ${d.id === currentId ? 'selected' : ''}>${d.title || 'Untitled'}</option>`
+    ).join('');
+  }
+
+  function mdLoadDoc(id) {
+    const docs = mdLoadDocs();
+    const doc = docs.find(d => d.id === id);
+    if (!doc) return;
+    mdSetCurrentId(id);
+    const ta = document.getElementById('mdEditorTextarea');
+    const ti = document.getElementById('mdTitleInput');
+    if (ta) ta.value = doc.content;
+    if (ti) ti.value = doc.title;
+    mdUpdatePreview(doc.content);
+    mdRefreshSelect();
+  }
+
+  window.mdSwitchDoc = function(id) { mdLoadDoc(id); };
+
+  window.mdNewDoc = function() {
+    const docs = mdLoadDocs();
+    const doc = { id: mdGenerateId(), title: 'Untitled', content: '', updated: Date.now() };
+    docs.push(doc);
+    mdSaveDocs(docs);
+    mdLoadDoc(doc.id);
+  };
+
+  window.mdDeleteDoc = function() {
+    let docs = mdLoadDocs();
+    if (docs.length <= 1) { alert('Cannot delete the last document.'); return; }
+    const id = mdGetCurrentId();
+    docs = docs.filter(d => d.id !== id);
+    mdSaveDocs(docs);
+    mdLoadDoc(docs[0].id);
+  };
+
+  window.mdOnTitleChange = function() {
+    const ti = document.getElementById('mdTitleInput');
+    if (!ti) return;
+    const docs = mdLoadDocs();
+    const id = mdGetCurrentId();
+    const doc = docs.find(d => d.id === id);
+    if (doc) { doc.title = ti.value || 'Untitled'; doc.updated = Date.now(); mdSaveDocs(docs); mdRefreshSelect(); }
+  };
+
+  let _mdPreviewTimer = null;
+  window.mdOnInput = function() {
+    const ta = document.getElementById('mdEditorTextarea');
+    if (!ta) return;
+    const content = ta.value;
+    // Save debounced
+    clearTimeout(_mdPreviewTimer);
+    _mdPreviewTimer = setTimeout(() => {
+      const docs = mdLoadDocs();
+      const id = mdGetCurrentId();
+      const doc = docs.find(d => d.id === id);
+      if (doc) { doc.content = content; doc.updated = Date.now(); mdSaveDocs(docs); }
+    }, 400);
+    mdUpdatePreview(content);
+  };
+
+  function mdUpdatePreview(content) {
+    const preview = document.getElementById('mdPreview');
+    if (!preview) return;
+    if (!content.trim()) { preview.innerHTML = '<div class="md-empty-state"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg><p>Preview will appear here</p></div>'; return; }
+    try { preview.innerHTML = marked.parse(content); } catch { preview.textContent = content; }
+  }
+
+  // Toolbar helpers
+  window.mdWrap = function(before, after) {
+    const ta = document.getElementById('mdEditorTextarea');
+    if (!ta) return;
+    const start = ta.selectionStart, end = ta.selectionEnd;
+    const sel = ta.value.slice(start, end);
+    const replacement = before + (sel || 'text') + after;
+    ta.setRangeText(replacement, start, end, 'select');
+    if (!sel) { ta.selectionStart = start + before.length; ta.selectionEnd = start + before.length + 4; }
+    ta.focus();
+    mdOnInput();
+  };
+
+  window.mdLinePrefix = function(prefix) {
+    const ta = document.getElementById('mdEditorTextarea');
+    if (!ta) return;
+    const start = ta.selectionStart;
+    const lineStart = ta.value.lastIndexOf('\n', start - 1) + 1;
+    ta.setRangeText(prefix, lineStart, lineStart, 'end');
+    ta.focus();
+    mdOnInput();
+  };
+
+  window.mdInsertBlock = function(before, after) {
+    const ta = document.getElementById('mdEditorTextarea');
+    if (!ta) return;
+    const start = ta.selectionStart, end = ta.selectionEnd;
+    const sel = ta.value.slice(start, end);
+    ta.setRangeText(before + (sel || '') + after, start, end, 'end');
+    ta.focus();
+    mdOnInput();
+  };
+
+  window.mdInsertAtCursor = function(text) {
+    const ta = document.getElementById('mdEditorTextarea');
+    if (!ta) return;
+    const pos = ta.selectionStart;
+    ta.setRangeText(text, pos, pos, 'end');
+    ta.focus();
+    mdOnInput();
+  };
+
+  window.mdInsertLink = function() {
+    const url = prompt('URL:');
+    if (!url) return;
+    const ta = document.getElementById('mdEditorTextarea');
+    if (!ta) return;
+    const start = ta.selectionStart, end = ta.selectionEnd;
+    const sel = ta.value.slice(start, end) || 'link text';
+    ta.setRangeText(`[${sel}](${url})`, start, end, 'end');
+    ta.focus();
+    mdOnInput();
+  };
+
+  // ── Code Editor ──────────────────────────────────────────────────────────
+  // Reinit guard so divider/Monaco setup only runs once
+  const CE_FILES_KEY = 'ruby-code-files';
+  const CE_CUR_KEY   = 'ruby-code-current';
+
+  let _ceEditor      = null;
+  let _ceModels      = {};
+  let _ceMonacoReady = false;
+  let _ceViewInited  = false;
+  let _ceRunning     = false;
+  let _ceTsLoaded    = false;
+
+  const CE_LANG_EXT = {
+    js:'javascript', jsx:'javascript', mjs:'javascript', cjs:'javascript',
+    ts:'typescript', tsx:'typescript',
+    css:'css', scss:'scss', less:'less',
+    html:'html', htm:'html', svg:'xml',
+    json:'json', jsonc:'json',
+    md:'markdown', markdown:'markdown',
+    py:'python', rb:'ruby', go:'go', rs:'rust',
+    java:'java', c:'c', cpp:'cpp', cc:'cpp', cxx:'cpp', h:'cpp', hpp:'cpp',
+    cs:'csharp', php:'php', swift:'swift', kt:'kotlin', kts:'kotlin',
+    sh:'shell', bash:'shell', zsh:'shell', fish:'shell',
+    sql:'sql', yaml:'yaml', yml:'yaml', xml:'xml',
+    toml:'ini', ini:'ini', env:'ini',
+    dockerfile:'dockerfile', txt:'plaintext',
+  };
+
+  const CE_LANG_COLORS = {
+    javascript:'#f0db4f', typescript:'#3178c6', html:'#e34c26',
+    css:'#264de4', scss:'#cd6799', less:'#2a4f83',
+    python:'#3572a5', ruby:'#cc342d', go:'#00add8', rust:'#dea584',
+    java:'#b07219', c:'#555', cpp:'#f34b7d', csharp:'#178600',
+    php:'#4f5d95', swift:'#fa7343', kotlin:'#7f52ff',
+    json:'#cbcb41', yaml:'#cb171e', markdown:'#519aba',
+    shell:'#89e051', sql:'#e38c00', xml:'#0060ac', dockerfile:'#0db7ed',
+  };
+
+  function ceDetectLang(name) {
+    const lower = name.toLowerCase();
+    if (lower === 'dockerfile' || lower === 'makefile') return lower;
+    const ext = lower.split('.').pop();
+    return CE_LANG_EXT[ext] || 'plaintext';
+  }
+
+  function ceLangColor(lang) { return CE_LANG_COLORS[lang] || '#666'; }
+
+  function ceLoadFiles() {
+    try { return JSON.parse(localStorage.getItem(CE_FILES_KEY) || '[]'); } catch { return []; }
+  }
+  function ceSaveFiles(f) { localStorage.setItem(CE_FILES_KEY, JSON.stringify(f)); }
+  function ceGetCur()     { return localStorage.getItem(CE_CUR_KEY) || null; }
+  function ceSetCur(id)   { localStorage.setItem(CE_CUR_KEY, id); }
+  function ceGenId()      { return 'ce_' + Date.now() + '_' + Math.random().toString(36).slice(2,7); }
+
+  function ceInitView() {
+    if (!_ceViewInited) {
+      _ceViewInited = true;
+      let files = ceLoadFiles();
+      if (files.length === 0) {
+        const f = { id: ceGenId(), name: 'main.js', content: '// Welcome to the Code Editor\n// Ctrl+Enter to run  |  supports async/await, fetch, console.log\n\nconst nums = [3, 1, 4, 1, 5, 9, 2, 6];\nconsole.log("Sorted:", [...nums].sort((a, b) => a - b));\nconsole.log("Sum:", nums.reduce((a, b) => a + b, 0));\n', language: 'javascript', updated: Date.now() };
+        files = [f];
+        ceSaveFiles(files);
+        ceSetCur(f.id);
+      }
+      ceRenderTabs();
+      ceDividerSetup();
+      ceLoadMonaco(() => {
+        const loading = document.getElementById('ceLoading');
+        if (loading) loading.classList.add('hidden');
+        ceOpenFile(ceGetCur() || ceLoadFiles()[0].id);
+      });
+    } else {
+      ceRenderTabs();
+      if (_ceEditor) requestAnimationFrame(() => _ceEditor.layout());
+    }
+  }
+
+  function ceDividerSetup() {
+    const divider = document.getElementById('ceDivider');
+    if (!divider || divider.dataset.setup) return;
+    divider.dataset.setup = '1';
+    let dragging = false, startX = 0, startW = 0;
+    divider.addEventListener('mousedown', e => {
+      dragging = true;
+      startX = e.clientX;
+      const panel = document.getElementById('ceOutputPanel');
+      startW = panel ? panel.offsetWidth : 380;
+      divider.classList.add('dragging');
+      document.body.style.cursor = 'col-resize';
+      e.preventDefault();
+    });
+    document.addEventListener('mousemove', e => {
+      if (!dragging) return;
+      const panel = document.getElementById('ceOutputPanel');
+      if (!panel) return;
+      const newW = Math.max(140, Math.min(window.innerWidth * 0.7, startW + (startX - e.clientX)));
+      panel.style.width = newW + 'px';
+      if (_ceEditor) _ceEditor.layout();
+    });
+    document.addEventListener('mouseup', () => {
+      if (!dragging) return;
+      dragging = false;
+      divider.classList.remove('dragging');
+      document.body.style.cursor = '';
+      if (_ceEditor) _ceEditor.layout();
+    });
+  }
+
+  function ceLoadMonaco(cb) {
+    if (_ceMonacoReady) { cb(); return; }
+    const s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js';
+    s.onload = () => {
+      window.require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs' } });
+      window.require(['vs/editor/editor.main'], () => {
+        _ceMonacoReady = true;
+        ceCreateEditor();
+        cb();
+      });
+    };
+    document.head.appendChild(s);
+  }
+
+  function ceCreateEditor() {
+    const container = document.getElementById('ceEditorMount');
+    if (!container || _ceEditor) return;
+    _ceEditor = monaco.editor.create(container, {
+      value: '',
+      language: 'javascript',
+      theme: 'vs-dark',
+      fontSize: 13,
+      fontFamily: "'JetBrains Mono','Fira Code','Cascadia Code','Consolas',monospace",
+      fontLigatures: true,
+      lineHeight: 20,
+      minimap: { enabled: true },
+      scrollbar: { verticalScrollbarSize: 10, horizontalScrollbarSize: 10 },
+      renderWhitespace: 'selection',
+      tabSize: 2,
+      insertSpaces: true,
+      wordWrap: 'off',
+      automaticLayout: true,
+      bracketPairColorization: { enabled: true },
+      padding: { top: 10, bottom: 10 },
+      smoothScrolling: true,
+      cursorBlinking: 'smooth',
+      cursorSmoothCaretAnimation: 'on',
+      renderLineHighlight: 'all',
+      selectionHighlight: true,
+      occurrencesHighlight: true,
+      folding: true,
+      showFoldingControls: 'mouseover',
+      stickyScroll: { enabled: true },
+      suggestOnTriggerCharacters: true,
+      quickSuggestions: { other: true, comments: false, strings: false },
+      parameterHints: { enabled: true },
+      wordBasedSuggestions: 'currentDocument',
+    });
+
+    // Ctrl+Enter → run
+    _ceEditor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter, () => ceRun());
+
+    // Cursor position in status bar
+    _ceEditor.onDidChangeCursorPosition(() => {
+      const pos = _ceEditor.getPosition();
+      const el = document.getElementById('ceCursorPos');
+      if (el && pos) el.textContent = `Ln ${pos.lineNumber}, Col ${pos.column}`;
+    });
+
+    // Auto-save with debounce
+    let _saveT = null;
+    _ceEditor.onDidChangeModelContent(() => {
+      clearTimeout(_saveT);
+      _saveT = setTimeout(() => {
+        const id = ceGetCur();
+        if (!id) return;
+        const files = ceLoadFiles();
+        const f = files.find(x => x.id === id);
+        if (f) { f.content = _ceEditor.getValue(); f.updated = Date.now(); ceSaveFiles(files); }
+      }, 500);
+    });
+  }
+
+  function ceOpenFile(id) {
+    const files = ceLoadFiles();
+    const file  = files.find(f => f.id === id);
+    if (!file || !_ceEditor) return;
+    ceSetCur(id);
+    if (!_ceModels[id]) {
+      _ceModels[id] = monaco.editor.createModel(
+        file.content,
+        file.language,
+        monaco.Uri.parse('inmemory://' + encodeURIComponent(file.name) + '?id=' + id)
+      );
+    }
+    _ceEditor.setModel(_ceModels[id]);
+    const sel = document.getElementById('ceLangSelect');
+    if (sel) sel.value = file.language;
+    ceRenderTabs();
+    _ceEditor.focus();
+  }
+
+  function ceRenderTabs() {
+    const bar = document.getElementById('ceTabBar');
+    if (!bar) return;
+    const files = ceLoadFiles();
+    const curId = ceGetCur();
+    bar.innerHTML = files.map(f => `
+      <div class="ce-tab${f.id === curId ? ' active' : ''}" onclick="ceClickTab('${f.id}')" ondblclick="ceRenameTab(event,'${f.id}')" title="${f.name} — double-click to rename">
+        <span class="ce-tab-dot" style="background:${ceLangColor(f.language)}"></span>
+        <span class="ce-tab-name">${f.name}</span>
+        <button class="ce-tab-close" onclick="ceCloseTab(event,'${f.id}')">×</button>
+      </div>`).join('') +
+      `<button class="ce-new-tab-btn" onclick="ceNewFile()" title="New file">+</button>`;
+  }
+
+  window.ceClickTab = function(id) {
+    if (ceGetCur() === id) return;
+    const curId = ceGetCur();
+    if (curId && _ceEditor && _ceModels[curId]) {
+      const files = ceLoadFiles();
+      const f = files.find(x => x.id === curId);
+      if (f) { f.content = _ceEditor.getValue(); ceSaveFiles(files); }
+    }
+    ceOpenFile(id);
+  };
+
+  window.ceCloseTab = function(e, id) {
+    e.stopPropagation();
+    let files = ceLoadFiles();
+    if (files.length <= 1) return;
+    const idx = files.findIndex(f => f.id === id);
+    if (id === ceGetCur() && _ceEditor) {
+      const f = files[idx]; if (f) f.content = _ceEditor.getValue();
+    }
+    files.splice(idx, 1);
+    ceSaveFiles(files);
+    if (_ceModels[id]) { try { _ceModels[id].dispose(); } catch {} delete _ceModels[id]; }
+    if (id === ceGetCur()) ceOpenFile(files[Math.min(idx, files.length - 1)].id);
+    else ceRenderTabs();
+  };
+
+  window.ceNewFile = function() {
+    const name = prompt('File name:', 'untitled.js');
+    if (!name || !name.trim()) return;
+    const files = ceLoadFiles();
+    const f = { id: ceGenId(), name: name.trim(), content: '', language: ceDetectLang(name.trim()), updated: Date.now() };
+    files.push(f);
+    ceSaveFiles(files);
+    if (_ceMonacoReady) ceOpenFile(f.id);
+    else ceRenderTabs();
+  };
+
+  window.ceRenameTab = function(e, id) {
+    e.stopPropagation();
+    const files = ceLoadFiles();
+    const f = files.find(x => x.id === id);
+    if (!f) return;
+    const newName = prompt('Rename:', f.name);
+    if (!newName || !newName.trim() || newName.trim() === f.name) return;
+    if (_ceModels[id]) { try { _ceModels[id].dispose(); } catch {} delete _ceModels[id]; }
+    f.name = newName.trim();
+    f.language = ceDetectLang(f.name);
+    f.updated = Date.now();
+    ceSaveFiles(files);
+    if (id === ceGetCur() && _ceEditor) {
+      ceOpenFile(id);
+      const sel = document.getElementById('ceLangSelect');
+      if (sel) sel.value = f.language;
+    } else {
+      ceRenderTabs();
+    }
+  };
+
+  window.ceLangChange = function(lang) {
+    if (!_ceEditor) return;
+    const model = _ceEditor.getModel();
+    if (model) monaco.editor.setModelLanguage(model, lang);
+    const id = ceGetCur();
+    const files = ceLoadFiles();
+    const f = files.find(x => x.id === id);
+    if (f) { f.language = lang; ceSaveFiles(files); ceRenderTabs(); }
+  };
+
+  window.ceFormat = async function() {
+    if (!_ceEditor) return;
+    const btn = document.getElementById('ceFormatBtn');
+    if (btn) { btn.textContent = 'Formatting…'; btn.disabled = true; }
+    try {
+      // Monaco built-in formatter first
+      const action = _ceEditor.getAction('editor.action.formatDocument');
+      if (action) { await action.run(); return; }
+      // Prettier fallback for unsupported languages
+      const id = ceGetCur();
+      const files = ceLoadFiles();
+      const f = files.find(x => x.id === id);
+      if (f) await cePrettierFormat(f.language);
+    } catch(e) {
+      console.warn('[CE] Format error:', e);
+    } finally {
+      if (btn) { btn.textContent = 'Format'; btn.disabled = false; }
+    }
+  };
+
+  async function cePrettierFormat(lang) {
+    const MAP = {
+      javascript: { parser:'babel',      plugins:['babel','estree'] },
+      typescript: { parser:'typescript', plugins:['typescript','estree'] },
+      css:        { parser:'css',        plugins:['postcss'] },
+      scss:       { parser:'scss',       plugins:['postcss'] },
+      less:       { parser:'less',       plugins:['postcss'] },
+      html:       { parser:'html',       plugins:['html'] },
+      markdown:   { parser:'markdown',   plugins:['markdown'] },
+      json:       { parser:'json',       plugins:['babel','estree'] },
+    };
+    const cfg = MAP[lang];
+    if (!cfg) return;
+    await cePrettierLoad(cfg.plugins);
+    const pluginObjs = cfg.plugins.map(p => window.prettierPlugins?.[p]).filter(Boolean);
+    if (!window.prettier || !pluginObjs.length) return;
+    const formatted = await window.prettier.format(_ceEditor.getValue(), { parser: cfg.parser, plugins: pluginObjs });
+    const pos = _ceEditor.getPosition();
+    _ceEditor.setValue(formatted);
+    if (pos) _ceEditor.setPosition(pos);
+  }
+
+  // ── Run Engine ───────────────────────────────────────────────────────────
+  window.ceRun = async function() {
+    if (!_ceEditor) return;
+    if (_ceRunning) return;
+    _ceRunning = true;
+
+    const btn = document.getElementById('ceRunBtn');
+    if (btn) { btn.textContent = '■ Stop'; btn.classList.add('running'); }
+
+    ceShowTab('output');
+    ceClearOutput();
+
+    const id    = ceGetCur();
+    const files = ceLoadFiles();
+    const file  = files.find(f => f.id === id);
+    if (!file) { _ceFinishRun(0); return; }
+
+    const onlyRunnable = ['javascript','typescript'];
+    if (!onlyRunnable.includes(file.language)) {
+      ceLogLine('system', `// Only JavaScript and TypeScript can be executed in the browser.`);
+      _ceFinishRun(0);
+      return;
+    }
+
+    let code = _ceEditor.getValue();
+
+    // TypeScript → transpile first
+    if (file.language === 'typescript') {
+      ceLogLine('system', '// Transpiling TypeScript…');
+      try {
+        code = await ceTranspileTS(code);
+      } catch(e) {
+        ceLogLine('error', '✖ TypeScript: ' + e.message);
+        _ceFinishRun(0);
+        return;
+      }
+    }
+
+    // Parse $input helpers
+    const rawInput = document.getElementById('ceInputBody')?.value || '';
+    let $json = null;
+    try { $json = JSON.parse(rawInput); } catch {}
+    const $lines = rawInput ? rawInput.split('\n') : [];
+    const $csv   = $lines.map(l => l.split(',').map(s => s.trim()));
+
+    // Intercept console
+    const mockConsole = {
+      log:   (...a) => ceLogLine('log',   a.map(ceSerialize).join(' ')),
+      warn:  (...a) => ceLogLine('warn',  a.map(ceSerialize).join(' ')),
+      error: (...a) => ceLogLine('error', a.map(ceSerialize).join(' ')),
+      info:  (...a) => ceLogLine('info',  a.map(ceSerialize).join(' ')),
+      table: (...a) => ceLogLine('log',   ceSerializeTable(a[0])),
+      dir:   (...a) => ceLogLine('log',   a.map(ceSerialize).join(' ')),
+      group: (...a) => ceLogLine('system','▶ ' + a.join(' ')),
+      groupEnd: () => {},
+      time:  (l='default') => { _ceTimers = _ceTimers||{}; _ceTimers[l] = performance.now(); },
+      timeEnd:(l='default') => { if (_ceTimers?.[l]) { ceLogLine('log', `${l}: ${(performance.now()-_ceTimers[l]).toFixed(2)}ms`); delete _ceTimers[l]; } },
+    };
+
+    const t0 = performance.now();
+    try {
+      const fn = new Function(
+        'console','$input','$json','$lines','$csv','fetch',
+        '"use strict";\nreturn (async()=>{\n' + code + '\n})();'
+      );
+      const result = await fn(mockConsole, rawInput, $json, $lines, $csv, window.fetch.bind(window));
+      if (result !== undefined) ceLogLine('result', '→ ' + ceSerialize(result));
+      _ceFinishRun(performance.now() - t0);
+    } catch(e) {
+      ceLogLine('error', '✖ ' + (e.message || String(e)));
+      if (e.stack) {
+        const lines = e.stack.split('\n').slice(1, 4);
+        lines.forEach(l => ceLogLine('error', '  ' + l.trim()));
+      }
+      _ceFinishRun(performance.now() - t0);
+    }
+  };
+
+  let _ceTimers = {};
+
+  function _ceFinishRun(ms) {
+    _ceRunning = false;
+    const btn = document.getElementById('ceRunBtn');
+    if (btn) { btn.textContent = '▶ Run'; btn.classList.remove('running'); }
+    const timeEl = document.getElementById('ceExecTime');
+    if (timeEl && ms > 0) timeEl.textContent = ms < 1000 ? ms.toFixed(1) + 'ms' : (ms/1000).toFixed(2) + 's';
+    const body = document.getElementById('ceOutputBody');
+    if (body && !body.querySelector('.ce-log-line')) {
+      body.innerHTML = '<div class="ce-log-line system">// No output</div>';
+    }
+  }
+
+  function ceLogLine(type, text) {
+    const body = document.getElementById('ceOutputBody');
+    if (!body) return;
+    const empty = body.querySelector('.ce-output-empty');
+    if (empty) empty.remove();
+    const div = document.createElement('div');
+    div.className = 'ce-log-line ' + type;
+    div.textContent = text;
+    body.appendChild(div);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  function ceSerialize(v) {
+    if (v === null) return 'null';
+    if (v === undefined) return 'undefined';
+    if (typeof v === 'string') return v;
+    if (typeof v === 'number' || typeof v === 'boolean') return String(v);
+    if (v instanceof Error) return v.message;
+    if (v instanceof Response) return `Response { status: ${v.status}, url: "${v.url}" }`;
+    try { return JSON.stringify(v, null, 2); } catch { return String(v); }
+  }
+
+  function ceSerializeTable(v) {
+    if (!v || typeof v !== 'object') return ceSerialize(v);
+    try {
+      const rows = Array.isArray(v) ? v : Object.entries(v).map(([k,val]) => ({ key: k, ...(typeof val==='object' && val ? val : { value: val }) }));
+      if (!rows.length) return '(empty)';
+      const cols = [...new Set(rows.flatMap(r => Object.keys(r)))];
+      const w = cols.map(c => Math.max(c.length, ...rows.map(r => String(r[c] ?? '').length)));
+      const pad = (s, n) => String(s ?? '').padEnd(n);
+      const sep = cols.map((_,i) => '-'.repeat(w[i])).join('-+-');
+      const header = cols.map((c,i) => pad(c,w[i])).join(' | ');
+      return [header, sep, ...rows.map(r => cols.map((c,i) => pad(r[c],w[i])).join(' | '))].join('\n');
+    } catch { return ceSerialize(v); }
+  }
+
+  window.ceClearOutput = function() {
+    const body = document.getElementById('ceOutputBody');
+    if (body) body.innerHTML = '<div class="ce-output-empty">▶ Run your code to see output here</div>';
+    const timeEl = document.getElementById('ceExecTime');
+    if (timeEl) timeEl.textContent = '';
+  };
+
+  window.ceShowTab = function(tab) {
+    const outTab  = document.getElementById('ceOutTabOutput');
+    const inTab   = document.getElementById('ceOutTabInput');
+    const outBody = document.getElementById('ceOutputBody');
+    const inBody  = document.getElementById('ceInputBody');
+    if (tab === 'output') {
+      outTab?.classList.add('active');    inTab?.classList.remove('active');
+      if (outBody) outBody.style.display = ''; if (inBody) inBody.classList.remove('visible');
+    } else {
+      outTab?.classList.remove('active'); inTab?.classList.add('active');
+      if (outBody) outBody.style.display = 'none'; if (inBody) inBody.classList.add('visible');
+    }
+  };
+
+  // TypeScript transpilation (lazy-loads TS compiler ~5MB)
+  async function ceTranspileTS(code) {
+    if (!_ceTsLoaded) {
+      await new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = 'https://cdn.jsdelivr.net/npm/typescript@5.4.5/lib/typescript.js';
+        s.onload = () => { _ceTsLoaded = true; res(); };
+        s.onerror = rej;
+        document.head.appendChild(s);
+      });
+    }
+    const result = window.ts.transpileModule(code, {
+      compilerOptions: {
+        module: window.ts.ModuleKind.None,
+        target: window.ts.ScriptTarget.ES2020,
+        strict: false,
+        experimentalDecorators: true,
+      }
+    });
+    return result.outputText;
+  }
+
+  function cePrettierLoad(plugins) {
+    return new Promise(resolve => {
+      const base = 'https://cdn.jsdelivr.net/npm/prettier@3.2.5';
+      const needed = [];
+      if (!window.prettier) needed.push(base + '/standalone.js');
+      plugins.forEach(p => { if (!window.prettierPlugins?.[p]) needed.push(base + '/plugins/' + p + '.js'); });
+      if (!needed.length) { resolve(); return; }
+      let done = 0;
+      needed.forEach(url => {
+        const s = document.createElement('script');
+        s.src = url;
+        s.onload = s.onerror = () => { if (++done === needed.length) resolve(); };
+        document.head.appendChild(s);
+      });
+    });
+  }
+
   // ── Quick Capture overlay ────────────────────────────────────────────────
   let qcType = 'bug';
   const QC_TYPES = ['bug','meeting','decision','codereview','research','question','implementation','feature'];
@@ -7199,6 +8163,8 @@ window.addEventListener('beforeunload', () => {
     const searchView = document.getElementById('searchView');
     const graphView = document.getElementById('graphView');
     const whiteboardView = document.getElementById('whiteboardView');
+    const markdownEditorView = document.getElementById('markdownEditorView');
+    const codeEditorView = document.getElementById('codeEditorView');
 
     // Remove all visible classes first
     timelineView.classList.remove('visible');
@@ -7206,6 +8172,8 @@ window.addEventListener('beforeunload', () => {
     searchView.classList.remove('visible');
     graphView.classList.remove('visible');
     if (whiteboardView) whiteboardView.classList.remove('visible');
+    if (markdownEditorView) markdownEditorView.classList.remove('visible');
+    if (codeEditorView) codeEditorView.classList.remove('visible');
 
     // Add visible class based on current view
     if (state.view === 'timeline') {
@@ -7219,6 +8187,10 @@ window.addEventListener('beforeunload', () => {
       graphView.classList.add('visible');
     } else if (state.view === 'whiteboard') {
       if (whiteboardView) whiteboardView.classList.add('visible');
+    } else if (state.view === 'editor') {
+      if (markdownEditorView) markdownEditorView.classList.add('visible');
+    } else if (state.view === 'code') {
+      if (codeEditorView) codeEditorView.classList.add('visible');
     }
 
     // Update bottom nav active state
@@ -8095,12 +9067,19 @@ function renderMobileCaptureButton() {
     const searchView = document.getElementById('searchView');
     const graphView = document.getElementById('graphView');
     const whiteboardView = document.getElementById('whiteboardView');
+    const markdownEditorView = document.getElementById('markdownEditorView');
+    const codeEditorView = document.getElementById('codeEditorView');
 
     if (timelineView) timelineView.classList.toggle('hidden', state.view !== 'timeline');
     if (captureView) captureView.classList.toggle('visible', state.view === 'capture');
     if (searchView) searchView.classList.toggle('visible', state.view === 'search');
     if (graphView) graphView.classList.toggle('visible', state.view === 'graph');
     if (whiteboardView) whiteboardView.classList.toggle('visible', state.view === 'whiteboard');
+    if (markdownEditorView) markdownEditorView.classList.toggle('visible', state.view === 'editor');
+    if (codeEditorView) codeEditorView.classList.toggle('visible', state.view === 'code');
+
+    if (state.view === 'editor') mdInitView();
+    if (state.view === 'code') ceInitView();
 
     if (state.view === 'graph') {
       renderGraph();
